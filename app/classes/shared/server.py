@@ -782,13 +782,9 @@ class ServerInstance:
             with open(
                 os.path.join(self.settings["path"], EULA_FILE), "r", encoding="utf-8"
             ) as f:
-                line = f.readline().lower()
-                e_flag = line in [
-                    "eula=true",
-                    "eula = true",
-                    "eula= true",
-                    "eula =true",
-                ]
+                # Accept any line, ignoring spaces, case and Mojang's comment header
+                lines = [line.strip().lower().replace(" ", "") for line in f]
+                e_flag = "eula=true" in lines
         if not e_flag and self.settings["type"] == "minecraft-java":
             if user_id:
                 WebSocketManager().broadcast_user(
