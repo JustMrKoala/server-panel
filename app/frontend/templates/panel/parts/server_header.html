@@ -1,0 +1,134 @@
+<!-- Shared header for every server page: name, status, power buttons, stats and tabs -->
+{% set srv = data['server_stats'] %}
+{% set srv_id = srv['server_id']['server_id'] %}
+<div class="srv-header">
+  <div class="srv-heading">
+    <div class="srv-title-row">
+      <h1 class="srv-name">{{ srv['server_id']['server_name'] }}</h1>
+      {% if srv['running'] %}
+      <span id="status" class="srv-status is-online">{{ translate('serverStats', 'online', data['lang']) }}</span>
+      {% elif srv['crashed'] %}
+      <span id="status" class="srv-status is-crashed">{{ translate('dashboard', 'crashed', data['lang']) }}</span>
+      {% else %}
+      <span id="status" class="srv-status is-offline">{{ translate('serverStats', 'offline', data['lang']) }}</span>
+      {% end %}
+    </div>
+    <div class="srv-meta">
+      <span>{{ srv['server_type'] }}</span>
+      <span class="srv-dot">&middot;</span>
+      <button type="button" class="srv-uuid" title="Copy server ID" data-uuid="{{ srv_id }}">
+        ID {{ srv_id[:8] }} <i class="ph ph-copy"></i>
+      </button>
+    </div>
+  </div>
+
+  {% if data['permissions']['Commands'] in data['user_permissions'] %}
+  {% set busy_label = None %}
+  {% if data.get('importing') and srv['running'] %}
+  {% set busy_label = translate('serverTerm', 'installing', data['lang']) %}
+  {% elif srv.get('updating') %}
+  {% set busy_label = translate('serverTerm', 'updating', data['lang']) %}
+  {% elif data.get('waiting_start') %}
+  {% set busy_label = translate('serverTerm', 'starting', data['lang']) %}
+  {% elif data.get('importing') %}
+  {% set busy_label = translate('serverTerm', 'importing', data['lang']) %}
+  {% end %}
+  <div class="srv-actions" id="control_buttons" data-server-id="{{ srv_id }}" data-busy="{{ 'true' if busy_label else 'false' }}"
+    data-running="{{ 'true' if srv['running'] else 'false' }}">
+    {% if busy_label %}
+    <button type="button" id="start-btn" class="btn btn-primary" disabled>
+      <i class="ph ph-spinner-gap ph-spin"></i> {{ busy_label }}</button>
+    {% else %}
+    <button type="button" id="start-btn" class="btn btn-primary" data-action="start_server">
+      <i class="ph-fill ph-play"></i> {{ translate('serverTerm', 'start', data['lang']) }}</button>
+    {% end %}
+    <button type="button" id="restart-btn" class="btn btn-outline-primary" data-action="restart_server">
+      <i class="ph ph-arrow-clockwise"></i> {% raw translate('serverTerm', 'restart', data['lang']) %}</button>
+    <button type="button" id="stop-btn" class="btn btn-outline-danger" data-action="stop_server">
+      <i class="ph-fill ph-stop"></i> {{ translate('serverTerm', 'stop', data['lang']) }}</button>
+  </div>
+  {% end %}
+</div>
+
+{% include "details_stats.html" %}
+
+<nav class="srv-tabs" aria-label="Server sections">
+  {% include "server_controls_list.html" %}
+</nav>
+
+<script>
+  (function () {
+    const actions = document.getElementById("control_buttons");
+    const uuidButton = document.querySelector(".srv-uuid");
+
+    // On narrow screens the tab strip scrolls; bring the current tab into view
+    const tabStrip = document.querySelector(".srv-tabs");
+    const activeTab = tabStrip && tabStrip.querySelector(".nav-link.active");
+    if (activeTab) {
+      const offset = activeTab.getBoundingClientRect().left - tabStrip.getBoundingClientRect().left;
+      tabStrip.scrollLeft += offset - (tabStrip.clientWidth - activeTab.offsetWidth) / 2;
+    }
+
+    if (uuidButton) {
+      uuidButton.addEventListener("click", function () {
+        navigator.clipboard.writeText(uuidButton.dataset.uuid).then(function () {
+          uuidButton.classList.add("is-copied");
+          setTimeout(function () { uuidButton.classList.remove("is-copied"); }, 1200);
+        });
+      });
+    }
+
+    if (!actions) {
+      return;
+    }
+
+    const startBtn = document.getElementById("start-btn");
+    const restartBtn = document.getElementById("restart-btn");
+    const stopBtn = document.getElementById("stop-btn");
+    const busy = actions.dataset.busy === "true";
+
+    function setRunning(running) {
+      if (busy) {
+        restartBtn.disabled = true;
+        stopBtn.disabled = true;
+        return;
+      }
+      startBtn.disabled = running;
+      restartBtn.disabled = !running;
+      stopBtn.disabled = !running;
+    }
+    // Lets the stats updater keep the buttons in sync with the live status
+    window.setServerPowerState = setRunning;
+
+    setRunning(actions.dataset.running === "true");
+
+    actions.addEventListener("click", async function (e) {
+      const button = e.target.closest("button[data-action]");
+      if (!button || button.disabled) {
+        return;
+      }
+      const command = button.dataset.action;
+      setRunning(command !== "stop_server");
+
+      const res = await fetch(`/api/v2/servers/${actions.dataset.serverId}/action/${command}`, {
+        method: "POST",
+        headers: { "X-XSRFToken": getCookie("_xsrf") },
+      });
+      const body = await res.json();
+      if (body.status !== "ok") {
+        bootbox.alert({ title: body.error, message: body.error_data });
+      }
+    });
+
+    if (typeof webSocket !== "undefined" && webSocket) {
+      webSocket.on("send_start_reload", function () {
+        location.reload();
+      });
+      webSocket.on("update_button_status", function (update) {
+        if (update.server_id == actions.dataset.serverId) {
+          location.reload();
+        }
+      });
+    }
+  })();
+</script>

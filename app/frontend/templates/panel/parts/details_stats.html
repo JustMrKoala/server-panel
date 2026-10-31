@@ -1,65 +1,40 @@
-<div class="row">
-  <div class="col-sm-12 grid-margin">
-    <div class="card">
-      <div class="card-body pt-3 pb-3">
-        <div class="row">
-          <div class="col-sm-4">
-            {% if data['server_stats']['running'] %}
-            <b>{{ translate('serverStats', 'serverStatus', data['lang']) }}:</b> <span id="status"
-              class="text-success">{{ translate('serverStats', 'online', data['lang']) }}</span><br />
-            <b>{{ translate('serverStats', 'serverStarted', data['lang']) }}:</b> <span id="started">{{
-              data['server_stats']['started'] }}</span><br />
-            <b>{{ translate('serverStats', 'serverUptime', data['lang']) }}:</b> <span id="uptime">{{
-              translate('serverStats', 'errorCalculatingUptime', data['lang']) }}</span>
-            {% elif data['server_stats']['crashed'] %}
-            <b>{{ translate('serverStats', 'serverStatus', data['lang']) }}:</b> <span id="status" class="text-danger"> <i class="ph-fill ph-warning"></i> {{ translate('dashboard', 'crashed', data['lang']) }}</span><br />
-            <b>{{ translate('serverStats', 'serverStarted', data['lang']) }}:</b> <span id="started" class="text-danger"> <i class="ph-fill ph-warning"></i> {{ translate('dashboard', 'crashed',data['lang']) }}</span><br />
-            <b>{{ translate('serverStats', 'serverUptime', data['lang']) }}:</b> <span id="uptime" class="text-danger"> <i class="ph-fill ph-warning"></i> {{ translate('dashboard', 'crashed', data['lang']) }}</span>
-            {% else %}
-            <b>{{ translate('serverStats', 'serverStatus', data['lang']) }}:</b> <span id="status"
-              class="text-warning">{{ translate('serverStats', 'offline', data['lang']) }}</span><br />
-            <b>{{ translate('serverStats', 'serverStarted', data['lang']) }}:</b> <span id="started"
-              class="text-warning">{{ translate('serverStats', 'offline', data['lang']) }}</span><br />
-            <b>{{ translate('serverStats', 'serverUptime', data['lang']) }}:</b> <span id="uptime"
-              class="text-warning">{{ translate('serverStats', 'offline', data['lang']) }}</span>
-            {% end %}
-            <br>
-            <b>{{ translate('serverStats', 'serverTimeZone', data['lang']) }}:</b> <span class="text-info">{{
-              data['serverTZ'] }}</span>
-          </div>
-
-          <div class="col-sm-3">
-            <b>{{ translate('serverStats', 'cpuUsage', data['lang']) }}:</b> <span id="cpu">{{
-              data['server_stats']['cpu'] }}%</span> <br />
-            <b>{{ translate('serverStats', 'memUsage', data['lang']) }}:</b> <span id="mem">{{
-              data['server_stats']['mem'] }}</span> <br />
-            {% if data['server_stats']['int_ping_results'] %}
-            <b>{{ translate('serverStats', 'players', data['lang']) }}:</b> <span id="players">{{
-              data['server_stats']['online'] }} / {{ data['server_stats']['max'] }}</span><br />
-            {% else %}
-            <b>{{ translate('serverStats', 'players', data['lang']) }}:</b> <span id="players">0/0</span><br />
-            {% end %}
-          </div>
-
-          <div class="col-sm-5">
-            {% if data['server_stats']['version'] != 'False' %}
-            <b>{{ translate('serverStats', 'version', data['lang']) }}:</b> <span id="version">{{
-              data['server_stats']['version'] }}</span><br />
-            <b>{{ translate('serverStats', 'description', data['lang']) }}:</b> <span id="input_motd"
-              class="input_motd">{{ translate('serverStats', 'loadingMotd', data['lang']) }}</span>
-            <br />
-            {% else %}
-            <b>{{ translate('serverStats', 'version', data['lang']) }}:</b> <span id="version">{{
-              translate('serverStats', 'unableToConnect', data['lang']) }}</span> <br />
-            <b>{{ translate('serverStats', 'description', data['lang']) }}:</b> <span id="input_motd"
-              class="input_motd">{{ translate('serverStats', 'unableToConnect', data['lang']) }}</span> <br />
-            {% end %}
-            <b>Server Type: <span class="text-info">{{data['server_stats']['server_type']}}</span></b>
-
-          </div>
-        </div>
-      </div>
-    </div>
+{% set srv = data['server_stats'] %}
+<div class="srv-stats">
+  <div class="srv-stat">
+    <div class="srv-stat-label">{{ translate('serverStats', 'serverUptime', data['lang']) }}</div>
+    {% if srv['running'] %}
+    <div class="srv-stat-value" id="uptime">{{ translate('serverStats', 'errorCalculatingUptime', data['lang']) }}</div>
+    <div class="srv-stat-sub">{{ translate('serverStats', 'serverStarted', data['lang']) }} <span id="started">{{ srv['started'] }}</span></div>
+    {% else %}
+    <div class="srv-stat-value" id="uptime">n/a</div>
+    <div class="srv-stat-sub">{{ translate('serverStats', 'serverStarted', data['lang']) }} <span id="started">n/a</span></div>
+    {% end %}
+  </div>
+  <div class="srv-stat">
+    <div class="srv-stat-label">{{ translate('serverStats', 'cpuUsage', data['lang']) }}</div>
+    <div class="srv-stat-value" id="cpu">{{ srv['cpu'] }}%</div>
+  </div>
+  <div class="srv-stat">
+    <div class="srv-stat-label">{{ translate('serverStats', 'memUsage', data['lang']) }}</div>
+    <div class="srv-stat-value" id="mem">{{ srv['mem'] }}</div>
+  </div>
+  <div class="srv-stat">
+    <div class="srv-stat-label">{{ translate('serverStats', 'players', data['lang']) }}</div>
+    {% if srv['int_ping_results'] %}
+    <div class="srv-stat-value" id="players">{{ srv['online'] }} / {{ srv['max'] }}</div>
+    {% else %}
+    <div class="srv-stat-value" id="players">0 / 0</div>
+    {% end %}
+  </div>
+  <div class="srv-stat srv-stat-wide">
+    <div class="srv-stat-label">{{ translate('serverStats', 'version', data['lang']) }}</div>
+    {% if srv['version'] != 'False' %}
+    <div class="srv-stat-value" id="version">{{ srv['version'] }}</div>
+    <div class="srv-stat-sub input_motd" id="input_motd">{{ translate('serverStats', 'loadingMotd', data['lang']) }}</div>
+    {% else %}
+    <div class="srv-stat-value" id="version">n/a</div>
+    <div class="srv-stat-sub input_motd" id="input_motd">{{ translate('serverStats', 'unableToConnect', data['lang']) }}</div>
+    {% end %}
   </div>
 </div>
 
@@ -196,58 +171,50 @@
     server_version = document.getElementById('version');
     server_input_motd = document.getElementById('input_motd');
 
-    /* TODO Update each element */
     if (server.running) {
-      server_status.setAttribute("class", "text-success");
-      server_status.innerHTML = `{{ translate('serverStats', 'online', data['lang']) }}`;
+      server_status.className = "srv-status is-online";
+      server_status.textContent = `{{ translate('serverStats', 'online', data['lang']) }}`;
 
       startedUTC = server.started;
       startedUTC = moment.utc(startedUTC, 'YYYY-MM-DD HH:mm:ss');
       var browserUTCOffset = moment().utcOffset(); // This is in minutes
       startedLocal = startedUTC.utcOffset(browserUTCOffset);
-      startedLocalFormatted = startedLocal.format('YYYY-MM-DD HH:mm:ss');
-      server_started.setAttribute("class", "");
-      server_started.innerHTML = startedLocalFormatted;
-      server_uptime.setAttribute("class", "");
+      server_started.textContent = startedLocal.format('YYYY-MM-DD HH:mm:ss');
       if (!uptimeLoop) {
         var calculateUptime = () => {
           var msdiff = moment().diff(startedLocal);
           var diff = moment.duration(msdiff);
           uptime.textContent = durationToHumanizedString(diff);
         }
+        calculateUptime();
         uptimeLoop = setInterval(calculateUptime, 1000);
       }
     }
     else {
+      clearInterval(uptimeLoop);
+      uptimeLoop = null;
+      server_started.textContent = "n/a";
+      server_uptime.textContent = "n/a";
       if (server.crashed) {
-        server_status.setAttribute("class", "text-danger");
-        server_status.innerHTML = `<i class="ph-fill ph-warning"></i> {{ translate('dashboard', 'crashed', data['lang']) }}`;
-        server_started.setAttribute("class", "text-danger");
-        server_started.innerHTML = `<i class="ph-fill ph-warning"></i> {{ translate('dashboard', 'crashed', data['lang']) }}`;
-        clearInterval(uptimeLoop);
-        uptimeLoop = null;
-        server_uptime.setAttribute("class", "text-danger");
-        server_uptime.innerHTML = `<i class="ph-fill ph-warning"></i> {{ translate('dashboard', 'crashed', data['lang']) }}`;
+        server_status.className = "srv-status is-crashed";
+        server_status.textContent = `{{ translate('dashboard', 'crashed', data['lang']) }}`;
       } else {
-        server_status.setAttribute("class", "text-warning");
-        server_status.innerHTML = `{{ translate('serverStats', 'offline', data['lang']) }}`;
-        server_started.setAttribute("class", "text-warning");
-        server_started.innerHTML = `{{ translate('serverStats', 'offline', data['lang']) }}`;
-        clearInterval(uptimeLoop);
-        uptimeLoop = null;
-        server_uptime.setAttribute("class", "text-warning");
-        server_uptime.innerHTML = `{{ translate('serverStats', 'offline', data['lang']) }}`;
+        server_status.className = "srv-status is-offline";
+        server_status.textContent = `{{ translate('serverStats', 'offline', data['lang']) }}`;
       }
+    }
+    if (window.setServerPowerState) {
+      window.setServerPowerState(server.running);
     }
 
     server_cpu.innerHTML = server.cpu + ` %`;
     server_mem.innerHTML = server.mem;
 
     if (server.int_ping_results) {
-      server_players.innerHTML = server.online + `/` + server.max;
+      server_players.innerHTML = server.online + ` / ` + server.max;
     }
     else {
-      server_players.innerHTML = `0/0`;
+      server_players.innerHTML = `0 / 0`;
     }
 
     if (server.version) {
@@ -255,7 +222,7 @@
       server_input_motd.innerText = server.desc;
     }
     else {
-      server_version.innerHTML = `{{ translate('serverStats', 'unableToConnect', data['lang']) }}`;
+      server_version.innerHTML = `n/a`;
       server_input_motd.innerHTML = `{{ translate('serverStats', 'unableToConnect', data['lang']) }}`;
     }
 
@@ -294,8 +261,6 @@
     let responseData = await res.json();
     if (responseData.status === "ok") {
       console.log(responseData)
-      $("#server-name-nav").text(`${responseData.data['server_name']}`).html()
-      $("#server-name-nav").toggleClass("d-none");
       if (responseData.data['status']['update_available'] && responseData.data["update_watcher"]) {
         $(".update-icon").html("⚠️");
         $(".update-nav-text").addClass("text-warning");

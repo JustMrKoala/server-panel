@@ -9,36 +9,13 @@
 
 <div class="content-wrapper">
 
-  <!-- Page Title Header Starts-->
-  <div class="row page-title-header">
-    <div class="col-12">
-      <div class="page-header">
-        <h4 class="page-title">
-          {{ translate('serverDetails', 'serverDetails', data['lang']) }} - {{
-          data['server_stats']['server_id']['server_name'] }}
-          <br />
-          <small>UUID: {{ data['server_stats']['server_id']['server_id'] }}</small>
-        </h4>
-      </div>
-    </div>
-
-  </div>
-  <!-- Page Title Header Ends-->
-
-  {% include "parts/details_stats.html" %}
+  {% include "parts/server_header.html" %}
 
   <div class="row">
 
     <div class="col-sm-12 grid-margin">
       <div class="card">
         <div class="card-body  pt-0">
-          <span class="d-none d-sm-block">
-            {% include "parts/server_controls_list.html %}
-          </span>
-          <span class="d-block d-sm-none">
-            {% include "parts/m_server_controls_list.html %}
-          </span>
-
           <div class="col-md-12">
             <div class="form-group">
               <label for="log_file_select">{{ translate('serverDetails', 'logFile', data['lang']) }}</label>
