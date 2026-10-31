@@ -42,44 +42,30 @@
 <script src="/static/assets/vendors/moment/moment.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/static/assets/js/motd.js"></script>
 <script>
+  // Compact uptime for the stat tile, e.g. "3d 4h", "2h 5m", "1m 37s"
   function durationToHumanizedString(duration) {
-    duration._data.months += duration._data.years * 12;
-    // 30.45833333333 = average month length, calculate with (31+28.5+31+30+31+30+31+31+30+31+30+31) / 12
-    duration._data.days += duration._data.months * 30.45833333333;
-    duration._data.hours += duration._data.days * 24;
-
-    let obj = {
-      hours: Math.round(duration._data.hours),
-      minutes: duration._data.minutes,
-      seconds: duration._data.seconds
-    }
-
-    if (Math.round(duration._data.days)) {
-      obj = {
-        days: Math.round(duration._data.days),
-        hours: Math.round(duration._data.hours -= duration._data.days * 24),
-        minutes: duration._data.minutes,
-        seconds: duration._data.seconds
-      }
-    }
-
-    output = Object.entries(obj)
-      .map(([type, num]) => {
-        // make them strings
-        returnData = num + ' ' + type;
-        // remove the s in the end if the data is -1 or 1
-        if (num == -1 || num == 1)
-          returnData = returnData.slice(0, -1)
-        return returnData;
-      })
-      .map((v, i, a) => // example input: [1,2,3], output: "1, 2 and 3"
-        v + (i !== a.length - 1
-          ? i !== a.length - 2
-            ? ', '
-            : ' and '
-          : '')).join('');
-    return output;
+    const total = Math.max(0, Math.floor(duration.asSeconds()));
+    const days = Math.floor(total / 86400);
+    const hours = Math.floor((total % 86400) / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const seconds = total % 60;
+    if (days) return `${days}d ${hours}h`;
+    if (hours) return `${hours}h ${minutes}m`;
+    if (minutes) return `${minutes}m ${seconds}s`;
+    return `${seconds}s`;
   }
+
+  // The first render can get raw bytes for memory; live updates send "1.4GB"
+  function formatMemory(value) {
+    const bytes = Number(value);
+    if (String(value).trim() === "" || isNaN(bytes)) return value;
+    const units = ["B", "KB", "MB", "GB", "TB"];
+    let i = 0, n = bytes;
+    while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
+    return `${n.toFixed(i ? 1 : 0)}${units[i]}`;
+  }
+  const memTile = document.getElementById("mem");
+  memTile.textContent = formatMemory(memTile.textContent);
 
   let uptime = document.querySelector('#uptime');
   let started = document.querySelector('#started');
@@ -208,7 +194,7 @@
     }
 
     server_cpu.innerHTML = server.cpu + ` %`;
-    server_mem.innerHTML = server.mem;
+    server_mem.textContent = formatMemory(server.mem);
 
     if (server.int_ping_results) {
       server_players.innerHTML = server.online + ` / ` + server.max;
