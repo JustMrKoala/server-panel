@@ -1,7 +1,7 @@
 # Server Panel
 
 A lightly rebranded fork of [Crafty Controller 4](https://gitlab.com/crafty-controller/crafty-4)
-(GPLv3). The backend is unchanged; this fork changes the following:
+(GPLv3). The backend is the same apart from small fixes. This fork changes the following:
 
 * **Simpler UI**: a flat, neutral theme (`app/frontend/static/assets/css/simple.css`), a shorter
   sidebar (Dashboard, Servers, Account, Settings, Logout), and no credits, wiki, contribute,
@@ -12,6 +12,8 @@ A lightly rebranded fork of [Crafty Controller 4](https://gitlab.com/crafty-cont
 * **Default login**: a fresh install creates `admin` / `admin`. A banner is shown until you change
   it under **Account** in the sidebar. New passwords still need at least 8 characters.
   `app/config/default.json` can still set a different first login (see `default.json.example`).
+
+* **EULA check fix**: `eula.txt` is accepted when any line says `eula=true`, not only the first.
 
 Run it the same way as upstream (`python main.py`), then open https://localhost:8443.
 
