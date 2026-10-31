@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   {% include og_meta.html %}
-  <title>Crafty Controller</title>
+  <title>{{ panel_name }}</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="/static/assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="/static/assets/vendors/flag-icon-css/css/flag-icon.min.css">
@@ -19,7 +19,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <!-- <meta name="apple-mobile-web-app-title" content="Crafty Controller 4"> -->
+  
   <link rel="apple-touch-icon" href="../static/assets/images/Crafty_4-0.png">
   <!-- endinject -->
   <!-- Plugin css for this page -->
@@ -30,14 +30,18 @@
   <link rel="stylesheet" href="/static/assets/css/base-style.css">
   <link rel="stylesheet" href="/static/assets/css/crafty.css">
   <link rel="stylesheet" href="/static/assets/css/partial/crafty-login_page.css">
+  <link rel="stylesheet" href="/static/assets/css/simple.css">
   <!-- End Layout styles -->
   <link rel="shortcut icon" type="image/svg+xml" href="/static/assets/images/logo_small.svg">
   <link rel="alternate icon" href="/static/assets/images/favicon.png" />
 </head>
 <style>
   .auth.auth-bg-1 {
-    background: url("../../static/assets/images/auth/{% raw data['background'] %}"),
-    url("/static/assets/images/auth/login_1.jpg");
+    {% if data['background'] and data['background'] != 'login_1.jpg' %}
+    background: url("../../static/assets/images/auth/{% raw data['background'] %}");
+    {% else %}
+    background: var(--simple-bg);
+    {% end %}
     background-size: cover;
     background-position: center;
   }
@@ -53,7 +57,7 @@
             <div id="login-form-background" class="auto-form-wrapper login-modal">
               <div id="login_opacity" data-value="{{ data['login_opacity'] }}" hidden></div>
               <div class="text-center auto-form-logo">
-                <img src="{{ data['brand']['full'] }}">
+                <h1 class="login-title">{{ panel_name }}</h1>
               </div>
               <form id="login-form">
                 {% raw xsrf_form_html() %}
@@ -116,11 +120,6 @@
               <button onclick="resetPass()" id="#resetPass" form=""
                 class="btn btn-outline-primary btn-sm forgot-password ">{{ translate('login', 'forgotPassword',
                 data['lang']) }}</button>
-            </div>
-
-            <div class="text-block text-center my-3">
-              <span class="text-small font-weight-semibold"><a href="https://craftycontrol.com/">Crafty Control</a>
-              </span>
             </div>
 
             <div class="text-block text-center my-3">

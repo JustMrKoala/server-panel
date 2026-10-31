@@ -43,7 +43,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Crafty">
+  <meta name="apple-mobile-web-app-title" content="{{ panel_name }}">
   <link rel="apple-touch-icon" href="../static/assets/images/Crafty_4-0.png">
   <link rel="shortcut icon" sizes="192x192" href="../static/assets/images/Crafty_4-0.png">
 
@@ -60,6 +60,7 @@
   {% end %}
   <link rel="stylesheet" href="/static/assets/css/base-style.css">
   <link rel="stylesheet" href="/static/assets/css/crafty.css">
+  <link rel="stylesheet" href="/static/assets/css/simple.css">
   <!-- End Layout styles -->
 
   <link rel="shortcut icon" type="image/svg+xml" href="/static/assets/images/logo_small.svg">
@@ -84,10 +85,8 @@
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-        <a class="navbar-brand brand-logo" href="/panel/dashboard">
-          <img src="{{ data['brand']['full'] }}" alt="logo" /> </a>
-        <a class="navbar-brand brand-logo-mini" href="/panel/dashboard">
-          <img src="{{ data['brand']['square'] }}" alt="logo" /> </a>
+        <a class="navbar-brand brand-logo brand-text" href="/panel/dashboard">{{ panel_name }}</a>
+        <a class="navbar-brand brand-logo-mini brand-text" href="/panel/dashboard">{{ panel_name[:1] }}</a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -117,6 +116,14 @@
             <div>{% raw translate('base', 'doesNotWorkWithoutJavascript', data['lang']) %}</div>
           </noscript>
         </div>
+
+        {% if default_password_in_use and data['user_data'].get('superuser') %}
+        <div class="default-password-banner">
+          <i class="ph ph-warning"></i>
+          <span>This panel still uses the default admin password.</span>
+          <a href="/panel/account">Change it now</a>
+        </div>
+        {% end %}
 
         {% block content %}
         {% end %}
@@ -214,14 +221,14 @@
     const wsPage = 'page=' + encodeURIComponent(location.pathname)
 
     const sendWssError = () => wsOpen || warn(
-      'WebSockets are required for Crafty to work. This websocket connection has been closed. Are you using a reverse proxy?',
-      link = 'https://docs.craftycontrol.com/pages/getting-started/proxies/',
-      link_msg = "See our documentation for details",
+      'WebSockets are required for this panel to work. This websocket connection has been closed. Are you using a reverse proxy?',
+      link = null,
+      link_msg = null,
       className = 'wssError'
     )
 
     function startWebSocket() {
-      console.log('%c[Crafty Controller] %cConnecting the WebSocket', 'font-weight: 900; color: #800080;', 'font-weight: 900; color: #eee;');
+      console.log('%c[Panel] %cConnecting the WebSocket', 'font-weight: 900; color: #800080;', 'font-weight: 900; color: #eee;');
       try {
         var wsInternal = new WebSocket('wss://' + location.host + '/ws?' + wsPage + '&' + wsPageQueryParams);
         wsInternal.onopen = function () {
@@ -291,7 +298,7 @@
 
     startWebSocket();
     // {% else %}
-    warn('WebSockets are not supported in Crafty if not using the https protocol')
+    warn('WebSockets are not supported if not using the https protocol')
     // {% end%}
 
     // Managing Connexions for Multi Tab opened to reduce bandwith usage
@@ -299,7 +306,7 @@
       if (document.visibilityState == "hidden") {
         websocketTimeoutId = setTimeout(() => {
           webSocket.close(1000, "Closed due to Inactivity");
-          console.log('%c[Crafty Controller] %cClose Websocket due to Tab not active after 5s', 'font-weight: 900; color: #800080;', 'font-weight: 900; color: #eee;');
+          console.log('%c[Panel] %cClose Websocket due to Tab not active after 5s', 'font-weight: 900; color: #800080;', 'font-weight: 900; color: #eee;');
         }, 10000);
       } else {
         clearTimeout(websocketTimeoutId)
@@ -533,7 +540,7 @@
 
       var toastHeaderTitle = document.createElement('strong');
       toastHeaderTitle.setAttribute("class", "mr-auto");
-      toastHeaderTitle.innerHTML = " Crafty Controller ";
+      toastHeaderTitle.innerHTML = " {{ panel_name }} ";
       toastHeaderDiv.appendChild(toastHeaderTitle);
 
       var toastHeaderCloseSpan = document.createElement('span');
@@ -571,14 +578,14 @@
     webSocket.on('notification', notify);
 
     document.addEventListener('alpine:init', () => {
-      console.log('%c[Crafty Controller] %cAlpine.js pre-initialization!', 'font-weight: 900; color: #800080;', 'color: #eee;');
+      console.log('%c[Panel] %cAlpine.js pre-initialization!', 'font-weight: 900; color: #800080;', 'color: #eee;');
     });
     document.addEventListener('alpine:initialized', () => {
-      console.log('%c[Crafty Controller] %cAlpine.js initialized!', 'font-weight: 900; color: #800080;', 'color: #eee;');
+      console.log('%c[Panel] %cAlpine.js initialized!', 'font-weight: 900; color: #800080;', 'color: #eee;');
     });
 
     $(document).ready(function () {
-      console.log('%c[Crafty Controller] %cReady for JS!', 'font-weight: 900; color: #800080;', 'font-weight: 900; color: #eee;');
+      console.log('%c[Panel] %cReady for JS!', 'font-weight: 900; color: #800080;', 'font-weight: 900; color: #eee;');
       if ($(document.documentElement).data("username") === "anti-lockout-user") {
         warn(
           '⚠️You are in a recovery account. Access is limited!',

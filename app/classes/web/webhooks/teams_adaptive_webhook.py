@@ -84,7 +84,7 @@ class TeamsWebhook(WebhookProvider):
                             },
                             {
                                 "type": "TextBlock",
-                                "text": f"Crafty Controller v{self.CRAFTY_VERSION}",
+                                "text": f"Server Panel v{self.CRAFTY_VERSION}",
                                 "wrap": True,
                                 "separator": True,
                                 "isSubtle": True,
@@ -98,6 +98,10 @@ class TeamsWebhook(WebhookProvider):
                 }
             ],
         }
+        if not self.WEBHOOK_PFP_URL:
+            # Drop the avatar column when no image is configured
+            columns = payload["attachments"][0]["content"]["body"][1]["columns"]
+            columns.pop(0)
 
         return payload, headers
 

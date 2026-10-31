@@ -57,85 +57,49 @@
 
     <li class="nav-item">
       <a class="nav-link" href="/panel/dashboard">
-        <i class="ph-fill ph-tree-view"></i>&nbsp;
+        <i class="ph ph-squares-four"></i>&nbsp;
         <span class="menu-title">{{ translate('sidebar', 'dashboard', data['lang']) }}</span>
       </a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false"
-        aria-controls="page-layouts">
-        <i class="ph-fill ph-hard-drives"></i> &nbsp;
-        <span class="menu-title">{{ translate('sidebar', 'servers', data['lang']) }}</span>
-        <i class="menu-arrow"></i>
-      </a>
-      <div class="collapse" id="page-layouts">
-        <ul class="nav flex-column sub-menu" id="sidebar-servers">
-          {% if data['crafty_permissions']['Server_Creation'] in data['user_crafty_permissions'] %}
-          <li class="nav-item">
-            <a class="nav-link" href="/server/step1"><i class="ph-fill ph-plus-circle"></i> &nbsp; {{ translate('sidebar',
-              'newServer', data['lang']) }}</a>
-          </li>
-          {% end %}
-          {% for s in data['menu_servers'] %}
-          <li class="nav-item">
-            <a class="nav-link" href="/panel/server_detail?id={{s['server_id']}}"><i class="ph-fill ph-hard-drives"></i> &nbsp;
-              {{s['server_name']}}</a>
-          </li>
-          {% end %}
-
-        </ul>
-      </div>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="https://docs.craftycontrol.com" target="_blank">
-        <i class="ph-fill ph-notebook"></i> &nbsp;
-        <span class="menu-title">{{ translate('sidebar', 'documentation', data['lang']) }}</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="/panel/wiki">
-        <i class="ph-fill ph-info"></i> &nbsp;
-        <span class="menu-title">{{ translate('sidebar', 'inApp', data['lang']) }}</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="https://discord.gg/9VJPhCE" target="_blank">
-        <i class="ph-fill ph-discord-logo"></i> &nbsp;
-        <span class="menu-title">Discord</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="/panel/credits">
-        <i class="ph-fill ph-heart"></i> &nbsp;
-        <span class="menu-title">{{ translate('sidebar', 'credits', data['lang']) }}</span>
-      </a>
-    </li>
-
-    {% if data['show_contribute'] %}
-    <li class="nav-item">
-      <a class="nav-link" href="/panel/contribute">
-        <i class="ph-fill ph-currency-dollar"></i> &nbsp;
-        <span class="menu-title">{{ translate('sidebar', 'contribute', data['lang']) }}</span>
+    <li class="nav-section">{{ translate('sidebar', 'servers', data['lang']) }}</li>
+    {% for s in data['menu_servers'] %}
+    <li class="nav-item sidebar-server">
+      <a class="nav-link" href="/panel/server_detail?id={{s['server_id']}}">
+        <i class="ph ph-hard-drives"></i>&nbsp;
+        <span class="menu-title">{{s['server_name']}}</span>
       </a>
     </li>
     {% end %}
+    {% if data['crafty_permissions']['Server_Creation'] in data['user_crafty_permissions'] %}
+    <li class="nav-item">
+      <a class="nav-link" href="/server/step1">
+        <i class="ph ph-plus"></i>&nbsp;
+        <span class="menu-title">{{ translate('sidebar', 'newServer', data['lang']) }}</span>
+      </a>
+    </li>
+    {% end %}
+
+    <li class="nav-section">Settings</li>
+    <li class="nav-item">
+      <a class="nav-link" href="/panel/account">
+        <i class="ph ph-user"></i>&nbsp;
+        <span class="menu-title">Account</span>
+      </a>
+    </li>
     <li class="nav-item">
       <a class="nav-link panel-settings" href="/panel/panel_config">
-        <i class="ph-fill ph-gear"></i>&nbsp;
+        <i class="ph ph-gear"></i>&nbsp;
         <span class="menu-title">{{ translate('sidebar', 'panelSettings', data['lang']) }}</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">
+        <i class="ph ph-sign-out"></i>&nbsp;
+        <span class="menu-title">{{ translate('notify', 'logout', data['lang']) }}</span>
       </a>
     </li>
 
   </ul>
 </nav>
-<script>
-  $(document).ready(function () {
-    $('#sidebar-servers li:gt(10)').remove();
-  })
-</script>
 <!-- partial -->

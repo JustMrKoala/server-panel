@@ -41,11 +41,6 @@ class SlackWebhook(WebhookProvider):
                                 "type": "mrkdwn",
                                 "text": f"*{title}*\n{message}",
                             },
-                            "accessory": {
-                                "type": "image",
-                                "image_url": self.WEBHOOK_PFP_URL,
-                                "alt_text": "Crafty Controller Logo",
-                            },
                         },
                         {
                             "type": "context",
@@ -53,7 +48,7 @@ class SlackWebhook(WebhookProvider):
                                 {
                                     "type": "mrkdwn",
                                     "text": (
-                                        f"*Crafty Controller "
+                                        f"*Server Panel "
                                         f"v{self.CRAFTY_VERSION}*"
                                     ),
                                 }
@@ -64,6 +59,12 @@ class SlackWebhook(WebhookProvider):
                 }
             ],
         }
+        if self.WEBHOOK_PFP_URL:
+            payload["attachments"][0]["blocks"][2]["accessory"] = {
+                "type": "image",
+                "image_url": self.WEBHOOK_PFP_URL,
+                "alt_text": "Logo",
+            }
 
         return payload, headers
 

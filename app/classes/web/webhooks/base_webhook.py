@@ -33,12 +33,8 @@ class WebhookProvider(ABC):
             autoescape=True,
         )
 
-    WEBHOOK_USERNAME = "Crafty Webhooks"
-    WEBHOOK_PFP_URL = (
-        "https://gitlab.com/crafty-controller/crafty-4/-"
-        + "/raw/master/app/frontend/static/assets/images/"
-        + "Crafty_4-0.png"
-    )
+    WEBHOOK_USERNAME = "Server Panel"
+    WEBHOOK_PFP_URL = ""
     CRAFTY_VERSION = helper.get_version_string()
 
     def _send_request(self, url, payload, headers=None):

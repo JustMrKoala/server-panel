@@ -248,8 +248,8 @@ class TasksManager:
                 exc_info=True,
             )
 
-        logger.info("***** Crafty Shutting Down *****\n\n")
-        Console.info("***** Crafty Shutting Down *****\n\n")
+        logger.info("***** Panel Shutting Down *****\n\n")
+        Console.info("***** Panel Shutting Down *****\n\n")
         self.main_thread_exiting = True
 
     def start_webserver(self):

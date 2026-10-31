@@ -1,14 +1,14 @@
 {
-  "background_color": "#222436",
-  "description": "Crafty Controller is a free and open-source Minecraft launcher and manager that allows users to start and administer Minecraft servers from a user-friendly interface.",
+  "background_color": "#f6f7f9",
+  "description": "Game server panel",
   "dir": "ltr",
   "display": "standalone",
-  "name": "Crafty Controller",
+  "name": "Server Panel",
   "orientation": "any",
   "scope": "/",
-  "short_name": "Crafty",
+  "short_name": "Panel",
   "start_url": "/",
-  "theme_color": "#222436",
+  "theme_color": "#2f6fed",
   "categories": ["utilities"],
   "icons": [
     {

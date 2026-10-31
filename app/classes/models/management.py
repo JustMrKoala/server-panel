@@ -72,7 +72,7 @@ class Webhooks(BaseModel):
     name = CharField(default="Custom Webhook", max_length=64)
     url = CharField(default="")
     webhook_type = CharField(default="Custom")
-    bot_name = CharField(default="Crafty Controller")
+    bot_name = CharField(default="Server Panel")
     trigger = CharField(default="server_start,server_stop")
     body = CharField(default="")
     color = CharField(default="#005cd1")

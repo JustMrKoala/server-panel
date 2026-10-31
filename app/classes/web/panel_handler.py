@@ -346,6 +346,9 @@ class PanelHandler(BaseHandler):
             tz = "Europe/London"
         if exec_user["username"] == "anti-lockout-user":
             page = "panel_config"
+        if page in ("credits", "contribute", "wiki"):
+            self.redirect("/panel/dashboard")
+            return
 
         page_data: t.Dict[str, t.Any] = {
             # todo: make this actually pull and compare version data
@@ -383,7 +386,7 @@ class PanelHandler(BaseHandler):
             },
             "menu_servers": defined_servers,
             "hosts_data": self.controller.management.get_latest_hosts_stats(),
-            "show_contribute": self.helper.get_setting("show_contribute_link", True),
+            "show_contribute": self.helper.get_setting("show_contribute_link", False),
             "error": error,
             "time": formatted_time,
             "lang": self.controller.users.get_user_lang_by_id(exec_user["user_id"]),
@@ -1190,7 +1193,7 @@ class PanelHandler(BaseHandler):
             page_data["webhook"]["webhook_type"] = "Custom"
             page_data["webhook"]["name"] = ""
             page_data["webhook"]["url"] = ""
-            page_data["webhook"]["bot_name"] = "Crafty Controller"
+            page_data["webhook"]["bot_name"] = "Server Panel"
             page_data["webhook"]["trigger"] = []
             page_data["webhook"]["body"] = ""
             page_data["webhook"]["color"] = "#005cd1"
@@ -1878,8 +1881,8 @@ class PanelHandler(BaseHandler):
         elif page == "activity_logs":
             template = "panel/activity_logs.html"
 
-        elif page == "wiki":
-            template = "panel/wiki.html"
+        elif page == "account":
+            template = "panel/account.html"
         elif page == "edit_file":
             template = "panel/server_file_edit.html"
         if self.helper.crafty_starting:

@@ -47,6 +47,18 @@ class BaseHandler(tornado.web.RequestHandler):
         self.translator = translator
         self.file_helper = file_helper
 
+    def get_template_namespace(self):
+        namespace = super().get_template_namespace()
+        namespace["panel_name"] = (
+            self.helper.get_setting("panel_name", "Server Panel")
+            if self.helper
+            else "Server Panel"
+        )
+        namespace["default_password_in_use"] = getattr(
+            self.controller, "default_password_in_use", False
+        )
+        return namespace
+
     def set_default_headers(self) -> None:
         """
         Fix CORS

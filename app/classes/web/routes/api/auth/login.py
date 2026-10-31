@@ -20,7 +20,9 @@ login_schema = {
         },
         "password": {
             "type": "string",
-            "minLength": 8,
+            # Short on purpose so the default "admin" password can log in.
+            # New passwords still need minimum_password_length.
+            "minLength": 1,
         },
         "totp": {
             "type": "string",
@@ -325,11 +327,6 @@ class ApiAuthLoginHandler(BaseApiHandler):
         error_msg = self.helper.translation.translate(
             "login", "incorrect", self.helper.get_setting("language")
         )
-        if password == "app/config/default-creds.txt":
-            error_msg += ". "
-            error_msg += self.helper.translation.translate(
-                "login", "defaultPath", self.helper.get_setting("language")
-            )
         return self.finish_json(
             401,
             {

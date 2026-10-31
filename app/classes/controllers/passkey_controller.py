@@ -43,7 +43,7 @@ class PasskeyController:
         return base_url.split(":")[0]
 
     def get_rp_name(self):
-        return self.helper.get_setting("passkey_rp_name", "Crafty Controller")
+        return self.helper.get_setting("passkey_rp_name", "Server Panel")
 
     def get_origin(self):
         base_url = self.helper.get_setting("base_url", "localhost:8443")

@@ -5,8 +5,8 @@
         "bedrockError": "Bedrockダウンロードは利用できませんでした。確認してください",
         "bigBucket1": "Big Bucketヘルスチェックは失敗しました。確認してください",
         "bigBucket2": "最新の情報を確認してください。",
-        "contact": "DiscordでCraftyサポートに連絡",
-        "craftyStatus": "Crafty ステータスページ",
+        "contact": "DiscordでPanelサポートに連絡",
+        "craftyStatus": "Panel ステータスページ",
         "cronFormat": "無効な Cronフォーマットを検知",
         "embarassing": "いやあ、これは恥ずかしいですなあ。",
         "error": "エラー!",
@@ -16,9 +16,9 @@
         "fileError": "ファイルの種類は画像である必要があります。",
         "hereIsTheError": "エラーが発生しました",
         "installerJava": "インストール失敗 {} : ForgeサーバーのインストールにはJavaが必要です。 Javaがインストールされていないことを検知しました。Javaをインストールした後に、サーバーをインストールしてください。",
-        "internet": "Craftyが実行中のサーバーが、インターネットに接続されていないことを検知しました。クライアントのサーバーへの接続が制限されるかもしれません。",
-        "migration": "Craftyのメインサーバーのストレージが新しいサーバーへ移行中です。そのため全てのサーバーの起動が遅延されています。この移行が終わるまでお待ちください",
-        "no-file": "要求されたファイルを移動することができないようです。パスを再確認して、Craftyに適切な権限があるかを確認してください。",
+        "internet": "Panelが実行中のサーバーが、インターネットに接続されていないことを検知しました。クライアントのサーバーへの接続が制限されるかもしれません。",
+        "migration": "Panelのメインサーバーのストレージが新しいサーバーへ移行中です。そのため全てのサーバーの起動が遅延されています。この移行が終わるまでお待ちください",
+        "no-file": "要求されたファイルを移動することができないようです。パスを再確認して、Panelに適切な権限があるかを確認してください。",
         "noInternet": "インターネットへの接続に問題があります。 サーバーの作成は無効になっています。インターネットへの接続を確認し、ページを更新してください。",
         "noJava": "サーバー {} は起動に失敗しました。エラーコード: Javaがインストールされていないことを検知しました。Javaをインストールした後に、サーバーをインストールしてください。",
         "portReminder": "今回が {} のはじめての起動であることを検知しました。インターネットからリモートアクセスできるように、ルータ・ファイヤーウォールでポート{}を転送してください。",
@@ -70,13 +70,13 @@
         "webhooks": "すべてのウェブフック"
     },
     "404": {
-        "contact": "DiscordでCraftyサポートに連絡",
+        "contact": "DiscordでPanelサポートに連絡",
         "notFound": "ページが見つかりませんでした",
         "unableToFind": "お探しのページが見つかりませんでした。再度お試しいただくか、元のページに戻りページを更新してください。"
     },
     "accessDenied": {
         "accessDenied": "アクセス拒否",
-        "contact": "DiscordでCraftyサポートに連絡",
+        "contact": "DiscordでPanelサポートに連絡",
         "contactAdmin": "このページにアクセスするにはサーバー管理者に連絡してください。アクセスできるはずなのにページにアクセスできない場合は、サポートに連絡してください。",
         "noAccess": "このページにアクセスすることができませんでした"
     },
@@ -85,7 +85,7 @@
         "auth": "認証されていますか? ",
         "buttons": "ボタン",
         "config": "設定",
-        "crafty": "Crafty: ",
+        "crafty": "Panel: ",
         "createNew": "新しいAPIトークンを作成",
         "created": "作成済み",
         "deleteKeyConfirmation": "このAPIキーを削除してもよろしいですか。この操作は元に戻せません。",
@@ -102,12 +102,12 @@
         "yes": "はい"
     },
     "base": {
-        "doesNotWorkWithoutJavascript": "<strong>警告: </strong>JavaScriptが無効の状態では、Craftyは正常に動作しない恐れがあります!"
+        "doesNotWorkWithoutJavascript": "<strong>警告: </strong>JavaScriptが無効の状態では、Panelは正常に動作しない恐れがあります!"
     },
     "credits": {
         "developmentTeam": "開発チーム",
         "hugeDesc": "多大なる",
-        "pageDescription": "この方々のご支援がなくては、Craftyは存在しません",
+        "pageDescription": "この方々のご支援がなくては、Panelは存在しません",
         "pageTitle": "クレジット",
         "patreonDesc": "私たちの Patreon / Ko-fi の支援者たちに!",
         "patreonOther": "その他",
@@ -183,7 +183,7 @@
         "stop": "終了",
         "storage": "ストレージ",
         "version": "バージョン",
-        "welcome": "Craftyコントローラーへようこそ"
+        "welcome": "Panelコントローラーへようこそ"
     },
     "datatables": {
         "i18n": {
@@ -291,7 +291,7 @@
     },
     "offline": {
         "offline": "オフライン",
-        "pleaseConnect": "Craftyを使うにはインターネットに接続してください。"
+        "pleaseConnect": "Panelを使うにはインターネットに接続してください。"
     },
     "panelConfig": {
         "adminControls": "管理者コントロール",
@@ -305,7 +305,7 @@
         "edit": "編集",
         "enableLang": "すべての言語を有効化",
         "enabled": "有効",
-        "globalExplain": "Craftyがサーバーファイルを保存する場所です。 (Craftyは /servers/[uuid of server] 内に保存します。)",
+        "globalExplain": "Panelがサーバーファイルを保存する場所です。 (Panelは /servers/[uuid of server] 内に保存します。)",
         "globalServer": "グローバルサーバーディレクトリ",
         "json": "Config.json",
         "match": "パスワードが一致する必要があります",
@@ -320,7 +320,7 @@
         "select": "選択",
         "superConfirm": "このユーザーにすべて（全ユーザーアカウント、サーバー、パネル設定など）の権限を付与したいときのみ実行してください。このユーザーはあなたのスーパーユーザー権限をはく奪することもできます。",
         "superConfirmTitle": "スーパーユーザーを有効化しますが、よろしいですか？",
-        "title": "Craftyの設定",
+        "title": "Panelの設定",
         "user": "ユーザー",
         "users": "すべてのユーザー"
     },
@@ -364,7 +364,7 @@
         "confirmDelete": "このバックアップを削除しますか。この操作は元に戻せません。",
         "currentBackups": "バックパップ一覧",
         "default": "デフォルトのバックアップ",
-        "defaultExplain": "更新前にCraftyが使用するバックアップです。変更・削除することができません。",
+        "defaultExplain": "更新前にPanelが使用するバックアップです。変更・削除することができません。",
         "delete": "削除",
         "destroyBackup": "\" + file_to_del + \"を削除しますか？",
         "download": "ダウンロード",
@@ -375,7 +375,7 @@
         "exclusionsTitle": "バックアップの除外設定",
         "failed": "失敗",
         "maxBackups": "最大バックパップ数",
-        "maxBackupsDesc": "Craftyは古いバックアップを削除することで、N個より多くのバックアップを保存しません。(0を入力するとすべてのバックアップを保存します。)",
+        "maxBackupsDesc": "Panelは古いバックアップを削除することで、N個より多くのバックアップを保存しません。(0を入力するとすべてのバックアップを保存します。)",
         "myBackup": "新しいバックパップ",
         "name": "名前",
         "newBackup": "新しいバックパップを作成",
@@ -395,8 +395,8 @@
         "storageLocationDesc": "バックアップを保存する場所を選択してください"
     },
     "serverConfig": {
-        "bePatientDelete": "サーバーをCraftyパネルから削除する間、しばらくお待ちください。この画面はしばらくした後に閉じられます。",
-        "bePatientDeleteFiles": "サーバーをCraftyパネルから削除し、すべてのファイルを削除する間、しばらくお待ちください。 この画面はしばらくした後に閉じられます。",
+        "bePatientDelete": "サーバーをPanelパネルから削除する間、しばらくお待ちください。この画面はしばらくした後に閉じられます。",
+        "bePatientDeleteFiles": "サーバーをPanelパネルから削除し、すべてのファイルを削除する間、しばらくお待ちください。 この画面はしばらくした後に閉じられます。",
         "bePatientUpdate": "サーバーを更新している間、しばらくお待ちください。ダウンロードに要する時間はインターネット速度によって異なります。<br /> この画面はしばらくした後に更新されます",
         "cancel": "キャンセル",
         "countPlayers": "サーバーをプレイヤー数に含める",
@@ -410,7 +410,7 @@
         "exeUpdateURL": "サーバー実行ファイルのアップデートURL",
         "exeUpdateURLDesc": "アップデートをURLから直接ダウンロードします。",
         "ignoredExits": "無視する終了コード",
-        "ignoredExitsExplain": "Craftyがクラッシュを検知するときに通常終了だと考える終了コード (コンマで区切ってください。)",
+        "ignoredExitsExplain": "Panelがクラッシュを検知するときに通常終了だと考える終了コード (コンマで区切ってください。)",
         "javaNoChange": "上書きしない",
         "javaVersion": "現在のJavaのバージョンを上書き",
         "javaVersionDesc": "Javaを上書きしようとする場合、「サーバー実行コマンド」にJavaのパスが引用符で囲まれていることを確認してください。(デフォルトの'java'は除外)",
@@ -430,7 +430,7 @@
         "serverExecutionCommand": "サーバー実行コマンド",
         "serverExecutionCommandDesc": "サーバー起動時にターミナルで実行されるコマンド",
         "serverIP": "サーバーのIPアドレス",
-        "serverIPDesc": "Craftyが統計情報を取得するIPアドレス (問題が生じた場合は、本当のIPアドレスの代わりに 127.0.0.1 を試してください。)",
+        "serverIPDesc": "Panelが統計情報を取得するIPアドレス (問題が生じた場合は、本当のIPアドレスの代わりに 127.0.0.1 を試してください。)",
         "serverLogLocation": "サーバーログの保存場所",
         "serverLogLocationDesc": "ログファイルを保存する場所",
         "serverName": "サーバー名",
@@ -438,15 +438,15 @@
         "serverPath": "サーバーのディレクトリ",
         "serverPathDesc": "絶対パスで指定してください。(実行ファイルを含まないでください。)",
         "serverPort": "サーバーのポート",
-        "serverPortDesc": "Craftyが統計情報を取得するポート",
+        "serverPortDesc": "Panelが統計情報を取得するポート",
         "serverStopCommand": "サーバーの停止コマンド",
         "serverStopCommandDesc": "サーバーを停止させるときに送信するコマンド",
         "showStatus": "公開ステータスページにサーバーの状態を表示する",
         "shutdownTimeout": "シャットダウンするまで秒数",
-        "statsHint1": "サーバーが稼働しているポートをここに入力してください。統計情報を取得するためにCraftyが接続します。",
+        "statsHint1": "サーバーが稼働しているポートをここに入力してください。統計情報を取得するためにPanelが接続します。",
         "statsHint2": "これはサーバーのポートを変更するものではありません。ポートを変更するにはサーバーの設定ファイルを変更してください。",
         "stopBeforeDeleting": "削除する前にサーバーを停止してください",
-        "timeoutExplain1": "サーバーを終了するコマンドを実行した後に、Craftyがプロセスを強制終了するまでに待機する時間",
+        "timeoutExplain1": "サーバーを終了するコマンドを実行した後に、Panelがプロセスを強制終了するまでに待機する時間",
         "update": "実行ファイルをアップデート",
         "yesDelete": "はい、削除してください",
         "yesDeleteFiles": "はい、ファイルを削除してください",
@@ -455,7 +455,7 @@
     "serverConfigHelp": {
         "desc": "ここではサーバーの設定を帰ることができます",
         "perms": [
-            "Craftyによって管理されている<code>パスを変更しない</code>ことが推奨されています。",
+            "Panelによって管理されている<code>パスを変更しない</code>ことが推奨されています。",
             "パスを変更することは、特にファイルの権限がより厳密に管理されているLinuxにおいては、<code>システムを損傷させる恐れがあります</code>。",
             "<br /><br/>",
             "サーバーの位置を変更する必要がある場合、\"crafty\" ユーザーにサーバーのパスの読み取り・書き込み権限を付与してください。",
@@ -601,7 +601,7 @@
         "absoluteServerPath": "サーバーファイルの絶対パス",
         "absoluteZipPath": "サーバーファイルの絶対パス",
         "addRole": "既存のロールにサーバーを追加する",
-        "autoCreate": "何も選択しない場合、Craftyは新しいロールを作成します！",
+        "autoCreate": "何も選択しない場合、Panelは新しいロールを作成します！",
         "bePatient": "必要なファイルを' + (importing ? 'インポート' :  'ダウンロード') + 'している間、しばらくお待ちください",
         "buildServer": "サーバーを作成",
         "clickRoot": "ルートディレクトリを選択",
@@ -639,7 +639,7 @@
         "serverUpload": "圧縮されたサーバーファイルをアップロード",
         "serverVersion": "サーバーバージョン",
         "sizeInGB": "ファイルサイズ(GB)",
-        "unsupported": "バージョン1.8未満のマインクラフトはCraftyでサポートされていません。インストールした場合、正常に動作しないかもしれません。",
+        "unsupported": "バージョン1.8未満のマインクラフトはPanelでサポートされていません。インストールした場合、正常に動作しないかもしれません。",
         "uploadButton": "アップロード",
         "uploadZip": "サーバーをインポートするためにzipファイルをアップロード",
         "zipPath": "サーバーファイルのパス"
@@ -656,11 +656,11 @@
     "startup": {
         "almost": "もうすぐ完了します。",
         "cache": "Big Bucketのキャッシュファイルを更新中です",
-        "internals": "Craftyの内部コンポーネントを設定・起動中です",
+        "internals": "Panelの内部コンポーネントを設定・起動中です",
         "internet": "インターネット接続を確認中",
         "server": "初期化中 ",
         "serverInit": "サーバーを初期化中",
-        "starting": "Craftyは起動中です...",
+        "starting": "Panelは起動中です...",
         "tasks": "タスクスケジュラーを起動中"
     },
     "userConfig": {
@@ -670,14 +670,14 @@
         "configArea": "ユーザー設定",
         "configAreaDesc": "ここではユーザー設定をすべて変えることができます",
         "confirmDelete": "本当にユーザーを削除しますか。この操作は元に戻せません。",
-        "craftyPermDesc": "ユーザーのCraftyにおける権限 ",
-        "craftyPerms": "Craftyにおける権限 ",
+        "craftyPermDesc": "ユーザーのPanelにおける権限 ",
+        "craftyPerms": "Panelにおける権限 ",
         "created": "作成日時: ",
         "delSuper": "スーパーユーザーを削除することはできません",
         "deleteUser": "ユーザーを削除: ",
         "deleteUserB": "ユーザーを削除",
         "enabled": "有効化",
-        "gravDesc": "このメールアドレスはGravatar™を使用するために用いられます。Craftyはどのような状況でも、あなたのGravatar™プロフィールを見つける以外の目的には使用しません。",
+        "gravDesc": "このメールアドレスはGravatar™を使用するために用いられます。Panelはどのような状況でも、あなたのGravatar™プロフィールを見つける以外の目的には使用しません。",
         "gravEmail": "Gravatar™ メールアドレス",
         "lastIP": "最終アクセス IPアドレス: ",
         "lastLogin": "最終ログイン: ",

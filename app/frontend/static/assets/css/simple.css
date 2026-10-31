@@ -1,0 +1,411 @@
+/*
+  Simple theme. Loaded after every other stylesheet.
+  Replaces the stock "default" theme with a flat, neutral look and
+  tones down the panel chrome. The other user themes (dark, light, ronald)
+  keep their own colours and only pick up the layout changes.
+*/
+
+:root,
+:root.default {
+    --simple-bg: #f4f5f7;
+    --simple-surface: #ffffff;
+    --simple-border: #e3e5e9;
+    --simple-text: #1f2328;
+    --simple-muted: #6b7280;
+    --simple-accent: #2f6fed;
+    --simple-accent-soft: #e8effd;
+    --simple-radius: 10px;
+
+    /* stock theme variables */
+    --tooltip-bg: #1f2328;
+    --base-bg: var(--simple-bg);
+    --select-bg: #f0f1f4;
+    --ram-bg: #e9ebef;
+    --base-text: var(--simple-text);
+    --outline: var(--simple-border);
+    --card-banner-bg: var(--simple-surface);
+    --deep-bg: var(--simple-bg);
+    --dropdown-bg: var(--simple-surface);
+    --primary: var(--simple-accent);
+    --info: var(--simple-accent);
+    --purple: var(--simple-accent);
+    --success: #1f9d55;
+    --warning: #c47f00;
+    --danger: #d93f3f;
+    --dark: #1f2328;
+    --font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+:root.dark {
+    --simple-bg: #16181d;
+    --simple-surface: #1e2127;
+    --simple-border: #2c3038;
+    --simple-text: #e6e8eb;
+    --simple-muted: #9aa1ab;
+    --simple-accent: #5b8cff;
+    --simple-accent-soft: #23304d;
+}
+
+/* ---------- page shell ---------- */
+
+html.default body,
+html.default .container-scroller,
+html.default .page-body-wrapper,
+html.default .main-panel,
+html.default .content-wrapper {
+    background: var(--simple-bg) !important;
+    color: var(--simple-text);
+    font-family: var(--font-family-sans-serif);
+}
+
+html.default .content-wrapper {
+    padding: 28px 32px;
+}
+
+/* top bar */
+html.default .navbar.default-layout,
+html.default .navbar .navbar-brand-wrapper,
+html.default .navbar .navbar-menu-wrapper {
+    background: var(--simple-surface) !important;
+    border-bottom: 1px solid var(--simple-border);
+    box-shadow: none !important;
+}
+
+html.default .navbar .navbar-menu-wrapper .navbar-toggler,
+html.default .navbar .nav-link,
+html.default .navbar i {
+    color: var(--simple-muted) !important;
+}
+
+.navbar .brand-text {
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0;
+    color: var(--simple-text) !important;
+    text-decoration: none !important;
+}
+
+.navbar .brand-logo-mini.brand-text {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 8px;
+    background: var(--simple-accent);
+    color: #fff !important;
+    text-align: center;
+}
+
+/* sidebar */
+html.default .sidebar,
+html.default .sidebar .nav {
+    background: var(--simple-surface) !important;
+}
+
+html.default #sidebar {
+    border-right: 1px solid var(--simple-border);
+}
+
+.sidebar .nav {
+    padding: 12px 10px;
+}
+
+.sidebar .nav .nav-section {
+    padding: 18px 12px 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--simple-muted);
+}
+
+body.sidebar-icon-only .sidebar .nav .nav-section {
+    display: none;
+}
+
+.sidebar .nav .nav-item .nav-link {
+    border-radius: 8px;
+    padding: 9px 12px !important;
+    margin: 1px 0;
+    color: var(--simple-text) !important;
+    font-weight: 500;
+}
+
+.sidebar .nav .nav-item .nav-link i {
+    color: var(--simple-muted) !important;
+    font-size: 1.1rem;
+}
+
+.sidebar .nav .nav-item .nav-link:hover,
+.sidebar .nav .nav-item.active > .nav-link {
+    background: var(--simple-accent-soft) !important;
+    color: var(--simple-accent) !important;
+}
+
+.sidebar .nav .nav-item.active > .nav-link i,
+.sidebar .nav .nav-item .nav-link:hover i {
+    color: var(--simple-accent) !important;
+}
+
+.sidebar .nav .sidebar-server .menu-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* footer */
+html.default .footer {
+    background: transparent !important;
+    border-top: 1px solid var(--simple-border);
+    padding: 14px 32px;
+    font-size: 0.8rem;
+}
+
+/* ---------- content ---------- */
+
+html.default .page-title-header,
+html.default .page-header {
+    margin-bottom: 18px;
+}
+
+html.default .page-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--simple-text) !important;
+}
+
+html.default .card {
+    background: var(--simple-surface) !important;
+    border: 1px solid var(--simple-border) !important;
+    border-radius: var(--simple-radius) !important;
+    box-shadow: none !important;
+}
+
+html.default .card .card-header,
+html.default .card .card-header-sm {
+    background: transparent !important;
+    border-bottom: 1px solid var(--simple-border) !important;
+}
+
+html.default .card-title,
+html.default .card h1,
+html.default .card h2,
+html.default .card h3,
+html.default .card h4,
+html.default .card h5 {
+    color: var(--simple-text);
+}
+
+html.default .text-primary {
+    color: var(--simple-accent) !important;
+}
+
+html.default .text-muted {
+    color: var(--simple-muted) !important;
+}
+
+/* tables */
+html.default .table,
+html.default .table td,
+html.default .table th {
+    color: var(--simple-text) !important;
+    border-color: var(--simple-border) !important;
+    background: transparent !important;
+}
+
+html.default .table thead th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--simple-muted) !important;
+    font-weight: 600;
+}
+
+html.default .table-hover tbody tr:hover {
+    background: var(--simple-bg) !important;
+}
+
+/* forms */
+html.default .form-control,
+html.default select.form-control,
+html.default .select-css,
+html.default .input-group-text {
+    background: var(--simple-surface) !important;
+    color: var(--simple-text) !important;
+    border: 1px solid var(--simple-border) !important;
+    border-radius: 8px !important;
+}
+
+html.default .form-control:focus {
+    border-color: var(--simple-accent) !important;
+    box-shadow: 0 0 0 3px var(--simple-accent-soft) !important;
+}
+
+html.default label {
+    color: var(--simple-text);
+    font-weight: 500;
+}
+
+/* buttons */
+html.default .btn {
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: none !important;
+}
+
+html.default .btn-primary {
+    background: var(--simple-accent) !important;
+    border-color: var(--simple-accent) !important;
+    color: #fff !important;
+}
+
+html.default .btn-outline-primary {
+    color: var(--simple-accent) !important;
+    border-color: var(--simple-accent) !important;
+    background: transparent !important;
+}
+
+html.default .btn-outline-primary:hover {
+    background: var(--simple-accent-soft) !important;
+}
+
+/* dropdowns and dialogs */
+html.default .dropdown-menu,
+html.default .modal-content,
+html.default .bootbox .modal-content {
+    background: var(--simple-surface) !important;
+    color: var(--simple-text) !important;
+    border: 1px solid var(--simple-border) !important;
+    border-radius: var(--simple-radius) !important;
+}
+
+html.default .dropdown-item {
+    color: var(--simple-text) !important;
+}
+
+html.default .dropdown-item:hover {
+    background: var(--simple-bg) !important;
+}
+
+/* terminal and code views stay dark for readability */
+html.default #virt_console,
+html.default .virt_console,
+html.default .ace_editor {
+    background: #16181d !important;
+    color: #e6e8eb !important;
+}
+
+/* ---------- new pieces ---------- */
+
+.default-password-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 32px 0;
+    padding: 12px 16px;
+    border-radius: var(--simple-radius);
+    background: #fff4e0;
+    border: 1px solid #f3d9a4;
+    color: #6b4a00;
+    font-weight: 500;
+}
+
+:root.dark .default-password-banner {
+    background: #3a2d12;
+    border-color: #5c4718;
+    color: #f5d48c;
+}
+
+.default-password-banner a {
+    margin-left: auto;
+    font-weight: 600;
+    color: inherit;
+    text-decoration: underline;
+}
+
+.page-header.simple-header {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.simple-header .text-muted {
+    margin: 4px 0 0;
+}
+
+.simple-card {
+    max-width: 560px;
+    margin-bottom: 20px;
+    padding: 24px;
+    background: var(--simple-surface);
+    border: 1px solid var(--simple-border);
+    border-radius: var(--simple-radius);
+}
+
+.simple-card-title {
+    margin: 0 0 16px;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.simple-note {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #fff4e0;
+    color: #6b4a00;
+}
+
+.simple-message {
+    min-height: 1.4em;
+    margin: 0 0 12px;
+}
+
+.simple-message.is-ok {
+    color: var(--success);
+}
+
+.simple-message.is-error {
+    color: var(--danger);
+}
+
+/* ---------- login ---------- */
+
+html.default .auth .auto-form-wrapper,
+html.default #login-form-background {
+    background: var(--simple-surface) !important;
+    border: 1px solid var(--simple-border);
+    border-radius: 14px !important;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06) !important;
+}
+
+.login-title {
+    margin: 4px 0 20px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--simple-text);
+}
+
+html.default .login-text-input {
+    background: var(--simple-surface) !important;
+    color: var(--simple-text) !important;
+}
+
+@media (max-width: 991px) {
+    html.default .content-wrapper {
+        padding: 20px 16px;
+    }
+
+    .default-password-banner {
+        margin: 16px 16px 0;
+        flex-wrap: wrap;
+    }
+}
+
+html.default .custom-file-label,
+html.default .custom-file-label::after {
+    background: var(--simple-surface) !important;
+    color: var(--simple-text) !important;
+    border-color: var(--simple-border) !important;
+}
+
+html.default .custom-file-label::after {
+    background: var(--simple-bg) !important;
+}

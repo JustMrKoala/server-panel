@@ -97,6 +97,7 @@ class MainPrompt(cmd.Cmd):
             return False
 
         self.controller.users.update_user(user_id, {"password": new_pass})
+        self.controller.refresh_default_password_flag()
 
     def do_get_users(self, _line):
         Console.info(self.controller.users.get_all_usernames())

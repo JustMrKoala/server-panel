@@ -37,21 +37,21 @@ else:
 if helper.check_root():
     Console.critical(
         "Root detected. Root/Admin access denied. "
-        "Run Crafty again with non-elevated permissions."
+        "Run the panel again with non-elevated permissions."
     )
     time.sleep(5)
-    Console.critical("Crafty shutting down. Root/Admin access denied.")
+    Console.critical("Panel shutting down. Root/Admin access denied.")
     sys.exit(0)
 if not (sys.version_info.major == 3 and sys.version_info.minor >= 9):
     Console.critical(
         "Python version mismatch. Python "
         f"{sys.version_info.major}.{sys.version_info.minor} detected."
     )
-    Console.critical("Crafty requires Python 3.9 or above. Please upgrade python.")
+    Console.critical("This panel requires Python 3.9 or above. Please upgrade python.")
     time.sleep(5)
-    Console.critical("Crafty shutting down.")
+    Console.critical("Panel shutting down.")
     time.sleep(3)
-    Console.info("Crafty stopped. Exiting...")
+    Console.info("Panel stopped. Exiting...")
     sys.exit(0)
 
 # pylint: disable=wrong-import-position
@@ -77,12 +77,12 @@ def internet_check():
 
     if not helper.check_internet():
         logger.warning(
-            "We have detected the machine running Crafty has no "
+            "We have detected the machine running the panel has no "
             "connection to the internet. Client connections to "
             "the server may be limited."
         )
         Console.warning(
-            "We have detected the machine running Crafty has no "
+            "We have detected the machine running the panel has no "
             "connection to the internet. Client connections to "
             "the server may be limited."
         )
@@ -157,8 +157,8 @@ def signal_handler(signum, _frame):
     if not args.daemon:
         print()  # for newline after prompt
     signame = signal.Signals(signum).name
-    logger.info(f"Recieved signal {signame} [{signum}], stopping Crafty...")
-    Console.info(f"Recieved signal {signame} [{signum}], stopping Crafty...")
+    logger.info(f"Recieved signal {signame} [{signum}], stopping the panel...")
+    Console.info(f"Recieved signal {signame} [{signum}], stopping the panel...")
     tasks_manager._main_graceful_exit()
     crafty_prompt.universal_exit()
 
@@ -197,7 +197,7 @@ def do_version_check():
             """
         Console.yellow(notice)
 
-    crafty_prompt.prompt = f"Crafty Controller v{helper.get_version_string()} > "
+    crafty_prompt.prompt = f"Panel v{helper.get_version_string()} > "
 
 
 def setup_starter():
@@ -216,7 +216,7 @@ def setup_starter():
     else:
         time.sleep(0.01)  # Wait for the daemon info message
 
-    Console.info("Setting up Crafty's internal components...")
+    Console.info("Setting up the panel's internal components...")
     # Start the setup threads
     web_sock.broadcast("update", {"section": "tasks"})
     time.sleep(2)
@@ -244,7 +244,7 @@ def setup_starter():
     helper.crafty_starting = False
     web_sock.broadcast("send_start_reload", "")
     do_version_check()
-    Console.info("Crafty has fully started and is now ready for use!")
+    Console.info("The panel has fully started and is now ready for use!")
 
     do_cleanup()
 
@@ -259,16 +259,13 @@ def do_intro():
     This method checks for a "settings file" or config.json. If it does not find
     one it will create one.
     """
-    logger.info("***** Crafty Controller Started *****")
+    logger.info("***** Panel Started *****")
 
     version = helper.get_version_string()
 
     intro = f"""
     {'/' * 75}
-    #{("Welcome to Crafty Controller - v." + version).center(73, " ")}#
-    {'/' * 75}
-    #{"Server Manager / Web Portal for your Minecraft server".center(73, " ")}#
-    #{"Homepage: www.craftycontrol.com".center(73, " ")}#
+    #{("Server Panel - v." + version).center(73, " ")}#
     {'/' * 75}
     """
 
@@ -327,7 +324,7 @@ def setup_logging(debug=True):
 
 # Our Main Starter
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Crafty Controller - A Server Management System")
+    parser = argparse.ArgumentParser("Server Panel")
 
     parser.add_argument(
         "-i", "--ignore", action="store_true", help="Ignore session.lock files"
@@ -391,31 +388,15 @@ if __name__ == "__main__":
         Console.debug("Fresh install detected")
         Console.warning(
             f"We have detected a fresh install. Please be sure to forward "
-            f"Crafty's port, {helper.get_setting('https_port')}, "
+            f"the panel's port, {helper.get_setting('https_port')}, "
             f"through your router/firewall if you would like to be able "
-            f"to access Crafty remotely."
+            f"to access the panel remotely."
         )
         first_login = True
-        PASSWORD = helper.create_pass()
-        installer.default_settings(PASSWORD)
-        with open(
-            os.path.join(APPLICATION_PATH, "app", "config", "default-creds.txt"),
-            "w",
-            encoding="utf-8",
-        ) as cred_file:
-            cred_file.write(
-                json.dumps(
-                    {
-                        "username": "admin",
-                        "password": PASSWORD,
-                        "info": "This is NOT where you change your password."
-                        " This file is only a means to give you a default password.",
-                    },
-                    indent=4,
-                )
-            )
-        os.chmod(
-            os.path.join(APPLICATION_PATH, "app", "config", "default-creds.txt"), 0o600
+        installer.default_settings()
+        Console.help(
+            f"Log in with username '{helper.DEFAULT_ADMIN_USERNAME}' and password "
+            f"'{helper.DEFAULT_ADMIN_PASSWORD}', then change the password in Settings."
         )
     else:
         Console.debug("Existing install detected")
@@ -435,6 +416,7 @@ if __name__ == "__main__":
     controller = Controller(database, helper, file_helper, import_helper)
     controller.set_project_root(APPLICATION_PATH)
     controller.first_login = first_login
+    controller.refresh_default_password_flag()
     tasks_manager = TasksManager(helper, controller, file_helper)
     import3 = Import3(helper, controller)
     helper.migration_notifications = get_migration_notifications()
@@ -483,7 +465,7 @@ if __name__ == "__main__":
         # Start the Crafty prompt
         crafty_prompt.cmdloop()
     else:
-        Console.info("Crafty started in daemon mode, no shell will be printed")
+        Console.info("Panel started in daemon mode, no shell will be printed")
         print()
         while True:
             if tasks_manager.get_main_thread_run_status():

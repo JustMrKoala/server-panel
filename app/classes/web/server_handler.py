@@ -128,7 +128,7 @@ class ServerHandler(BaseHandler):
             },
             "hosts_data": self.controller.management.get_latest_hosts_stats(),
             "menu_servers": page_servers,
-            "show_contribute": self.helper.get_setting("show_contribute_link", True),
+            "show_contribute": self.helper.get_setting("show_contribute_link", False),
             "lang": self.controller.users.get_user_lang_by_id(exec_user["user_id"]),
             "lang_page": Helpers.get_lang_page(
                 self.controller.users.get_user_lang_by_id(exec_user["user_id"])

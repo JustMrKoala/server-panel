@@ -3,7 +3,7 @@
 {% block meta %}
 {% end %}
 
-{% block title %}Crafty Controller - {{ translate('serverDetails', 'serverDetails', data['lang']) }}{% end %}
+{% block title %}{{ panel_name }} - {{ translate('serverDetails', 'serverDetails', data['lang']) }}{% end %}
 
 {% block content %}
 <link rel="stylesheet" href="/static/assets/css/vendors/bootstrap-select-1.13.18.css">
@@ -69,12 +69,12 @@
                 <div class="form-group">
                   <label for="url">{{ translate('webhooks', 'url', data['lang']) }}</label>
                   <input type="input" class="form-control" name="url" id="url"
-                    value="{{ data['webhook']['url']}}" placeholder="https://webhooks.craftycontrol.com/fakeurl" required>
+                    value="{{ data['webhook']['url']}}" placeholder="https://example.com/webhook" required>
                 </div>
                 <div class="form-group">
                   <label for="bot_name">{{ translate('webhooks', 'bot_name' , data['lang']) }}</label>
                   <input type="input" class="form-control" name="bot_name" id="bot_name_input"
-                    value="{{ data['webhook']['bot_name']}}" maxlength="30" placeholder="Crafty Controller" required>
+                    value="{{ data['webhook']['bot_name']}}" maxlength="30" placeholder="{{ panel_name }}" required>
                 </div>
                 <div class="form-group">
                   <label for="trigger">{{ translate('webhooks', 'trigger', data['lang']) }}</label>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="form-group">
                       <label for="body">{{ translate('webhooks', 'webhook_body', data['lang']) }} <br><div class="jinja2"><small>{{translate("webhooks", "jinja2", data['lang'])}} <br>
-                          <a href="https://docs.craftycontrol.com/pages/user-guide/webhooks/#jinja2-dynamic-variables-461" target="_blank">{{translate("webhooks", "documentation", data['lang'])}}</a></small></div></label>
+                          </small></div></label>
                       <textarea id="body-input" name="body" rows="4" cols="50">
                         {{ data["webhook"]["body"] }}
                       </textarea>

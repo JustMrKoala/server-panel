@@ -1,12 +1,12 @@
 {
     "404": {
-        "contact": "Kontaktujte podporu Crafty přes Discord",
+        "contact": "Kontaktujte podporu Panel přes Discord",
         "notFound": "Stránka nebyla nalezena",
         "unableToFind": "Hledanou stránku se nám nepodařilo najít. Zkuste to prosím znovu nebo se vraťte a obnovte stránku."
     },
     "accessDenied": {
         "accessDenied": "Přístup odepřen",
-        "contact": "Kontaktujte podporu Crafty přes Discord",
+        "contact": "Kontaktujte podporu Panel přes Discord",
         "contactAdmin": "Pro přístup k tomuto prostředku se obraťte na správce serveru, nebo pokud si myslíte, že byste k němu měli mít přístup, kontaktujte podporu.",
         "noAccess": "K tomuto zdroji nemáte přístup"
     },
@@ -15,7 +15,7 @@
         "auth": "Autorizován? ",
         "buttons": "Tlačítka",
         "config": "Nastavení",
-        "crafty": "Crafty: ",
+        "crafty": "Panel: ",
         "createNew": "Vytvořit nový token API",
         "created": "Vytvořen",
         "deleteKeyConfirmation": "Chcete tento API klíč odstranit? Tuto akci nelze vrátit zpět.",
@@ -32,12 +32,12 @@
         "yes": "Ano"
     },
     "base": {
-        "doesNotWorkWithoutJavascript": "<strong>Varování: </strong>Crafty nefunguje správně, pokud není povolen JavaScript!"
+        "doesNotWorkWithoutJavascript": "<strong>Varování: </strong>Panel nefunguje správně, pokud není povolen JavaScript!"
     },
     "credits": {
         "developmentTeam": "Vývojový tým",
         "hugeDesc": "Neskutečně",
-        "pageDescription": "Bez těchto lidí bychom neměli Crafty.",
+        "pageDescription": "Bez těchto lidí bychom neměli Panel.",
         "pageTitle": "Zásluhy",
         "patreonDesc": "našim příznivcům Patreonu / Ko-fi!",
         "patreonOther": "Další",
@@ -113,7 +113,7 @@
         "stop": "Zastavit",
         "storage": "úložiště",
         "version": "Verze",
-        "welcome": "Vítejte v Crafty Controlleru"
+        "welcome": "Vítejte v Panelu"
     },
     "datatables": {
         "i18n": {
@@ -186,8 +186,8 @@
         "bigBucket1": "Big Bucket Kontrola stavu selhala. Prosím zkontrolujte jej",
         "bigBucket2": "pro nejnovější informace.",
         "cancel": "Zrušit",
-        "contact": "Kontaktujte podporu Crafty přes Discord",
-        "craftyStatus": "Crafty stav systémů",
+        "contact": "Kontaktujte podporu Panel přes Discord",
+        "craftyStatus": "Panel stav systémů",
         "cronFormat": "Neplatný formát Cron",
         "embarassing": "Ach jo, no, to je trapné.",
         "error": "Chyba!",
@@ -197,10 +197,10 @@
         "fileError": "Typ souboru musí být obrázek.",
         "hereIsTheError": "Zde je chyba",
         "installerJava": "Selhala instalace {} : Forge servery potřebují k instalaci Javu. Zjistili jsme že java není nainstalovaná. Prosím nainstalujte java na server.",
-        "internet": "Zjistili jsme, že počítač se spuštěným programem Crafty není připojen k internetu. Připojení klientů k serveru může být omezeno.",
-        "migration": "Crafty's hlavní úložiště se přesouvá do jiné lokace. Všechny servry budou pozastaveny v tento čas. Prosím počkejte než se dokončí migrace",
-        "no-file": "Zdá se, že nemůžeme najít požadovaný soubor. Překontrolujte cestu. Má Crafty správné oprávnění?",
-        "noInternet": "Crafty se nemůže připojit k internetu. Vytváření serverů je pozastaveno. Prosím zkontrolujte připojení k internetu a potom obnovte tuto stránku.",
+        "internet": "Zjistili jsme, že počítač se spuštěným programem Panel není připojen k internetu. Připojení klientů k serveru může být omezeno.",
+        "migration": "Panel's hlavní úložiště se přesouvá do jiné lokace. Všechny servry budou pozastaveny v tento čas. Prosím počkejte než se dokončí migrace",
+        "no-file": "Zdá se, že nemůžeme najít požadovaný soubor. Překontrolujte cestu. Má Panel správné oprávnění?",
+        "noInternet": "Panel se nemůže připojit k internetu. Vytváření serverů je pozastaveno. Prosím zkontrolujte připojení k internetu a potom obnovte tuto stránku.",
         "noJava": "Server {} se nepodařilo spustit s kódem chyby: Zjistili jsme, že Java není nainstalována. Nainstalujte prosím Javu a poté spusťte server.",
         "portReminder": "Zjistili jsme, že server {} byl spuštěn poprvé. Ujistěte se, že jste přesměrovali port {} přes váš směrovač/firewall, aby byl tento port vzdáleně přístupný z internetu.",
         "privMsg": "a ",
@@ -237,7 +237,7 @@
     },
     "offline": {
         "offline": "Offline",
-        "pleaseConnect": "Prosím připojte se k internetu ať můžete používat Crafty."
+        "pleaseConnect": "Prosím připojte se k internetu ať můžete používat Panel."
     },
     "panelConfig": {
         "adminControls": "Ovládání správce",
@@ -246,12 +246,12 @@
         "assignedRoles": "Přidělené role",
         "cancel": "Zrušit",
         "clearComms": "Vymazat nevykonané příkazy",
-        "custom": "Upravit Crafty",
+        "custom": "Upravit Panel",
         "delete": "Smazat",
         "edit": "Upravit",
         "enableLang": "Povolit všechny jazyky",
         "enabled": "Zapnuto",
-        "globalExplain": "Kde má Crafty ukládat všechny soubory serverů. (Cestu doplníme o /server/[uuid serveru])",
+        "globalExplain": "Kde má Panel ukládat všechny soubory serverů. (Cestu doplníme o /server/[uuid serveru])",
         "globalServer": "Globalní cesta k serverům",
         "json": "Config.json",
         "match": "Hesla musí být stejná",
@@ -266,7 +266,7 @@
         "select": "Vyberte",
         "superConfirm": "Postupujte pouze v případě, že chcete, aby měl tento uživatel přístup ke VŠEM (ke všem uživatelským účtům, serverům, nastavení panelu atd.). Může vám dokonce odebrat práva superuživatele.",
         "superConfirmTitle": "Povolit superuživatele? Jste si jisti?",
-        "title": "Crafty Konfigurace",
+        "title": "Panel Konfigurace",
         "user": "Uživatel",
         "users": "Uživatelé"
     },
@@ -310,7 +310,7 @@
         "confirmDelete": "Chcete tuto zálohu odstranit? Tuto akci nelze vrátit zpět.",
         "currentBackups": "Aktuální zálohy",
         "default": "Defaultní záloha",
-        "defaultExplain": "Tuto zálohu Crafty používalo před aktualizací. Nemůžete ji změnit nebo smazat",
+        "defaultExplain": "Tuto zálohu Panel používalo před aktualizací. Nemůžete ji změnit nebo smazat",
         "delete": "Smazat",
         "destroyBackup": "Zničit zálohu \" + file_to_del + \"?",
         "download": "Stáhnout",
@@ -321,7 +321,7 @@
         "exclusionsTitle": "Vyloučení ze zálohování",
         "failed": "Selhalo",
         "maxBackups": "Maximální počet záloh",
-        "maxBackupsDesc": "Crafty neuloží více než N záloh a odstraní nejstarší (zadejte 0 pro zachování všech).",
+        "maxBackupsDesc": "Panel neuloží více než N záloh a odstraní nejstarší (zadejte 0 pro zachování všech).",
         "myBackup": "Moje nová záloha",
         "name": "Jméno",
         "newBackup": "Vytvořit novou zálohu",
@@ -341,22 +341,22 @@
         "storageLocationDesc": "Kam chcete ukládat zálohy?"
     },
     "serverConfig": {
-        "bePatientDelete": "Buďte prosím trpěliví, než odstraníme váš server z panelu Crafty. Tato obrazovka se za chvíli zavře.",
-        "bePatientDeleteFiles": "Buďte prosím trpěliví, než odstraníme váš server z panelu Crafty a všechny jeho soubory. Tato obrazovka se za chvíli zavře.",
+        "bePatientDelete": "Buďte prosím trpěliví, než odstraníme váš server z panelu Panel. Tato obrazovka se za chvíli zavře.",
+        "bePatientDeleteFiles": "Buďte prosím trpěliví, než odstraníme váš server z panelu Panel a všechny jeho soubory. Tato obrazovka se za chvíli zavře.",
         "bePatientUpdate": "Prosím, buďte trpěliví, dokud server neaktualizujeme. Doba stahování se může lišit v závislosti na rychlosti vašeho internetu.<br /> Tato obrazovka se za chvíli aktualizuje",
         "cancel": "Zrušit",
         "countPlayers": "Počítat server v globálních statistikách",
         "crashTime": "Časový limit havárie",
         "crashTimeDesc": "Jak dlouho bychom měli čekat, než budeme váš server považovat za havarovaný?",
         "deleteFilesQuestion": "Odstranit soubory serveru z přístroje?",
-        "deleteFilesQuestionMessage": "Chcete, aby Crafty odstranil všechny soubory serveru z hostitelského počítače? <br><br><strong>To se týká i zálohování serverů.</strong>",
+        "deleteFilesQuestionMessage": "Chcete, aby Panel odstranil všechny soubory serveru z hostitelského počítače? <br><br><strong>To se týká i zálohování serverů.</strong>",
         "deleteServer": "Odstranit server",
         "deleteServerQuestion": "Odstranit server?",
         "deleteServerQuestionMessage": "Opravdu chcete tento server odstranit? Po tomto kroku již není cesty zpět...",
         "exeUpdateURL": "Adresa URL pro aktualizaci spustitelných souborů serveru",
         "exeUpdateURLDesc": "Adresa URL pro přímé stahování aktualizací.",
         "ignoredExits": "Ignorovat kódy pádu serveru",
-        "ignoredExitsExplain": "Ukončovací kódy kteŕe Crafty bude ignorovat a brát jako normálně ukončený server (odělte čárkou)",
+        "ignoredExitsExplain": "Ukončovací kódy kteŕe Panel bude ignorovat a brát jako normálně ukončený server (odělte čárkou)",
         "javaNoChange": "Nepřepisujte",
         "javaVersion": "Přepsat aktuální verzi Javy",
         "javaVersionDesc": "Pokud se chystáte přepsat Javu, ujistěte se, že je aktuální cesta k Javě v příkazu 'execution command' zabalena do uvozovek (výchozí proměnná 'java' je vyloučena).",
@@ -376,7 +376,7 @@
         "serverExecutionCommand": "Příkaz pro spuštění serveru",
         "serverExecutionCommandDesc": "Co se spustí ve skrytém terminálu",
         "serverIP": "Adresa serveru",
-        "serverIPDesc": "IP adresa, ke které by se měl Crafty připojit pro statistiky (pokud máte problémy, zkuste místo 127.0.0.1 zadat skutečnou IP adresu).",
+        "serverIPDesc": "IP adresa, ke které by se měl Panel připojit pro statistiky (pokud máte problémy, zkuste místo 127.0.0.1 zadat skutečnou IP adresu).",
         "serverLogLocation": "Umístění protokolu serveru",
         "serverLogLocationDesc": "Cesta k souboru protokolu",
         "serverName": "Název serveru",
@@ -384,15 +384,15 @@
         "serverPath": "Pracovní adresář serveru",
         "serverPathDesc": "Absolutní úplná cesta (bez spustitelného souboru)",
         "serverPort": "Port serveru",
-        "serverPortDesc": "Port Crafty should connect to for stats",
+        "serverPortDesc": "Port Panel should connect to for stats",
         "serverStopCommand": "Příkaz pro zastavení serveru",
         "serverStopCommandDesc": "Příkaz k odeslání programu pro jeho zastavení",
         "showStatus": "Zobrazit na veřejné stavové stránce",
         "shutdownTimeout": "Časový limit pro vypnutí",
-        "statsHint1": "Zde by měl být uveden port, na kterém běží váš serv.er. Tímto způsobem Crafty otevře spojení s vaším serverem pro statistiky.",
+        "statsHint1": "Zde by měl být uveden port, na kterém běží váš serv.er. Tímto způsobem Panel otevře spojení s vaším serverem pro statistiky.",
         "statsHint2": "Toto nezmění tvůj port pro tvůj server. Musíš to také změnit v konfiguračním souboru tvého serveru.",
         "stopBeforeDeleting": "Před odstraněním serveru jej prosím zastavte",
-        "timeoutExplain1": "Jak dlouho bude Crafty čekat na vypnutí serveru po provedení příkazu",
+        "timeoutExplain1": "Jak dlouho bude Panel čekat na vypnutí serveru po provedení příkazu",
         "timeoutExplain2": "než proces ukončí.",
         "update": "Aktualizovat spustitelný soubor",
         "yesDelete": "Ano, smazat",
@@ -401,7 +401,7 @@
     "serverConfigHelp": {
         "desc": "Zde můžete změnit konfiguraci serveru.",
         "perms": [
-            "Doporučujeme <code>NEMĚNIT</code> cesty serveru spravované Craftym.",
+            "Doporučujeme <code>NEMĚNIT</code> cesty serveru spravované Panelm.",
             "Změna cest <code>MŮŽE</code> něco rozbít, zejména v operačních systémech typu Linux, kde jsou práva k souborům více uzamčena.",
             "<br /><br/>",
             "Pokud máte pocit, že musíte změnit místo, kde je server umístěn, můžete tak učinit, pokud dáte uživateli \"crafty\" oprávnění ke čtení / zápisu k cestě k serveru.",
@@ -561,7 +561,7 @@
         "absoluteServerPath": "Absolutní cesta k serveru",
         "absoluteZipPath": "Absolutní cesta k serveru",
         "addRole": "Přidání serveru k existujícím rolím",
-        "autoCreate": "Pokud nebude vybrána žádná, Crafty ji vyrobí!",
+        "autoCreate": "Pokud nebude vybrána žádná, Panel ji vyrobí!",
         "bePatient": "Buďte prosím trpěliví, protože musíme ' + (importing ? 'importovat' : 'stáhnout') + ' server",
         "buildServer": "Sestavit server!",
         "clickRoot": "Klikněte zde pro výběr kořenového adresáře",
@@ -599,7 +599,7 @@
         "serverUpload": "Nahrát zazipovány Server",
         "serverVersion": "Verze serveru",
         "sizeInGB": "Velikost v GB",
-        "unsupported": "Verze Minecraftu nižší než 1.8 nejsou v Crafty podporovány. Přesto si ji můžete nainstalovat. Není zaručena funkčnost",
+        "unsupported": "Verze Minecraftu nižší než 1.8 nejsou v Panel podporovány. Přesto si ji můžete nainstalovat. Není zaručena funkčnost",
         "uploadButton": "Nahrát",
         "uploadZip": "Nahrání souboru Zip pro importování serveru",
         "zipPath": "Cesta k serveru"
@@ -616,11 +616,11 @@
     "startup": {
         "almost": "Dokončuji. Držte se...",
         "cache": "Znovu načítam mezipaměť Big Bucket",
-        "internals": "Nastavuji a startuji Crafty interní komponenty",
+        "internals": "Nastavuji a startuji Panel interní komponenty",
         "internet": "Kontroluju připojení k internetu",
         "server": "Konfigurace ",
         "serverInit": "Konfigurace serveru",
-        "starting": "Crafty se startuje...",
+        "starting": "Panel se startuje...",
         "tasks": "Startuji plány"
     },
     "userConfig": {
@@ -637,7 +637,7 @@
         "deleteUser": "Smazat uživatele: ",
         "deleteUserB": "Smazat uživatele",
         "enabled": "Povolen",
-        "gravDesc": "Tento e-mail je určen výhradně pro použití se službou Gravatar™. Crafty nebude v žádném případě používat tento e-mail k ničemu jinému než k vyhledávání vašeho Gravataru™.",
+        "gravDesc": "Tento e-mail je určen výhradně pro použití se službou Gravatar™. Panel nebude v žádném případě používat tento e-mail k ničemu jinému než k vyhledávání vašeho Gravataru™.",
         "gravEmail": "Gravatar™ E-mail",
         "lastIP": "Poslední IP: ",
         "lastLogin": "Poslední přihlášení: ",

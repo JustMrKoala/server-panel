@@ -14,26 +14,13 @@ class DatabaseBuilder:
         self.management_helper = management_helper
         self.users_helper = users_helper
 
-    def default_settings(self, password="crafty"):
+    def default_settings(self):
         logger.info("Fresh Install Detected - Creating Default Settings")
         Console.info("Fresh Install Detected - Creating Default Settings")
+        # app/config/default.json can still override the default login
         default_data = self.helper.find_default_password()
-        if "password" not in default_data:
-            Console.help(
-                "No default password found. Using password created "
-                "by Crafty. Find it in app/config/default-creds.txt"
-            )
-        username = default_data.get("username", "admin")
-        if self.helper.minimum_password_length > len(
-            default_data.get("password", password)
-        ):
-            Console.critical(
-                "Default password too short"
-                " using Crafty's created default."
-                " Find it in app/config/default-creds.txt"
-            )
-        else:
-            password = default_data.get("password", password)
+        username = default_data.get("username", self.helper.DEFAULT_ADMIN_USERNAME)
+        password = default_data.get("password", self.helper.DEFAULT_ADMIN_PASSWORD)
 
         self.users_helper.add_user(
             username=username,

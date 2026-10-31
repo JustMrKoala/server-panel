@@ -1,12 +1,12 @@
 {
     "404": {
-        "contact": "Nim kontakt op mei Crafty Control Support fia Discord",
+        "contact": "Nim kontakt op mei Panel Support fia Discord",
         "notFound": "Side net fûn",
         "unableToFind": "Wy koene de side net fine wêr't jo nei sykje. Besykje it nochris, of gean werom en ferfarskje."
     },
     "accessDenied": {
         "accessDenied": "Tagong wegere",
-        "contact": "Nim kontakt op mei Crafty Control Support fia Discord",
+        "contact": "Nim kontakt op mei Panel Support fia Discord",
         "contactAdmin": "Nim kontakt op mei jo serverbehearder foar tagong ta dizze boarne, of as jo tinke dat jo tagong moatte hawwe ta dizze boarne, nim dan kontakt op mei support.",
         "noAccess": "Jo hawwe gjin tagong ta dizze boarne"
     },
@@ -15,7 +15,7 @@
         "auth": "Autorisearre?",
         "buttons": "Knoppen",
         "config": "Konfiguraasje",
-        "crafty": "Crafty: ",
+        "crafty": "Panel: ",
         "createNew": "Meitsje nij API-token",
         "created": "Oanmakke",
         "deleteKeyConfirmation": "Wolle jo dizze API-kaai wiskje? Dit kin net ûngedien makke wurde.",
@@ -31,12 +31,12 @@
         "yes": "Ja"
     },
     "base": {
-        "doesNotWorkWithoutJavascript": "<strong>Warskôging: </strong>Crafty wurket net goed as JavaScript net ynskeakele is!"
+        "doesNotWorkWithoutJavascript": "<strong>Warskôging: </strong>Panel wurket net goed as JavaScript net ynskeakele is!"
     },
     "credits": {
         "developmentTeam": "Utwikkelingsteam",
         "hugeDesc": "In enoarm",
-        "pageDescription": "Sûnder dizze minsken soene jo Crafty net hawwe",
+        "pageDescription": "Sûnder dizze minsken soene jo Panel net hawwe",
         "pageTitle": "Credits",
         "patreonDesc": "oan ús Patreon / Ko-fi-supporters!",
         "patreonOther": "Oare",
@@ -95,7 +95,7 @@
         "status": "Status",
         "stop": "Eindigje",
         "version": "Ferzje",
-        "welcome": "Wolkom by Crafty Controller"
+        "welcome": "Wolkom by Panel"
     },
     "datatables": {
         "loadingRecords": "Laden...",
@@ -163,15 +163,15 @@
         }
     },
     "error": {
-        "contact": "Nim kontakt op mei Crafty Control Support fia Discord",
+        "contact": "Nim kontakt op mei Panel Support fia Discord",
         "embarassing": "Och, dit is beskamsum.",
         "error": "Error!",
         "eulaAgree": "Binne jo akkoard?",
         "eulaMsg": "Jo moatte ynstimme mei de EULA. In kopy fan 'e Minecraft EULA is keppele ûnder dit berjocht.",
         "eulaTitle": "Akseptearje mei EULA",
         "hereIsTheError": "Hjir is de error",
-        "internet": "Wy hawwe ûntdutsen dat de masine dy't Crafty draait gjin ferbining hat mei it ynternet. Clientferbiningen mei de server kinne beheind wêze.",
-        "no-file": "Wy kinne it opfrege bestân net fine. Kontrolearje it paad dûbeld. Hat Crafty juste tastimmingen?",
+        "internet": "Wy hawwe ûntdutsen dat de masine dy't Panel draait gjin ferbining hat mei it ynternet. Clientferbiningen mei de server kinne beheind wêze.",
+        "no-file": "Wy kinne it opfrege bestân net fine. Kontrolearje it paad dûbeld. Hat Panel juste tastimmingen?",
         "noJava": "Server {} koe net begjinne mei errorkoade: Wy hawwe ûntdutsen dat Java net ynstallearre is. Ynstallearje asjebleaft Java en start dan de server.",
         "portReminder": "Wy hawwe ûntdutsen dat dit de earste kear is dat {} útfierd is. Soargje derfoar dat jo poarte {} trochstjoere fia jo router/firewall om dit op ôfstân tagonklik te meitsjen fia it ynternet.",
         "start-error": "Server {} koe net begjinne mei errorkoade:",
@@ -260,7 +260,7 @@
         "excludedChoose": "Kies de paden dy't jo wolle útslute fan jo backups",
         "exclusionsTitle": "Backup útslutings",
         "maxBackups": "Max Backups",
-        "maxBackupsDesc": "Crafty sil net mear as N backups opslaan, de âldste wiskje (fier 0 yn om alles te hâlden)",
+        "maxBackupsDesc": "Panel sil net mear as N backups opslaan, de âldste wiskje (fier 0 yn om alles te hâlden)",
         "options": "Opsjes",
         "path": "Paad",
         "restore": "Weromsette",
@@ -271,14 +271,14 @@
         "storageLocationDesc": "Wêr wolle jo backups opslaan?"
     },
     "serverConfig": {
-        "bePatientDelete": "Wês geduldich wylst wy jo server wiskje fan it Crafty-paniel. Dit skerm sil yn in pear mominten slute.",
-        "bePatientDeleteFiles": "Wês asjebleaft geduld wylst wy jo server wiskje fan it Crafty-paniel en alle bestannen wiskje. Dit skerm sil yn in pear mominten slute.",
+        "bePatientDelete": "Wês geduldich wylst wy jo server wiskje fan it Panel-paniel. Dit skerm sil yn in pear mominten slute.",
+        "bePatientDeleteFiles": "Wês asjebleaft geduld wylst wy jo server wiskje fan it Panel-paniel en alle bestannen wiskje. Dit skerm sil yn in pear mominten slute.",
         "bePatientUpdate": "Wês geduldich wylst wy de server bywurkje. Downloadtiden kinne ferskille ôfhinklik fan jo ynternetsnelheden.<br /> Dit skerm sil yn in momint ferfarskje",
         "cancel": "Annulearje",
         "crashTime": "Crash Time-out",
         "crashTimeDesc": "Hoe lang moatte wy wachtsje foardat wy jo server beskôgje as ferûngelokke?",
         "deleteFilesQuestion": "Serverbestannen wiskje fan 'e masine?",
-        "deleteFilesQuestionMessage": "Wolle jo dat Crafty alle serverbestannen wiskje fan 'e hostmasine? <br><br><strong>Dit omfettet server backups.</strong>",
+        "deleteFilesQuestionMessage": "Wolle jo dat Panel alle serverbestannen wiskje fan 'e hostmasine? <br><br><strong>Dit omfettet server backups.</strong>",
         "deleteServer": "Server wiskje",
         "deleteServerQuestion": "Server wiskje?",
         "deleteServerQuestionMessage": "Binne jo wis dat jo dizze server wiskje wolle? Hjirnei is der gjin werom...",
@@ -300,7 +300,7 @@
         "serverExecutionCommand": "Server útfiering kommando",
         "serverExecutionCommandDesc": "Wat sil wurde útfierd yn in ferburgen terminal",
         "serverIP": "Server IP",
-        "serverIPDesc": "IP Crafty moat ferbine mei foar statistiken (Probearje in echte ip ynstee fan 127.0.0.1 as jo problemen hawwe)",
+        "serverIPDesc": "IP Panel moat ferbine mei foar statistiken (Probearje in echte ip ynstee fan 127.0.0.1 as jo problemen hawwe)",
         "serverLogLocation": "Lokaasje fan server logbestân",
         "serverLogLocationDesc": "Absolute folsleine paad nei it logbestân",
         "serverName": "Server namme",
@@ -308,7 +308,7 @@
         "serverPath": "Server map",
         "serverPathDesc": "Absoluut folslein paad (net ynklusyf útfierber bestân)",
         "serverPort": "Serverpoort",
-        "serverPortDesc": "Poort Crafty moat ferbining meitsje mei foar statistiken",
+        "serverPortDesc": "Poort Panel moat ferbining meitsje mei foar statistiken",
         "serverStopCommand": "Server stop kommando",
         "serverStopCommandDesc": "Kommando om it programma te stjoeren om it te stopjen",
         "stopBeforeDeleting": "Stopje asjebleaft de server foar't jo dizze wiskje",
@@ -319,7 +319,7 @@
     "serverConfigHelp": {
         "desc": "Hjir kinne jo de konfiguraasje fan jo server feroarje",
         "perms": [
-            "It is oan te rieden om <code>NET</code> de paden te feroarjen fan in server dy't beheard wurdt troch Crafty.",
+            "It is oan te rieden om <code>NET</code> de paden te feroarjen fan in server dy't beheard wurdt troch Panel.",
             "Paden feroarjen <code>KIN</code> dingen brekke, benammen op Linux-type bestjoeringssystemen dêr't bestânsrjochten mear op slot binne.",
             "<br /><br/>",
             "As jo fiele dat jo moatte feroarje wêr't in server leit, kinne jo dat dwaan salang't jo de \"crafty\" brûker tastimming jouwe om te lêzen / skriuwe nei it serverpaad.",
@@ -445,7 +445,7 @@
         "absoluteServerPath": "Absolute paad nei jo server",
         "absoluteZipPath": "Absolute paad nei jo server",
         "addRole": "Server tafoegje oan besteande rol(len)",
-        "autoCreate": "As gjinien wurde selektearre sil Crafty ien meitsje!",
+        "autoCreate": "As gjinien wurde selektearre sil Panel ien meitsje!",
         "bePatient": "Wês asjebleaft geduld om't wy ' + (ymportearje? 'ymportearje' : 'downloade') + ' de server",
         "buildServer": "Server oanmeitsje!",
         "clickRoot": "Klik hjir om root-map te selektearjen",
@@ -494,14 +494,14 @@
         "configArea": "Brûker konfiguraasjegebiet",
         "configAreaDesc": "Hjir is wêr't jo al jo brûkersynstellingen wizigje",
         "confirmDelete": "Binne jo wis dat jo dizze brûker wiskje wolle? Dizze aksje is ûnomkearber.",
-        "craftyPermDesc": "Crafty tastimmingen dizze brûker hat ",
-        "craftyPerms": "Crafty tastimmingen: ",
+        "craftyPermDesc": "Panel tastimmingen dizze brûker hat ",
+        "craftyPerms": "Panel tastimmingen: ",
         "created": "Oanmakke: ",
         "delSuper": "Jo kinne in superbrûker net wiskje",
         "deleteUser": "Wiskje brûker: ",
         "deleteUserB": "Wiskje brûker",
         "enabled": "Ynskeakele",
-        "gravDesc": "Dizze e-post is strikt foar gebrûk mei Gravatar™. Crafty sil dizze e-post ûnder gjin inkelde omstannichheid brûke foar wat oars as it opsykjen fan jo Gravatar™",
+        "gravDesc": "Dizze e-post is strikt foar gebrûk mei Gravatar™. Panel sil dizze e-post ûnder gjin inkelde omstannichheid brûke foar wat oars as it opsykjen fan jo Gravatar™",
         "gravEmail": "Gravatar™ e-post",
         "lastIP": "Lêste IP: ",
         "lastLogin": "Lêste oanmelding: ",

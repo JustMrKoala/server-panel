@@ -388,6 +388,8 @@ class ApiUsersUserIndexHandler(BaseApiHandler):
             data,
             crafty_perms,
         )
+        if "password" in data:
+            self.controller.refresh_default_password_flag()
 
         # Suppress notifications for preference-only updates (e.g. column
         # visibility, server ordering) to avoid spamming, but still audit log.

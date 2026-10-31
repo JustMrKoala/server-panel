@@ -1,12 +1,12 @@
 {
     "404": {
-        "contact": "Kontaktirajte Crafty Control podršku putem Discorda",
+        "contact": "Kontaktirajte Panel podršku putem Discorda",
         "notFound": "Stranica nije pronađena",
         "unableToFind": "Nismo u mogućnosti pronaći stranicu koju tražite. Molimo pokušajte kasnije, ili se vratite nazad i osvježite stranicu."
     },
     "accessDenied": {
         "accessDenied": "Pristup odbijen",
-        "contact": "Kontaktirajte Crafty Control podršku putem Discorda",
+        "contact": "Kontaktirajte Panel podršku putem Discorda",
         "contactAdmin": "Obratite se administratoru poslužitelja kako biste pristupili ovom resursu ili ako mislite da biste trebali imati pristup ovom resursu, kontaktirajte podršku.",
         "noAccess": "Nemate pristup ovom resursu"
     },
@@ -15,7 +15,7 @@
         "auth": "Ovlašten? ",
         "buttons": "Tipke",
         "config": "Konfiguracija",
-        "crafty": "Crafty: ",
+        "crafty": "Panel: ",
         "createNew": "Stvori novi API token",
         "created": "Stvoreno",
         "deleteKeyConfirmation": "Želite li izbrisati ovaj API ključ? Ova radnja je nepovratna.",
@@ -31,12 +31,12 @@
         "yes": "Da"
     },
     "base": {
-        "doesNotWorkWithoutJavascript": "<strong>Upozorenje: </strong>Crafty ne radi ispravno kada JavaScript nije omogućen!"
+        "doesNotWorkWithoutJavascript": "<strong>Upozorenje: </strong>Panel ne radi ispravno kada JavaScript nije omogućen!"
     },
     "credits": {
         "developmentTeam": "Razvojni tim",
         "hugeDesc": "Veliko",
-        "pageDescription": "Bez ovih ljudi ne biste imali Crafty",
+        "pageDescription": "Bez ovih ljudi ne biste imali Panel",
         "pageTitle": "Zasluge",
         "patreonDesc": "našim Patreon / Ko-fi donorima!",
         "patreonOther": "Ostalo",
@@ -95,7 +95,7 @@
         "status": "Status",
         "stop": "Zaustavi",
         "version": "Verzija",
-        "welcome": "Dobrodošli u Crafty Controller"
+        "welcome": "Dobrodošli u Panel"
     },
     "datatables": {
         "loadingRecords": "Učitavanje...",
@@ -163,15 +163,15 @@
         }
     },
     "error": {
-        "contact": "Kontaktirajte Crafty Control podršku putem Discorda",
+        "contact": "Kontaktirajte Panel podršku putem Discorda",
         "embarassing": "Uhh, ovo je sramotno.",
         "error": "Greška!",
         "eulaAgree": "Slažete li se?",
         "eulaMsg": "Morate prihvatiti EULA-u. Poveznica Minecraft EULA-e se nalazi ispod ove poruke.",
         "eulaTitle": "Prihvatite EULA-u",
         "hereIsTheError": "Ovdje je pogreška",
-        "internet": "Otkrili smo da uređaj koji pokreće Crafty nije povezan s internetom. Povezivanje klijenta s poslužiteljem može biti ograničeno.",
-        "no-file": "Ne možemo pronaći traženu datoteku. Provjerite putanju datoteke. Ima li Crafty odgovarajuća dopuštenja?",
+        "internet": "Otkrili smo da uređaj koji pokreće Panel nije povezan s internetom. Povezivanje klijenta s poslužiteljem može biti ograničeno.",
+        "no-file": "Ne možemo pronaći traženu datoteku. Provjerite putanju datoteke. Ima li Panel odgovarajuća dopuštenja?",
         "noJava": "Poslužitelj {} se nije uspio pokrenuti s kodom pogreške: Otkrili smo da Java nije instalirana. Molimo instalirajte Javu, a zatim ponovno pokrenite poslužitelj.",
         "portReminder": "Otkrili smo da je ovo prvi put da je {} pokrenut. Provjerite je li port {} proslijeđen putem usmjerivača/vatrozida, kako biste mu omogućili daljinski pristup s interneta.",
         "start-error": "Poslužitelj {} nije usješno pokrenut s kodom pogreške: {}",
@@ -260,7 +260,7 @@
         "excludedChoose": "Odaberite putanje koje želite izuzeti iz svojih sigurnosnih kopija",
         "exclusionsTitle": "Izuzeti iz sigurnosne kopije",
         "maxBackups": "Maksimalan broj sigurnosnih kopija",
-        "maxBackupsDesc": "Crafty neće pohraniti više od zadanog broja sigurnosnih kopija, brišući najstarije (unesite 0 da biste zadržali sve)",
+        "maxBackupsDesc": "Panel neće pohraniti više od zadanog broja sigurnosnih kopija, brišući najstarije (unesite 0 da biste zadržali sve)",
         "options": "Mogućnosti",
         "path": "Mjesto",
         "restore": "Obnoviti",
@@ -271,14 +271,14 @@
         "storageLocationDesc": "Gdje želite pohraniti sigurnosne kopije?"
     },
     "serverConfig": {
-        "bePatientDelete": "Molimo budite strpljivi dok uklanjamo Vaš poslužitelj s Crafty panela. Zaslon će se osvježiti za par trenutaka.",
-        "bePatientDeleteFiles": "Molimo budite strpljivi dok uklanjamo Vaš poslužitelj s Crafty panela i brišemo sve datoteke. Zaslon će se osvježiti za par trenutaka.",
+        "bePatientDelete": "Molimo budite strpljivi dok uklanjamo Vaš poslužitelj s Panel panela. Zaslon će se osvježiti za par trenutaka.",
+        "bePatientDeleteFiles": "Molimo budite strpljivi dok uklanjamo Vaš poslužitelj s Panel panela i brišemo sve datoteke. Zaslon će se osvježiti za par trenutaka.",
         "bePatientUpdate": "Molimo budite strpljivi dok ažuriramo poslužitelj. Vrijeme preuzimanja može varirati ovisno o Vašoj brzini interneta.<br /> Zaslon će se osvježiti za par trenutaka",
         "cancel": "Odustani",
         "crashTime": "Vremensko ograničenje pada poslužitelja",
         "crashTimeDesc": "Koliko dugo trebamo čekati prije no što smotrimo poslužitelj srušenim?",
         "deleteFilesQuestion": "Izbrisati datoteke poslužitelja sa uređaja?",
-        "deleteFilesQuestionMessage": "Želite li da Crafty izbriše sve datoteke poslužitelja s glavnog računala?",
+        "deleteFilesQuestionMessage": "Želite li da Panel izbriše sve datoteke poslužitelja s glavnog računala?",
         "deleteServer": "Izbriši poslužitelj",
         "deleteServerQuestion": "Izbrisati poslužitelj?",
         "deleteServerQuestionMessage": "Jeste li sigurni da želite izbrisati ovaj poslužitelj? Nakon ovoga nema povratka...",
@@ -300,7 +300,7 @@
         "serverExecutionCommand": "Naredba izvršenja poslužitelja",
         "serverExecutionCommandDesc": "Ono što će biti pokrenuto u skrivenom terminalu",
         "serverIP": "IP poslužitelja",
-        "serverIPDesc": "IP na koji će se Crafty povezati radi skupljanja statistika (Ukoliko naiđete na problem, probajte upisati pravu IP adresu umjesto 127.0.0.1)",
+        "serverIPDesc": "IP na koji će se Panel povezati radi skupljanja statistika (Ukoliko naiđete na problem, probajte upisati pravu IP adresu umjesto 127.0.0.1)",
         "serverLogLocation": "Lokacija zapisnika poslužitelja",
         "serverLogLocationDesc": "Apsolutna putanja datoteke zapisnika",
         "serverName": "Ime poslužitelja",
@@ -308,7 +308,7 @@
         "serverPath": "Radni direktorij poslužitelja",
         "serverPathDesc": "Apsolutna putanja (ne uključuje izvršnu datoteku)",
         "serverPort": "Port poslužitelja",
-        "serverPortDesc": "Port na koji će se Crafty povezati radi skupljanja statistika",
+        "serverPortDesc": "Port na koji će se Panel povezati radi skupljanja statistika",
         "serverStopCommand": "Naredba zaustavljanja poslužitelja",
         "serverStopCommandDesc": "Naredba koja uvjetuje zaustavljanje programa",
         "stopBeforeDeleting": "Molimo zaustavite poslužitelj prije brisanja",
@@ -319,7 +319,7 @@
     "serverConfigHelp": {
         "desc": "Ovdje možete promijeniti konfiguraciju Vašeg poslužitelja",
         "perms": [
-            "Preporuča se <code>NE</code> mijenjati putanju poslužitelja kojim upravlja Crafty.",
+            "Preporuča se <code>NE</code> mijenjati putanju poslužitelja kojim upravlja Panel.",
             "Mijenjanje putanje <code>MOŽE</code> utjecati na pravilno funkcioniranje poslužitelja, posebice na operativnim sustavima poput Linuxa, gdje su dozvole datoteka ograničene.",
             "<br /><br/>",
             "Ako smatrate da morate promijeniti mjesto na kojem se poslužitelj nalazi, to možete učiniti pod uvjetom da \"crafty\" korisnik ima dopuštenje čitanja/pisanja na zadanoj putanji.",
@@ -445,7 +445,7 @@
         "absoluteServerPath": "Apsolutna putanja Vašeg poslužitelja",
         "absoluteZipPath": "Apsolutna putanja Vašeg poslužitelja",
         "addRole": "Pridružite poslužitelj postojećim ulogama",
-        "autoCreate": "Ako nijedna nije odabrana, Crafty će stvoriti jednu!",
+        "autoCreate": "Ako nijedna nije odabrana, Panel će stvoriti jednu!",
         "bePatient": "Molimo Vas strpite se dok ' + (importing ? 'uvozimo' :  'preuzimamo') + '  poslužitelj",
         "buildServer": "Izgradite poslužitelj!",
         "clickRoot": "Kliknite ovdje za odabir direktorija izvora",
@@ -494,14 +494,14 @@
         "configArea": "Područje korisničke konfiguracije",
         "configAreaDesc": "Ovdje možete promijeniti sve svoje korisničke postavke",
         "confirmDelete": "Jeste li sigurni da želite izbrisati ovog korisnika? Ova radnja je nepovratna.",
-        "craftyPermDesc": "Crafty dopuštenja ovog korisnika ",
-        "craftyPerms": "Crafty dopuštenja: ",
+        "craftyPermDesc": "Panel dopuštenja ovog korisnika ",
+        "craftyPerms": "Panel dopuštenja: ",
         "created": "Stvoreno: ",
         "delSuper": "Ne možete izbrisati superkorisnika",
         "deleteUser": "Izbriši korisnika: ",
         "deleteUserB": "Izbriši korisnika",
         "enabled": "Omogućeno",
-        "gravDesc": "Ova e-pošta je isključivo za korištenje s Gravatar™-om. Crafty ni pod kojim okolnostima neće koristiti ovu e-poštu za bilo što osim traženja vašeg Gravatar™-a.",
+        "gravDesc": "Ova e-pošta je isključivo za korištenje s Gravatar™-om. Panel ni pod kojim okolnostima neće koristiti ovu e-poštu za bilo što osim traženja vašeg Gravatar™-a.",
         "gravEmail": "Gravatar™ E-pošta",
         "lastIP": "Zadnji IP: ",
         "lastLogin": "Zadnja prijava: ",

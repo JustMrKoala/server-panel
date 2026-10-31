@@ -3,7 +3,7 @@
 {% block meta %}
 {% end %}
 
-{% block title %}Crafty Controller - {{ translate('userConfig', 'editTOTP', data['lang']) }}{% end %}
+{% block title %}{{ panel_name }} - {{ translate('userConfig', 'editTOTP', data['lang']) }}{% end %}
 
 {% block content %}
 <link href="/static/assets/css/partial/crafty-mfa_page.css" rel="stylesheet">
@@ -209,7 +209,7 @@
             });
 
             // Generate the QR Code with the TOTP secret, user name, and issuer
-            generateTotpQrCode(responseData.data["otp"]["totp_secret"], responseData.data["otp"]["username"], "CraftyController");
+            generateTotpQrCode(responseData.data["otp"]["totp_secret"], responseData.data["otp"]["username"], "{{ panel_name }}");
             $("#verify").click(async function () {
                 let totp_id = $("#verify-input").data("otp-id");
                 let res = await fetch(`/api/v2/users/${userId}/totp/${totp_id}/verify/`, {

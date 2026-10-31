@@ -200,7 +200,7 @@ function setMode(extension) {
 }
 function setFileName(fileName = "default.txt") {
     $("#editingFile").text(fileName);
-    document.title = "Crafty Controller - " + fileName
+    document.title = fileName
 
 
     if (/\./.exec(fileName)) {

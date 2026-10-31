@@ -4,7 +4,7 @@
 {% include og_meta.html %}
 {% end %}
 
-{% block title %}Crafty Controller - Status{% end %}
+{% block title %}{{ panel_name }} - Status{% end %}
 
 {% block content %}
 <!-- View for Large screen -->
@@ -19,7 +19,7 @@
   <div class="content-wrapper col-md login-modal d-none d-sm-block bg-dropdown">
     <div class="row text-center">
       <div class="col-12">
-        <img src="{{ data['brand']['full'] }}" class="w-25" alt="Crafty Logo">
+        <img src="{{ data['brand']['full'] }}" class="w-25" alt="Logo">
       </div>
     </div>
     <hr />
@@ -95,7 +95,7 @@
 <!-- View for Small screen -->
 <div class="row justify-content-center align-items-sm-center">
   <div class="content-wrapper login-modal d-sm-none d-block bg-dropdown">
-    <img src="{{ data['brand']['full'] }}" class="w-100" alt="Crafty Logo">
+    <img src="{{ data['brand']['full'] }}" class="w-100" alt="Logo">
     <hr />
     <div class="accordion" id="accordionServers">
       {% for server in data['servers'] %}
@@ -152,7 +152,7 @@
             <div class="row">
               <div class="col-12">
                 <div id="m_server_motd_{{ server['stats']['server_id']['server_id'] }}">
-                  <span class="text-warning"><i class="ph-fill ph-warning"></i> Crafty can't get info from
+                  <span class="text-warning"><i class="ph-fill ph-warning"></i> Can't get info from
                     this Server </span>
                 </div>
                 <div id="m_server_version_{{ server['stats']['server_id']['server_id'] }}"></div>

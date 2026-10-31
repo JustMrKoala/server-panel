@@ -44,6 +44,11 @@ config_json_schema = {
             "error": "typeBool",
             "fill": True,
         },
+        "panel_name": {
+            "type": "string",
+            "error": "typeString",
+            "fill": True,
+        },
         "show_contribute_link": {
             "type": "boolean",
             "error": "typeBool",

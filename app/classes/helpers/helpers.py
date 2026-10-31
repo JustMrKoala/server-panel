@@ -52,6 +52,7 @@ BAT_TEXT = "application/x-bat"
 ERROR_LOG_HIGHLIGHT = r'<span class="mc-log-error">\1</span>'
 
 MASTER_CONFIG = {
+    "panel_name": "Server Panel",
     "https_port": 8443,
     "language": "en_EN",
     "cookie_expire": 30,
@@ -59,7 +60,7 @@ MASTER_CONFIG = {
     "history_max_age": 7,
     "stats_update_frequency_seconds": 30,
     "delete_default_json": False,
-    "show_contribute_link": True,
+    "show_contribute_link": False,
     "virtual_terminal_lines": 70,
     "max_log_lines": 700,
     "max_audit_entries": 300,
@@ -77,7 +78,7 @@ MASTER_CONFIG = {
     "general_user_log_access": False,
     "base_url": "localhost:8443",
     "enable_passkey_auth": False,
-    "passkey_rp_name": "Crafty Controller",
+    "passkey_rp_name": "Server Panel",
     "experimental": False,
     "silent_notif_fields": ["dashboard_columns", "server_order"],
     "time_range_presets": [
@@ -101,6 +102,7 @@ MASTER_CONFIG = {
 
 CONFIG_CATEGORIES = {
     "general": [
+        "panel_name",
         "https_port",
         "language",
         "show_errors",
@@ -194,6 +196,9 @@ class Helpers:
         self.ignored_names = ["crafty_managed.txt"]
         self.crafty_starting = False
         self.minimum_password_length = 8
+        # Fresh installs get this login. The panel nags until it is changed.
+        self.DEFAULT_ADMIN_USERNAME = "admin"
+        self.DEFAULT_ADMIN_PASSWORD = "admin"
         self.crypto_helper = CryptoHelper(self)
 
         self.theme_list = self.load_themes()
@@ -209,22 +214,7 @@ class Helpers:
         Check if the remote version is newer than the local version
         Returning remote version if it is newer, otherwise False.
         """
-        try:
-            # Get tags from Gitlab, select the latest and parse the semver
-            response = get(
-                "https://gitlab.com/api/v4/projects/20430749/repository/tags", timeout=1
-            )
-            if response.status_code == 200:
-                remote_version = pkg_version.parse(json.loads(response.text)[0]["name"])
-
-                # Get local version data from the file and parse the semver
-                local_version = pkg_version.parse(self.get_version_string())
-
-                if remote_version > local_version:
-                    return remote_version
-
-        except Exception as e:
-            logger.exception(f"Unable to check for new crafty version! \n{e}")
+        # This fork does not track upstream releases.
         return False
 
     @staticmethod
@@ -803,9 +793,8 @@ class Helpers:
 
     def get_announcements(self, lang=None):
         try:
+            # Upstream announcements are not shown in this fork.
             data = []
-            response = requests.get("https://craftycontrol.com/notify", timeout=2)
-            data = json.loads(response.content)
             if not lang:
                 lang = self.get_setting("language")
             self.check_migrations()
@@ -1162,7 +1151,7 @@ class Helpers:
                 started = data.get("started")
                 if psutil.pid_exists(pid):
                     Console.critical(
-                        f"Another Crafty Controller agent seems to be running..."
+                        f"Another panel instance seems to be running..."
                         f"\npid: {pid} \nstarted on: {started}"
                     )
                     logger.critical("Found running crafty process. Exiting.")
@@ -1319,7 +1308,7 @@ class Helpers:
                     NameOID.ORGANIZATION_NAME, "Arcadia Technology, LLC"
                 ),
                 x509.NameAttribute(
-                    NameOID.ORGANIZATIONAL_UNIT_NAME, "Crafty Controller"
+                    NameOID.ORGANIZATIONAL_UNIT_NAME, "Server Panel"
                 ),
                 x509.NameAttribute(NameOID.COMMON_NAME, gethostname()),
                 x509.NameAttribute(NameOID.EMAIL_ADDRESS, "info@arcadiatech.org"),

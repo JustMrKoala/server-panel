@@ -3,7 +3,7 @@
 {% block meta %}
 {% end %}
 
-{% block title %}Crafty Controller - Activity Logs{% end %}
+{% block title %}{{ panel_name }} - Activity Logs{% end %}
 
 {% block content %}
 
@@ -47,7 +47,7 @@
                 <tr>
                   <td colspan="5" id="image-div" class="text-center"> <!-- Center image within table -->
                     <img class="img-center" id="logo-animate" src="{{ data['brand']['square'] }}"
-                      alt="Crafty Logo, Crafty is loading" width="20%"><br><br>{{ translate('datatables',
+                      alt="Logo" width="20%"><br><br>{{ translate('datatables',
                     'loadingRecords', data['lang'])}}
                   </td>
                 </tr>

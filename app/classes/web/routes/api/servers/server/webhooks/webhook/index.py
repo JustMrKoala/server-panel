@@ -309,7 +309,7 @@ class ApiServersServerWebhooksManagementIndexHandler(BaseApiHandler):
                 message_template=webhook["body"],
                 event_data=event_data,
                 color=webhook["color"],  # Prestigious purple!
-                bot_name="Crafty Webhooks Tester",
+                bot_name="Webhook Tester",
             )
         except Exception as e:
             self.finish_json(

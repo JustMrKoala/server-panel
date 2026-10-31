@@ -65,29 +65,29 @@ class Console:
     def debug(message):
         if Console.level == "debug":
             date_time = Console.get_fmt_date_time()
-            Console.magenta(f"[+] Crafty: {date_time} - DEBUG:\t{message}")
+            Console.magenta(f"[+] Panel: {date_time} - DEBUG:\t{message}")
 
     @staticmethod
     def info(message):
         date_time = Console.get_fmt_date_time()
-        Console.white(f"[+] Crafty: {date_time} - INFO:\t{message}")
+        Console.white(f"[+] Panel: {date_time} - INFO:\t{message}")
 
     @staticmethod
     def warning(message):
         date_time = Console.get_fmt_date_time()
-        Console.cyan(f"[+] Crafty: {date_time} - WARNING:\t{message}")
+        Console.cyan(f"[+] Panel: {date_time} - WARNING:\t{message}")
 
     @staticmethod
     def error(message):
         date_time = Console.get_fmt_date_time()
-        Console.yellow(f"[+] Crafty: {date_time} - ERROR:\t{message}")
+        Console.yellow(f"[+] Panel: {date_time} - ERROR:\t{message}")
 
     @staticmethod
     def critical(message):
         date_time = Console.get_fmt_date_time()
-        Console.red(f"[+] Crafty: {date_time} - CRITICAL:\t{message}")
+        Console.red(f"[+] Panel: {date_time} - CRITICAL:\t{message}")
 
     @staticmethod
     def help(message):
         date_time = Console.get_fmt_date_time()
-        Console.green(f"[+] Crafty: {date_time} - HELP:\t{message}")
+        Console.green(f"[+] Panel: {date_time} - HELP:\t{message}")

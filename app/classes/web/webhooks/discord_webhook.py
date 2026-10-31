@@ -36,18 +36,19 @@ class DiscordWebhook(WebhookProvider):
         headers = {"Content-type": "application/json"}
         payload = {
             "username": bot_name,
-            "avatar_url": self.WEBHOOK_PFP_URL,
             "embeds": [
                 {
                     "title": title,
                     "description": message,
                     "color": color_int,
                     "author": {"name": server_name},
-                    "footer": {"text": f"Crafty Controller v.{self.CRAFTY_VERSION}"},
+                    "footer": {"text": f"Server Panel v.{self.CRAFTY_VERSION}"},
                     "timestamp": formatted_datetime,
                 }
             ],
         }
+        if self.WEBHOOK_PFP_URL:
+            payload["avatar_url"] = self.WEBHOOK_PFP_URL
 
         return payload, headers
 

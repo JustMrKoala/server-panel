@@ -1,3 +1,24 @@
+# Server Panel
+
+A lightly rebranded fork of [Crafty Controller 4](https://gitlab.com/crafty-controller/crafty-4)
+(GPLv3). The backend is unchanged; this fork changes the following:
+
+* **Simpler UI**: a flat, neutral theme (`app/frontend/static/assets/css/simple.css`), a shorter
+  sidebar (Dashboard, Servers, Account, Settings, Logout), and no credits, wiki, contribute,
+  Discord or survey pages.
+* **No upstream branding**: the panel name comes from the `panel_name` setting in
+  `app/config/config.json` (default "Server Panel"). The stock logos are a neutral icon.
+  The update check and announcements feed from upstream are turned off.
+* **Default login**: a fresh install creates `admin` / `admin`. A banner is shown until you change
+  it under **Account** in the sidebar. New passwords still need at least 8 characters.
+  `app/config/default.json` can still set a different first login (see `default.json.example`).
+
+Run it the same way as upstream (`python main.py`), then open https://localhost:8443.
+
+---
+
+## Upstream README
+
 [![Crafty Logo](app/frontend/static/assets/images/logo_long.svg)](https://craftycontrol.com)
 # Crafty Controller 4.11.0
 > Python based Control Panel for your Minecraft Server

@@ -30,14 +30,14 @@ class MattermostWebhook(WebhookProvider):
         payload = {
             "text": formatted_text,
             "username": bot_name,
-            "icon_url": self.WEBHOOK_PFP_URL,
             "props": {
                 "card": (
-                    f"[Crafty Controller "
-                    f"v.{self.CRAFTY_VERSION}](https://craftycontrol.com)"
+                    f"Server Panel v.{self.CRAFTY_VERSION}"
                 )
             },
         }
+        if self.WEBHOOK_PFP_URL:
+            payload["icon_url"] = self.WEBHOOK_PFP_URL
 
         return payload, headers
 

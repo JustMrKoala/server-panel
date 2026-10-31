@@ -1,6 +1,6 @@
 {% extends ../base.html %}
 
-{% block title %}Crafty Controller - {{ translate('serverWizard', 'newServer', data['lang']) }}{% end %}
+{% block title %}{{ panel_name }} - {{ translate('serverWizard', 'newServer', data['lang']) }}{% end %}
 <meta http-equiv="Pragma" content="no-cache">
 {% block content %}
 <link rel="stylesheet" href="../../static/assets/css/vendors/bootstrap-select-1.13.18.css">
@@ -72,8 +72,7 @@
               {% if not data["server_api"] and data["online"] %}
               <div class="api-alert">
                 <p><i class="ph-fill ph-warning"></i>&nbsp;{{ translate('error', 'bedrockError', data['lang'])
-                  }}<a href="https://status.craftycontrol.com/status/craftycontrol" target="_blank"
-                    rel="noopener noreferrer">&nbsp;{{ translate('error', 'craftyStatus', data['lang']) }}</a>
+                  }}
                   &nbsp;{{ translate('error', 'serverJars2', data['lang']) }}</p>
               </div>
               {% end %}

@@ -98,6 +98,7 @@ class Controller:
             timezone=str(tz)
         )
         self.first_login = False
+        self.default_password_in_use = False
         self.cached_login = self.management.get_login_image()
         self.cached_brand = resolve_brand_paths(self.management.get_brand_settings())
         self.support_scheduler.start()
@@ -110,6 +111,20 @@ class Controller:
                 self.auth_tracker = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             self.auth_tracker = {}
+
+    def refresh_default_password_flag(self):
+        """Check whether the default admin account still uses the default password.
+
+        Cached because hash verification is slow. Call again after a password change.
+        """
+        user_id = HelperUsers.get_user_id_by_name(self.helper.DEFAULT_ADMIN_USERNAME)
+        if user_id is None:
+            self.default_password_in_use = False
+            return
+        user = HelperUsers.get_user_model(user_id)
+        self.default_password_in_use = bool(user.password) and self.helper.verify_pass(
+            self.helper.DEFAULT_ADMIN_PASSWORD, user.password
+        )
 
     def refresh_brand_cache(self):
         """Recompute the cached logo paths from the current brand settings.
@@ -983,7 +998,7 @@ class Controller:
                     encoding="utf-8",
                 ) as file:
                     file.write(
-                        "The server is managed by Crafty Controller.\n "
+                        "This server is managed by a server panel.\n "
                         "Leave this directory/files alone please"
                     )
 

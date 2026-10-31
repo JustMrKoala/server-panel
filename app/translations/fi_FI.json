@@ -1,12 +1,12 @@
 {
     "404": {
-        "contact": "Ota yhteyttä Crafty Control -tukeen Discordin kautta",
+        "contact": "Ota yhteyttä Panel -tukeen Discordin kautta",
         "notFound": "Sivua ei löytynyt",
         "unableToFind": "Emme löytäneet etsimääsi sivua. Yritä uudelleen tai palaa takaisin ja päivitä."
     },
     "accessDenied": {
         "accessDenied": "Käyttö estetty",
-        "contact": "Ota yhteyttä Crafty Control -tukeen Discordin kautta",
+        "contact": "Ota yhteyttä Panel -tukeen Discordin kautta",
         "contactAdmin": "Ota yhteyttä palvelimen järjestelmänvalvojaan saadaksesi tämän resurssin käyttöoikeuden, tai jos luulet, että sinulla pitäisi olla pääsy tähän resurssiin, ota yhteyttä tukeen.",
         "noAccess": "Sinulla ei ole pääsyä tähän resurssiin"
     },
@@ -15,7 +15,7 @@
         "auth": "Oikeutettu? ",
         "buttons": "Painikkeet",
         "config": "Asetukset",
-        "crafty": "Crafty: ",
+        "crafty": "Panel: ",
         "createNew": "Luo uusi API-avain",
         "created": "Luotu",
         "deleteKeyConfirmation": "Haluatko varmasti poistaa tämän API-avaimen? Tämä on peruuttamaton toimenpide!",
@@ -31,12 +31,12 @@
         "yes": "Kyllä"
     },
     "base": {
-        "doesNotWorkWithoutJavascript": "<strong>Varoitus: </strong>Crafty ei toimi kunnolla ilman JavaScriptiä!"
+        "doesNotWorkWithoutJavascript": "<strong>Varoitus: </strong>Panel ei toimi kunnolla ilman JavaScriptiä!"
     },
     "credits": {
         "developmentTeam": "Kehitystiimi",
         "hugeDesc": "Valtava",
-        "pageDescription": "Ilman näitä ihmisiä sinulla ei olisi Craftya",
+        "pageDescription": "Ilman näitä ihmisiä sinulla ei olisi Panela",
         "pageTitle": "Hyvitykset",
         "patreonDesc": "Patreon / Ko-fi-tukijoillemme!",
         "patreonOther": "Muu",
@@ -96,7 +96,7 @@
         "status": "Tila",
         "stop": "Sammuta",
         "version": "Versio",
-        "welcome": "Tervetuloa Crafty Controller"
+        "welcome": "Tervetuloa Panel"
     },
     "datatables": {
         "loadingRecords": "Ladataan...",
@@ -164,15 +164,15 @@
         }
     },
     "error": {
-        "contact": "Ota yhteyttä Crafty Control -tukeen Discordin kautta",
+        "contact": "Ota yhteyttä Panel -tukeen Discordin kautta",
         "embarassing": "No, tämähän on noloa.",
         "error": "Virhe!",
         "eulaAgree": "Oletko samaa mieltä?",
         "eulaMsg": "Sinun on hyväksyttävä EULA. Kopio Minecraft EULA:sta on linkitetty tämän viestin alla.",
         "eulaTitle": "Hyväksy EULA",
         "hereIsTheError": "Tässä on virhe",
-        "internet": "Olemme havainneet, että Crafty -koneella ei ole Internet -yhteyttä. Asiakasyhteydet palvelimelle voivat olla rajalliset.",
-        "no-file": "Emme löydä pyydettyä tiedostoa. Tarkista polku uudelleen. Onko Craftylla asianmukaiset käyttöoikeudet?",
+        "internet": "Olemme havainneet, että Panel -koneella ei ole Internet -yhteyttä. Asiakasyhteydet palvelimelle voivat olla rajalliset.",
+        "no-file": "Emme löydä pyydettyä tiedostoa. Tarkista polku uudelleen. Onko Panellla asianmukaiset käyttöoikeudet?",
         "noJava": "Palvelimen {} käynnistys epäonnistui virhekoodilla: Olemme havainneet, että Javaa ei ole asennettu. Asenna Java ja käynnistä palvelin.",
         "portReminder": "Olemme havainneet, että tämä on ensimmäinen kerta, kun {} on käynnistetty. Varmista, että välität porttia {} reitittimesi/palomuurisi kautta, jotta se on käytössä internetistä.",
         "start-error": "Palvelin {} ei käynnistynyt virhekoodilla: {}",
@@ -261,7 +261,7 @@
         "excludedChoose": "Valitse polut, jotka haluat sulkea pois varmuuskopioistasi",
         "exclusionsTitle": "Varmuuskopioiden poissulkemiset",
         "maxBackups": "Varmuuskopioiden enimmäismäärä",
-        "maxBackupsDesc": "Crafty ei tallenna enempää kuin N varmuuskopiota, poistamalla vanhimmat (syötä 0, jos haluat säilyttää kaikki)",
+        "maxBackupsDesc": "Panel ei tallenna enempää kuin N varmuuskopiota, poistamalla vanhimmat (syötä 0, jos haluat säilyttää kaikki)",
         "options": "Vaihtoehtoja",
         "path": "Polku",
         "restore": "Palauttaa",
@@ -273,14 +273,14 @@
         "storageLocationDesc": "Mihin haluat tallentaa varmuuskopiot?"
     },
     "serverConfig": {
-        "bePatientDelete": "Ole kärsivällinen, kun poistamme palvelimesi Crafty-paneelista. Tämä näyttö sulkeutuu hetken kuluttua.",
-        "bePatientDeleteFiles": "Ole kärsivällinen, kun poistamme palvelimesi Crafty-paneelista ja poistamme kaikki tiedostot. Tämä näyttö sulkeutuu hetken kuluttua.",
+        "bePatientDelete": "Ole kärsivällinen, kun poistamme palvelimesi Panel-paneelista. Tämä näyttö sulkeutuu hetken kuluttua.",
+        "bePatientDeleteFiles": "Ole kärsivällinen, kun poistamme palvelimesi Panel-paneelista ja poistamme kaikki tiedostot. Tämä näyttö sulkeutuu hetken kuluttua.",
         "bePatientUpdate": "Ole kärsivällinen, kun päivitämme palvelinta. Latausajat voivat vaihdella Internet-nopeutesi mukaan.<br /> Tämä näyttö päivittyy hetkessä",
         "cancel": "Peruuta",
         "crashTime": "Kaatumisen aikakatkaisu",
         "crashTimeDesc": "Kuinka kauan meidän pitäisi odottaa, ennen kuin harkitsemme palvelimesi kaatuneen?",
         "deleteFilesQuestion": "Poistetaanko palvelintiedostot koneelta?",
-        "deleteFilesQuestionMessage": "Haluatko Craftyn poistavan kaikki palvelintiedostot isäntäkoneelta? <br><br><strong> Tämä sisältää palvelimen varmuuskopiot. <strong>",
+        "deleteFilesQuestionMessage": "Haluatko Paneln poistavan kaikki palvelintiedostot isäntäkoneelta? <br><br><strong> Tämä sisältää palvelimen varmuuskopiot. <strong>",
         "deleteServer": "Poista palvelin",
         "deleteServerQuestion": "Poistetaanko palvelin?",
         "deleteServerQuestionMessage": "Haluatko varmasti poistaa tämän palvelimen? Tätä ei voi peruuttaa...",
@@ -305,7 +305,7 @@
         "serverExecutionCommand": "Palvelimen suorituskomento",
         "serverExecutionCommandDesc": "Mikä käynnistetään piilotetussa terminaalissa",
         "serverIP": "Palvelimen IP-osoite",
-        "serverIPDesc": "IP-osoite, johon Craftyn tulisi muodostaa yhteys tilastojen saamiseen (Kokeile todellista ip:tä \"127.0.0.1\" sijaan, jos sinulla on ongelmia)",
+        "serverIPDesc": "IP-osoite, johon Paneln tulisi muodostaa yhteys tilastojen saamiseen (Kokeile todellista ip:tä \"127.0.0.1\" sijaan, jos sinulla on ongelmia)",
         "serverLogLocation": "Palvelimen lokin sijainti",
         "serverLogLocationDesc": "Polku lokitiedostoon",
         "serverName": "Palvelimen nimi",
@@ -313,7 +313,7 @@
         "serverPath": "Palvelimen työkansio",
         "serverPathDesc": "Absoluuttinen polku palvelimeen (ilman suoritettavaa tiedostoa)",
         "serverPort": "Palvelimen portti",
-        "serverPortDesc": "Portti, johon Craftyn tulisi muodostaa yhteys tilastojen saamiseen",
+        "serverPortDesc": "Portti, johon Paneln tulisi muodostaa yhteys tilastojen saamiseen",
         "serverStopCommand": "Palvelimen pysäytyskomento",
         "serverStopCommandDesc": "Komento lähettää palvelimen pysäyttämiseen",
         "stopBeforeDeleting": "Pysäytä palvelin ennen sen poistamista",
@@ -324,7 +324,7 @@
     "serverConfigHelp": {
         "desc": "Tässä voit muuttaa palvelimesi asetuksia",
         "perms": [
-            "On suositeltavaa, että <code>EI</code> muuta Craftyn hallinnoiman palvelimen polkuja.",
+            "On suositeltavaa, että <code>EI</code> muuta Paneln hallinnoiman palvelimen polkuja.",
             "Polkujen muuttaminen <code>VOI</code> rikkoa asioita,  varsinkin Linux-tyyppisissä käyttöjärjestelmissä, joissa tiedostojen käyttöoikeudet on lukittu paremmin.",
             "<br /><br/>",
             "Jos sinusta tuntuu, että sinun on vaihdettava palvelimen sijaintia, voit tehdä niin, kunhan annat \"crafty\" käyttäjälle luvan lukea / kirjoittaa palvelimen polulle.",
@@ -400,7 +400,7 @@
         "interval-explain": "Kuinka usein haluat tämän ajoituksen suoritettavan?",
         "minutes": "Minuuttia",
         "offset": "Viivepoikkeama",
-        "offset-explain": "Kuinka kauan Craftyn pitäisi odottaa tämän suorittamista ensimmäisen tehtävän suorittamisen jälkeen? (sekunteissa)",
+        "offset-explain": "Kuinka kauan Paneln pitäisi odottaa tämän suorittamista ensimmäisen tehtävän suorittamisen jälkeen? (sekunteissa)",
         "one-time": "Poista suorituksen jälkeen",
         "parent": "Valitse isäntäajoitus",
         "parent-explain": "Minkä ajoituksen pitäisi käynnistää tämä?",
@@ -451,7 +451,7 @@
         "absoluteServerPath": "Absoluuttinen polku palvelimeesi",
         "absoluteZipPath": "Absoluuttinen polku zip -tiedostoosi",
         "addRole": "Lisää Palvelin Olemassa Oleviin Rooleihin",
-        "autoCreate": "Jos ketään ei valita, Crafty tekee sellaisen!",
+        "autoCreate": "Jos ketään ei valita, Panel tekee sellaisen!",
         "bePatient": "Ole kärsivällinen, kun ' + (importing ? 'tuomme' :  'lataamme') + ' palvelinta",
         "buildServer": "Rakenna palvelin!",
         "clickRoot": "Napsauta tästä valitaksesi juurihakemiston",
@@ -500,14 +500,14 @@
         "configArea": "Käyttäjän Asetukset",
         "configAreaDesc": "Tässä voi muokata kaikkia käyttäjän asetuksia",
         "confirmDelete": "Oletko varma, että haluat poistaa tämän käyttäjän? Tätä ei voi peruuttaa.",
-        "craftyPermDesc": "Craftyn oikeuksia, joita tällä käyttäjällä on",
-        "craftyPerms": "Craftyn oikeudet: ",
+        "craftyPermDesc": "Paneln oikeuksia, joita tällä käyttäjällä on",
+        "craftyPerms": "Paneln oikeudet: ",
         "created": "Luotu: ",
         "delSuper": "Et voi poistaa järjestelmänvalvojaa!",
         "deleteUser": "Poista käyttäjä: ",
         "deleteUserB": "Poista käyttäjä",
         "enabled": "Päällä",
-        "gravDesc": "Tämä shäköposti on vain Gravatar™-palvelun käyttöön. Crafty ei missään olosuhteissa käytä tätä sähköpostia muuhun kuin Gravatar™-tietojesi etsimiseen",
+        "gravDesc": "Tämä shäköposti on vain Gravatar™-palvelun käyttöön. Panel ei missään olosuhteissa käytä tätä sähköpostia muuhun kuin Gravatar™-tietojesi etsimiseen",
         "gravEmail": "Gravatar™ Sähköposti",
         "lastIP": "Viimeinen IP: ",
         "lastLogin": "Viimeinen Sisäänkirjautuminen: ",

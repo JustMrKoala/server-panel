@@ -3,7 +3,7 @@
 {% block meta %}
 {% end %}
 
-{% block title %}Crafty Controller - {{ translate('customLogin', 'pageTitle', data['lang']) }}{% end %}
+{% block title %}{{ panel_name }} - {{ translate('customLogin', 'pageTitle', data['lang']) }}{% end %}
 
 {% block content %}
 
@@ -222,9 +222,6 @@
                                     </div>
                                     <a href="#" class="text-small forgot-password">Forgot Password</a>
                                   </div>
-                                  <div class="text-block text-center my-3">
-                                    <span class="text-small font-weight-semibold"><a href="#">Crafty Control {{ data['version_data'] }}</a> </span>
-                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -253,7 +250,7 @@
                     <div class="form-group row">
                       <label class="col-sm-3 col-form-label" for="og_title">{{ translate('customLogin', 'embedTitleField', data['lang']) }}</label>
                       <div class="col-sm-9">
-                        <input type="text" class="form-control" id="og_title" name="og_title" maxlength="255" value="{{ data['embed_settings']['title'] }}" placeholder="Crafty Controller">
+                        <input type="text" class="form-control" id="og_title" name="og_title" maxlength="255" value="{{ data['embed_settings']['title'] }}" placeholder="{{ panel_name }}">
                       </div>
                     </div>
                     <div class="form-group row">

@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Crafty Controller</title>
+  <title>{{ panel_name }}</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="/static/assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="/static/assets/vendors/flag-icon-css/css/flag-icon.min.css">
@@ -17,7 +17,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Crafty">
+  <meta name="apple-mobile-web-app-title" content="{{ panel_name }}">
   <link rel="apple-touch-icon" href="../static/assets/images/Crafty_4-0.png">
 
   <!-- endinject -->
@@ -57,9 +57,7 @@
                       <h5 class="headline font-weight-medium">{{ translate('404', 'notFound', data['lang']) }}</h5>
                       <p class="mb-2 comment font-weight-light">
                         {{ translate('404', 'unableToFind', data['lang']) }}
-                        <br /><br />
-                        <a class="d-inline font-weight-medium" href="https://discord.gg/9VJPhCE"> {{ translate('404',
-                          'contact', data['lang']) }}</a>
+                        
                       </p>
                     </div>
                   </div>

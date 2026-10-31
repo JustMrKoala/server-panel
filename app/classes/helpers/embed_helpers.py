@@ -3,8 +3,8 @@
 Kept free of Tornado/DB imports so it can be unit-tested in isolation.
 """
 
-DEFAULT_TITLE = "Crafty Controller"
-DEFAULT_DESCRIPTION = "Manage your game servers with Crafty Controller."
+DEFAULT_TITLE = "Server Panel"
+DEFAULT_DESCRIPTION = "Manage your game servers."
 DEFAULT_IMAGE = "/static/assets/images/Crafty_4-0.png"
 DEFAULT_COLOR = "#005cd1"
 
