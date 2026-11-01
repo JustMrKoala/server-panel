@@ -26,6 +26,7 @@ from tzlocal import get_localzone
 
 from app.classes.helpers.file_helpers import FileHelpers
 from app.classes.helpers.helpers import Helpers
+from app.classes.helpers.java_manager import JavaManager
 from app.classes.models.management import HelpersManagement, HelpersWebhooks
 from app.classes.models.server_permissions import (
     EnumPermissionsServer,
@@ -422,13 +423,62 @@ class ServerInstance:
                         "java binary from server directory."
                     )
 
+    def send_panel_line(self, message):
+        """Show a panel message in this server's console."""
+        WebSocketManager().broadcast_page_params(
+            SERVER_DETAIL_URL,
+            {"id": self.server_id},
+            "vterm_new_line",
+            {"line": f"<span class='panel-line'>[Panel] {html.escape(message)}</span><br />"},
+            required_permission=EnumPermissionsServer.TERMINAL,
+        )
+
+    def use_managed_java(self):
+        """Point the start command at a downloaded Java that fits this server.
+
+        A bare "java" means automatic: the Java release is read from the server
+        jar and installed on first use. A path to a managed runtime that was
+        removed gets installed again. Returns True when the command was changed.
+        """
+        if self.settings["type"] != "minecraft-java" or not self.server_command:
+            return False
+        manager = JavaManager(self.helper)
+        first = self.server_command[0]
+        feature = manager.feature_of_path(first)
+        if feature is None:
+            auto = self.helper.get_all_settings().get("auto_java", True)
+            if first != "java" or not auto:
+                return False
+            server_path = Helpers.get_os_understandable_path(self.settings["path"])
+            feature = manager.detect(server_path, self.settings["executable"])["java"]
+            if not feature:
+                return False
+        elif os.path.isfile(first.strip('"')):
+            return False
+        try:
+            java_path = manager.ensure(feature, progress=self.send_panel_line)
+        except Exception as e:
+            logger.exception(f"Unable to install Java {feature}: {e}")
+            self.send_panel_line(
+                f"Could not install Java {feature} ({e}). Using the system Java."
+            )
+            self.server_command[0] = "java"
+            return False
+        if not java_path:
+            return False
+        self.server_command[0] = java_path
+        logger.info(f"Using managed Java {feature} for server {self.name}")
+        return True
+
     def setup_server_run_command(self):
         # configure the server
         server_exec_path = Helpers.get_os_understandable_path(
             self.settings["executable"]
         )
         self.server_command = Helpers.cmdparse(self.settings["execution_command"])
-        if self.helper.is_os_windows() and self.server_command[0] == "java":
+        if self.use_managed_java():
+            pass
+        elif self.helper.is_os_windows() and self.server_command[0] == "java":
             try:
                 self.check_startup_java()
             except PermissionError:

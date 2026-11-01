@@ -32,6 +32,14 @@ from app.classes.web.routes.api.servers.server.logs import (
 from app.classes.web.routes.api.servers.server.public import (
     ApiServersServerPublicHandler,
 )
+from app.classes.web.routes.api.servers.server.simple import (
+    ApiServersServerSimpleHandler,
+    ApiServersServerSimplePlayersHandler,
+    ApiServersServerSimplePluginSearchHandler,
+    ApiServersServerSimplePluginsHandler,
+    ApiServersServerSimplePropertiesHandler,
+    ApiServersServerSimpleSettingsHandler,
+)
 from app.classes.web.routes.api.servers.server.status import (
     ApiServersServerStatusHandler,
 )
@@ -524,6 +532,36 @@ def api_handlers(handler_args):
         (
             r"/api/v2/servers/([a-z0-9-]+)/stdin/?",
             ApiServersServerStdinHandler,
+            handler_args,
+        ),
+        (
+            r"/api/v2/servers/([a-z0-9-]+)/simple/settings/?",
+            ApiServersServerSimpleSettingsHandler,
+            handler_args,
+        ),
+        (
+            r"/api/v2/servers/([a-z0-9-]+)/simple/properties/?",
+            ApiServersServerSimplePropertiesHandler,
+            handler_args,
+        ),
+        (
+            r"/api/v2/servers/([a-z0-9-]+)/simple/players/?",
+            ApiServersServerSimplePlayersHandler,
+            handler_args,
+        ),
+        (
+            r"/api/v2/servers/([a-z0-9-]+)/simple/plugins/search/?",
+            ApiServersServerSimplePluginSearchHandler,
+            handler_args,
+        ),
+        (
+            r"/api/v2/servers/([a-z0-9-]+)/simple/plugins/?",
+            ApiServersServerSimplePluginsHandler,
+            handler_args,
+        ),
+        (
+            r"/api/v2/servers/([a-z0-9-]+)/simple/?",
+            ApiServersServerSimpleHandler,
             handler_args,
         ),
         (

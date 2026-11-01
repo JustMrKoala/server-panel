@@ -41,6 +41,8 @@ SUBPAGE_PERMS = {
     "metrics": EnumPermissionsServer.LOGS,
     "webhooks": EnumPermissionsServer.CONFIG,
     "update_center": EnumPermissionsServer.CONFIG,
+    # The simple view checks permissions per section, any server access opens it
+    "simple": None,
 }
 
 SCHEDULE_AUTH_ERROR_URL = "/panel/error?error=Unauthorized access To Schedules"
@@ -137,6 +139,8 @@ class PanelHandler(BaseHandler):
         return roles
 
     def check_subpage_perms(self, user_perms, subpage):
+        if subpage in SUBPAGE_PERMS and SUBPAGE_PERMS[subpage] is None:
+            return True
         if SUBPAGE_PERMS.get(subpage, False) in user_perms:
             return True
         return False
@@ -573,11 +577,15 @@ class PanelHandler(BaseHandler):
             # pylint: enable=no-member
 
             server_id = self.check_server_id()
+            # The simple view is the default, the advanced view is opt in
+            simple_mode = self.get_cookie("ui_mode", "simple") != "advanced"
+            if subpage == "" and simple_mode:
+                subpage = "simple"
             # load page the user was on last
             server_subpage = self.controller.servers.server_subpage.get(server_id, "")
             if (
                 subpage == ""
-                and server_subpage != ""
+                and server_subpage not in ("", "simple")
                 and self.check_subpage_perms(
                     self.controller.server_perms.get_user_id_permissions_list(
                         exec_user["user_id"], server_id

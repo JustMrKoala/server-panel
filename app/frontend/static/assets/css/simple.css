@@ -476,8 +476,9 @@ html.default .custom-file-label::after {
 
 .srv-meta {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 6px 8px;
     margin-top: 4px;
     font-size: 0.85rem;
     color: var(--simple-muted);
@@ -755,5 +756,431 @@ html.default .table-nav-container {
 
     .srv-name {
         font-size: 1.3rem;
+    }
+}
+
+/* ---------- simple server view ---------- */
+
+.srv-meta > * {
+    white-space: nowrap;
+}
+
+.srv-mode {
+    display: inline-flex;
+    padding: 2px;
+    border: 1px solid var(--simple-border);
+    border-radius: 999px;
+    background: var(--simple-surface);
+}
+
+.srv-mode button {
+    padding: 2px 12px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--simple-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.srv-mode button.is-active {
+    background: var(--simple-accent);
+    color: #fff;
+}
+
+.smp-section {
+    max-width: 1100px;
+}
+
+.smp-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.smp-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.smp-card {
+    margin-bottom: 16px;
+    padding: 20px;
+    background: var(--simple-surface);
+    border: 1px solid var(--simple-border);
+    border-radius: var(--simple-radius);
+}
+
+.smp-grid > .smp-card {
+    margin-bottom: 0;
+}
+
+.smp-card-title {
+    margin: 0 0 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--simple-text);
+}
+
+.smp-form .smp-card-title:not(:first-child) {
+    margin-top: 24px;
+}
+
+.smp-card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.smp-count {
+    color: var(--simple-muted);
+    font-weight: 400;
+}
+
+.smp-hint {
+    margin: 6px 0 0;
+    color: var(--simple-muted);
+    font-size: 0.85rem;
+}
+
+.smp-hint-top {
+    margin: 0 0 14px;
+}
+
+.smp-address {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.smp-address code {
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--simple-bg);
+    color: var(--simple-text);
+    font-size: 1rem;
+}
+
+.smp-facts {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 6px 16px;
+    margin: 0;
+}
+
+.smp-facts dt {
+    color: var(--simple-muted);
+    font-weight: 400;
+}
+
+.smp-facts dd {
+    margin: 0;
+    color: var(--simple-text);
+    font-weight: 500;
+}
+
+html .smp-console #virt_console {
+    height: 45vh;
+    min-height: 260px;
+}
+
+.smp-console .panel-line {
+    color: #8fb4ff;
+}
+
+/* forms */
+.smp-form .smp-card,
+#smp-settings-form {
+    max-width: 720px;
+}
+
+.smp-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 20px;
+    align-items: end;
+}
+
+.smp-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 20px;
+}
+
+.smp-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    color: var(--simple-text);
+    font-size: 0.875rem;
+}
+
+.smp-field > span {
+    color: var(--simple-muted);
+}
+
+.smp-mono {
+    font-family: var(--font-family-monospace);
+    font-size: 0.8rem;
+}
+
+.smp-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+    color: var(--simple-text);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.smp-switch input {
+    appearance: none;
+    position: relative;
+    flex: none;
+    width: 36px;
+    height: 20px;
+    margin: 0;
+    border-radius: 999px;
+    background: var(--simple-border);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.smp-switch input::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s;
+}
+
+.smp-switch input:checked {
+    background: var(--simple-accent);
+}
+
+.smp-switch input:checked::after {
+    transform: translateX(16px);
+}
+
+.smp-switch input:focus-visible {
+    outline: 2px solid var(--simple-accent);
+    outline-offset: 2px;
+}
+
+.smp-switch-compact {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--simple-muted);
+}
+
+.smp-form-footer,
+.smp-sticky-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.smp-form-footer .simple-message,
+.smp-sticky-footer .simple-message {
+    margin: 0;
+}
+
+.smp-sticky-footer {
+    position: sticky;
+    bottom: 0;
+    max-width: 720px;
+    padding: 12px 0;
+    background: var(--simple-bg);
+}
+
+.smp-more summary {
+    color: var(--simple-text);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.smp-other {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 20px;
+    margin-top: 14px;
+}
+
+/* players */
+.smp-add {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.smp-add .form-control {
+    min-width: 0;
+}
+
+.smp-people {
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.smp-people li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-top: 1px solid var(--simple-border);
+    color: var(--simple-text);
+}
+
+.smp-people li:first-child {
+    border-top: 0;
+}
+
+.smp-people li img {
+    border-radius: 4px;
+}
+
+.smp-people li span {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.smp-empty {
+    color: var(--simple-muted) !important;
+    font-size: 0.875rem;
+}
+
+.smp-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--simple-muted);
+    cursor: pointer;
+}
+
+.smp-icon-btn:hover {
+    background: var(--simple-bg);
+    color: var(--danger);
+}
+
+/* plugins */
+.smp-search {
+    display: flex;
+    gap: 8px;
+}
+
+.smp-plugin-list {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.smp-plugin-list li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-top: 1px solid var(--simple-border);
+}
+
+.smp-plugin-list li:first-child {
+    border-top: 0;
+}
+
+.smp-plugin-list li.is-disabled .smp-plugin-text,
+.smp-plugin-list li.is-disabled .smp-plugin-icon {
+    opacity: 0.55;
+}
+
+.smp-plugin-icon {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: var(--simple-bg);
+}
+
+.smp-plugin-icon-empty {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--simple-muted);
+    font-size: 1.2rem;
+}
+
+.smp-plugin-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.smp-plugin-text strong,
+.smp-plugin-text strong a {
+    color: var(--simple-text);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.smp-plugin-text .smp-hint {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.smp-desc {
+    color: var(--simple-text);
+    font-size: 0.875rem;
+}
+
+.smp-more-btn {
+    margin-top: 10px;
+}
+
+@media (max-width: 991px) {
+    .smp-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .smp-grid,
+    .smp-fields,
+    .smp-row,
+    .smp-other {
+        grid-template-columns: 1fr;
+    }
+
+    .smp-plugin-list li {
+        flex-wrap: wrap;
+    }
+
+    .smp-plugin-text {
+        flex-basis: calc(100% - 54px);
+    }
+
+    .smp-plugin-list li .btn,
+    .smp-plugin-list li .smp-switch {
+        margin-left: 54px;
     }
 }

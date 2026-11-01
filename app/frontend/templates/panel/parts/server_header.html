@@ -18,7 +18,13 @@
       <span class="srv-dot">&middot;</span>
       <button type="button" class="srv-uuid" title="Copy server ID" data-uuid="{{ srv_id }}">
         ID {{ srv_id[:8] }} <i class="ph ph-copy"></i>
-      </button>
+      </button>      <span class="srv-dot">&middot;</span>
+      <div class="srv-mode" role="group" aria-label="View">
+        <button type="button" data-mode="simple" class="{% if data['active_link'] == 'simple' %}is-active{% end %}"
+          aria-pressed="{{ 'true' if data['active_link'] == 'simple' else 'false' }}">Simple</button>
+        <button type="button" data-mode="advanced" class="{% if data['active_link'] != 'simple' %}is-active{% end %}"
+          aria-pressed="{{ 'true' if data['active_link'] != 'simple' else 'false' }}">Advanced</button>
+      </div>
     </div>
   </div>
 
@@ -53,7 +59,29 @@
 {% include "details_stats.html" %}
 
 <nav class="srv-tabs" aria-label="Server sections">
+  {% if data['active_link'] == 'simple' %}
+  {% set perms = data['user_permissions'] %}
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item"><a class="nav-link active" href="#overview" data-tab="overview" role="tab">
+        <i class="ph-bold ph-house"></i>Overview</a></li>
+    {% if data['permissions']['Config'] in perms %}
+    <li class="nav-item"><a class="nav-link" href="#settings" data-tab="settings" role="tab">
+        <i class="ph-bold ph-sliders-horizontal"></i>Settings</a></li>
+    <li class="nav-item"><a class="nav-link" href="#game" data-tab="game" role="tab">
+        <i class="ph-bold ph-globe-hemisphere-west"></i>Game rules</a></li>
+    {% end %}
+    {% if data['permissions']['Players'] in perms %}
+    <li class="nav-item"><a class="nav-link" href="#players" data-tab="players" role="tab">
+        <i class="ph-bold ph-users"></i>Players</a></li>
+    {% end %}
+    {% if data['permissions']['Files'] in perms %}
+    <li class="nav-item"><a class="nav-link" href="#plugins" data-tab="plugins" role="tab">
+        <i class="ph-bold ph-puzzle-piece"></i>Plugins</a></li>
+    {% end %}
+  </ul>
+  {% else %}
   {% include "server_controls_list.html" %}
+  {% end %}
 </nav>
 
 <script>
@@ -68,6 +96,16 @@
       const offset = activeTab.getBoundingClientRect().left - tabStrip.getBoundingClientRect().left;
       tabStrip.scrollLeft += offset - (tabStrip.clientWidth - activeTab.offsetWidth) / 2;
     }
+
+    // Simple or advanced view, remembered for a year in this browser
+    document.querySelectorAll(".srv-mode button").forEach(function (button) {
+      button.addEventListener("click", function () {
+        const mode = button.dataset.mode;
+        document.cookie = "ui_mode=" + mode + "; path=/; max-age=31536000; SameSite=Lax";
+        const target = "/panel/server_detail?id={{ srv_id }}";
+        location.href = mode === "simple" ? target + "&subpage=simple" : target;
+      });
+    });
 
     if (uuidButton) {
       uuidButton.addEventListener("click", function () {

@@ -1,0 +1,729 @@
+{% extends ../base.html %}
+
+{% block meta %}
+{% end %}
+
+{% block title %}{{ panel_name }} - {{ data['server_stats']['server_id']['server_name'] }}{% end %}
+
+{% block content %}
+{% set perms = data['user_permissions'] %}
+
+<div class="content-wrapper">
+
+  {% include "parts/server_header.html" %}
+
+  <!-- Overview -->
+  <section class="smp-section" data-section="overview">
+    <div class="smp-grid">
+      <div class="smp-card">
+        <h2 class="smp-card-title">Connect</h2>
+        <div class="smp-address">
+          <code id="smp-address">...</code>
+          <button type="button" class="btn btn-sm btn-outline-primary" id="smp-copy-address">
+            <i class="ph ph-copy"></i> Copy</button>
+        </div>
+        <p class="smp-hint">Players join with this address. Outside your network they need your public IP and a
+          forwarded port.</p>
+      </div>
+      <div class="smp-card">
+        <h2 class="smp-card-title">About this server</h2>
+        <dl class="smp-facts">
+          <dt>Minecraft</dt>
+          <dd id="smp-fact-version">...</dd>
+          <dt>Server type</dt>
+          <dd id="smp-fact-loader">...</dd>
+          <dt>Java</dt>
+          <dd id="smp-fact-java">...</dd>
+        </dl>
+      </div>
+    </div>
+
+    {% if data['permissions']['Terminal'] in perms %}
+    <div class="srv-panel srv-console smp-console">
+      <div class="srv-console-screen">
+        <div id="virt_console"></div>
+      </div>
+      {% if data['permissions']['Commands'] in perms %}
+      <form class="srv-console-input" id="smp-command-form">
+        <span class="srv-console-prompt">&gt;</span>
+        <input type="text" class="form-control" id="smp-command" autocomplete="off"
+          placeholder="Type a command, for example: say Hello">
+        <button class="btn btn-primary" type="submit">Send</button>
+      </form>
+      {% end %}
+    </div>
+    {% end %}
+  </section>
+
+  {% if data['permissions']['Config'] in perms %}
+  <!-- Settings -->
+  <section class="smp-section" data-section="settings" hidden>
+    <form class="smp-card smp-form" id="smp-settings-form">
+      <h2 class="smp-card-title">Memory</h2>
+      <div class="smp-row">
+        <label class="smp-field">
+          <span>Minimum (GB)</span>
+          <input type="number" class="form-control" id="smp-mem-min" min="0.25" max="1024" step="0.25">
+        </label>
+        <label class="smp-field">
+          <span>Maximum (GB)</span>
+          <input type="number" class="form-control" id="smp-mem-max" min="0.5" max="1024" step="0.25">
+        </label>
+      </div>
+      <p class="smp-hint" id="smp-mem-hint">How much RAM the server may use. 2 to 4 GB is enough for a few
+        friends, more for many players or mods.</p>
+
+      <h2 class="smp-card-title">Java</h2>
+      <label class="smp-field">
+        <span>Java version</span>
+        <select class="form-control" id="smp-java"></select>
+      </label>
+      <p class="smp-hint" id="smp-java-hint"></p>
+
+      <h2 class="smp-card-title">Behaviour</h2>
+      <label class="smp-switch">
+        <input type="checkbox" id="smp-auto-start">
+        <span>Start this server when the panel starts</span>
+      </label>
+      <label class="smp-switch">
+        <input type="checkbox" id="smp-crash">
+        <span>Restart the server when it crashes</span>
+      </label>
+
+      <div class="smp-form-footer">
+        <span class="simple-message" id="smp-settings-message" role="status"></span>
+        <button type="submit" class="btn btn-primary">Save settings</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Game rules -->
+  <section class="smp-section" data-section="game" hidden>
+    <form class="smp-form" id="smp-game-form">
+      <div id="smp-game-groups"></div>
+      <details class="smp-card smp-more">
+        <summary>All other properties</summary>
+        <p class="smp-hint">Everything else in server.properties. Only change these if you know what they do.</p>
+        <div id="smp-game-other" class="smp-other"></div>
+      </details>
+      <div class="smp-sticky-footer">
+        <span class="simple-message" id="smp-game-message" role="status"></span>
+        <button type="submit" class="btn btn-primary">Save game rules</button>
+      </div>
+    </form>
+  </section>
+  {% end %}
+
+  {% if data['permissions']['Players'] in perms %}
+  <!-- Players -->
+  <section class="smp-section" data-section="players" hidden>
+    <p class="smp-hint smp-hint-top" id="smp-players-hint"></p>
+    <div class="smp-grid smp-grid-3" id="smp-players"></div>
+  </section>
+  {% end %}
+
+  {% if data['permissions']['Files'] in perms %}
+  <!-- Plugins -->
+  <section class="smp-section" data-section="plugins" hidden>
+    <div id="smp-plugins-unsupported" class="smp-card" hidden></div>
+    <div id="smp-plugins-body" hidden>
+      <div class="smp-card">
+        <div class="smp-card-head">
+          <h2 class="smp-card-title">Installed <span class="smp-count" id="smp-installed-count"></span></h2>
+          <span class="smp-hint">Restart the server after changes.</span>
+        </div>
+        <ul class="smp-plugin-list" id="smp-installed"></ul>
+      </div>
+
+      <div class="smp-card">
+        <h2 class="smp-card-title">Find <span id="smp-kind-label">plugins</span> on Modrinth</h2>
+        <form class="smp-search" id="smp-search-form">
+          <input type="search" class="form-control" id="smp-search" placeholder="Search, for example: worldedit">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        <p class="smp-hint" id="smp-search-hint"></p>
+        <ul class="smp-plugin-list" id="smp-results"></ul>
+        <button type="button" class="btn btn-outline-primary smp-more-btn" id="smp-results-more" hidden>Show
+          more</button>
+      </div>
+    </div>
+  </section>
+  {% end %}
+</div>
+<link rel="stylesheet" href="/static/assets/css/partial/crafty-terminal.css">
+
+{% end %}
+
+{% block js %}
+<script>
+  (function () {
+    const serverId = "{{ data['server_stats']['server_id']['server_id'] }}";
+    const base = `/api/v2/servers/${serverId}/simple`;
+    let info = null;
+
+    // ---------------------------------------------------------------- helpers
+    function xsrf() {
+      const match = document.cookie.match("\\b_xsrf=([^;]*)\\b");
+      return match ? match[1] : "";
+    }
+
+    async function api(method, path, body) {
+      const res = await fetch(base + path, {
+        method: method,
+        headers: { "X-XSRFToken": xsrf() },
+        body: body === undefined ? undefined : JSON.stringify(body),
+      });
+      let data = {};
+      try { data = await res.json(); } catch (e) { /* empty body */ }
+      if (!res.ok || data.status !== "ok") {
+        throw new Error(data.error_data || data.error || `Request failed (${res.status})`);
+      }
+      return data.data;
+    }
+
+    function el(tag, attrs, children) {
+      const node = document.createElement(tag);
+      Object.entries(attrs || {}).forEach(function ([key, value]) {
+        if (key === "text") node.textContent = value;
+        else if (key === "class") node.className = value;
+        else if (key.startsWith("on")) node.addEventListener(key.slice(2), value);
+        else if (value !== false && value !== null && value !== undefined) node.setAttribute(key, value === true ? "" : value);
+      });
+      (children || []).forEach(function (child) {
+        if (child) node.append(child);
+      });
+      return node;
+    }
+
+    function say(id, text, ok) {
+      const node = document.getElementById(id);
+      if (!node) return;
+      node.textContent = text;
+      node.className = "simple-message " + (ok ? "is-ok" : "is-error");
+      if (ok) setTimeout(function () { if (node.textContent === text) node.textContent = ""; }, 4000);
+    }
+
+    function formatCount(n) {
+      if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M";
+      if (n >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, "") + "k";
+      return String(n);
+    }
+
+    function formatSize(bytes) {
+      if (bytes >= 1048576) return (bytes / 1048576).toFixed(1) + " MB";
+      return Math.max(1, Math.round(bytes / 1024)) + " KB";
+    }
+
+    const LOADER_NAMES = {
+      paper: "Paper", purpur: "Purpur", folia: "Folia", spigot: "Spigot", velocity: "Velocity",
+      bungeecord: "BungeeCord", fabric: "Fabric", quilt: "Quilt", forge: "Forge", neoforge: "NeoForge",
+      vanilla: "Vanilla",
+    };
+
+    // ---------------------------------------------------------------- tabs
+    const loaded = {};
+    const loaders = {
+      settings: loadSettings,
+      game: loadGame,
+      players: loadPlayers,
+      plugins: loadPlugins,
+    };
+
+    function showTab(name) {
+      const link = document.querySelector(`.srv-tabs [data-tab="${name}"]`);
+      if (!link) name = "overview";
+      document.querySelectorAll(".srv-tabs [data-tab]").forEach(function (a) {
+        a.classList.toggle("active", a.dataset.tab === name);
+      });
+      document.querySelectorAll(".smp-section").forEach(function (section) {
+        section.hidden = section.dataset.section !== name;
+      });
+      const strip = document.querySelector(".srv-tabs");
+      if (strip && link) {
+        const offset = link.getBoundingClientRect().left - strip.getBoundingClientRect().left;
+        strip.scrollLeft += offset - (strip.clientWidth - link.offsetWidth) / 2;
+      }
+      if (loaders[name] && !loaded[name]) {
+        loaded[name] = true;
+        loaders[name]();
+      }
+    }
+
+    document.querySelectorAll(".srv-tabs [data-tab]").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        history.replaceState(null, "", "#" + a.dataset.tab);
+        showTab(a.dataset.tab);
+      });
+    });
+
+    // ---------------------------------------------------------------- overview
+    async function loadInfo() {
+      info = await api("GET", "");
+      const host = location.hostname || "localhost";
+      document.getElementById("smp-address").textContent = info.port && info.port !== "25565" ? `${host}:${info.port}` : host;
+      document.getElementById("smp-fact-version").textContent = info.mc_version || "Unknown";
+      document.getElementById("smp-fact-loader").textContent = LOADER_NAMES[info.loader] || info.loader;
+      let java = "Custom start command";
+      if (info.java_choice === "auto") {
+        java = info.java_required ? `Automatic (Java ${info.java_required})` : "Automatic";
+        if (!info.auto_java) java = "System Java (automatic downloads are off)";
+      } else if (info.java_choice === "system") {
+        java = "System Java";
+      } else if (info.java_choice !== "custom") {
+        java = `Java ${info.java_choice}`;
+      }
+      document.getElementById("smp-fact-java").textContent = java;
+      return info;
+    }
+
+    document.getElementById("smp-copy-address").addEventListener("click", function () {
+      navigator.clipboard.writeText(document.getElementById("smp-address").textContent);
+    });
+
+    const consoleBox = document.getElementById("virt_console");
+    if (consoleBox) {
+      fetch(`/api/v2/servers/${serverId}/logs?colors=true`, { headers: { "X-XSRFToken": xsrf() } })
+        .then(function (res) { return res.json(); })
+        .then(function (body) {
+          if (body.status === "ok") {
+            consoleBox.innerHTML = body.data.map(function (line) { return `<span class="box">${line}<br /></span>`; }).join("");
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+          }
+        });
+      if (typeof webSocket !== "undefined" && webSocket) {
+        webSocket.on("vterm_new_line", function (data) {
+          const atBottom = consoleBox.scrollHeight - consoleBox.scrollTop - consoleBox.clientHeight < 40;
+          consoleBox.insertAdjacentHTML("beforeend", data.line);
+          if (atBottom) consoleBox.scrollTop = consoleBox.scrollHeight;
+        });
+      }
+    }
+
+    const commandForm = document.getElementById("smp-command-form");
+    if (commandForm) {
+      commandForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const input = document.getElementById("smp-command");
+        const command = input.value.trim();
+        if (!command) return;
+        input.value = "";
+        const res = await fetch(`/api/v2/servers/${serverId}/stdin`, {
+          method: "POST",
+          headers: { "X-XSRFToken": xsrf() },
+          body: command,
+        });
+        const body = await res.json();
+        if (body.status !== "ok") {
+          bootbox.alert({ title: "Command not sent", message: "The server is not running." });
+        }
+      });
+    }
+
+    // ---------------------------------------------------------------- settings
+    async function loadSettings() {
+      const data = info || await loadInfo();
+      const min = document.getElementById("smp-mem-min");
+      const max = document.getElementById("smp-mem-max");
+      min.value = data.memory.min ? +(data.memory.min / 1024).toFixed(2) : "";
+      max.value = data.memory.max ? +(data.memory.max / 1024).toFixed(2) : "";
+      const memoryEditable = data.java_editable && data.memory.max;
+      min.disabled = max.disabled = !memoryEditable;
+      if (!memoryEditable) {
+        document.getElementById("smp-mem-hint").textContent =
+          "This server sets its memory outside the start command. Use the Advanced view to change it.";
+      }
+
+      const select = document.getElementById("smp-java");
+      select.innerHTML = "";
+      const auto = data.java_required ? `Automatic (Java ${data.java_required} for Minecraft ${data.mc_version})` : "Automatic";
+      select.append(el("option", { value: "auto", text: auto }));
+      data.java_options.forEach(function (feature) {
+        const installed = data.java_installed.includes(feature) ? "" : " (downloads when saved)";
+        select.append(el("option", { value: String(feature), text: `Java ${feature}${installed}` }));
+      });
+      select.append(el("option", { value: "system", text: "Java installed on the host" }));
+      if (data.java_choice === "custom") {
+        select.append(el("option", { value: "custom", text: "Custom (set in the Advanced view)" }));
+      }
+      select.value = data.java_choice;
+      select.disabled = !data.java_editable;
+      document.getElementById("smp-java-hint").textContent = !data.java_editable
+        ? "This server does not start with Java directly, so its Java is set in the Advanced view."
+        : data.auto_java
+          ? "Automatic picks the Java version this Minecraft version needs and downloads it the first time the server starts."
+          : "Automatic Java downloads are turned off in Panel Settings, so Automatic uses the Java installed on the host.";
+
+      document.getElementById("smp-auto-start").checked = data.auto_start;
+      document.getElementById("smp-crash").checked = data.crash_detection;
+    }
+
+    const settingsForm = document.getElementById("smp-settings-form");
+    if (settingsForm) {
+      settingsForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const button = settingsForm.querySelector("button[type=submit]");
+        const body = {
+          auto_start: document.getElementById("smp-auto-start").checked,
+          crash_detection: document.getElementById("smp-crash").checked,
+        };
+        const min = document.getElementById("smp-mem-min");
+        const max = document.getElementById("smp-mem-max");
+        if (!max.disabled && min.value && max.value) {
+          body.memory_min_mb = Math.round(parseFloat(min.value) * 1024);
+          body.memory_max_mb = Math.round(parseFloat(max.value) * 1024);
+        }
+        const java = document.getElementById("smp-java");
+        if (!java.disabled && java.value !== "custom" && java.value !== info.java_choice) {
+          body.java = java.value;
+        }
+        button.disabled = true;
+        if (body.java && /^\d+$/.test(body.java) && !info.java_installed.includes(+body.java)) {
+          say("smp-settings-message", `Downloading Java ${body.java}, this can take a minute...`, true);
+        }
+        try {
+          await api("PATCH", "/settings", body);
+          info = null;
+          await loadSettings();
+          say("smp-settings-message", "Saved. Restart the server to apply memory and Java changes.", true);
+        } catch (err) {
+          say("smp-settings-message", err.message, false);
+        } finally {
+          button.disabled = false;
+        }
+      });
+    }
+
+    // ---------------------------------------------------------------- game rules
+    const GAME_GROUPS = [
+      {
+        title: "Gameplay", fields: [
+          { key: "motd", label: "Message in the server list", type: "text", def: "A Minecraft Server" },
+          { key: "gamemode", label: "Game mode", type: "select", def: "survival", options: ["survival", "creative", "adventure", "spectator"] },
+          { key: "difficulty", label: "Difficulty", type: "select", def: "easy", options: ["peaceful", "easy", "normal", "hard"] },
+          { key: "max-players", label: "Maximum players", type: "number", def: "20", min: 1, max: 1000 },
+          { key: "hardcore", label: "Hardcore (one life)", type: "bool", def: "false" },
+          { key: "pvp", label: "Players can hurt each other", type: "bool", def: "true" },
+          { key: "allow-flight", label: "Allow flying (needed for some mods)", type: "bool", def: "false" },
+          { key: "force-gamemode", label: "Reset game mode when players join", type: "bool", def: "false" },
+        ]
+      },
+      {
+        title: "World", fields: [
+          { key: "level-name", label: "World folder name", type: "text", def: "world" },
+          { key: "level-seed", label: "Seed (empty for random)", type: "text", def: "" },
+          { key: "view-distance", label: "View distance (chunks)", type: "number", def: "10", min: 3, max: 32 },
+          { key: "simulation-distance", label: "Simulation distance (chunks)", type: "number", def: "10", min: 3, max: 32 },
+          { key: "spawn-protection", label: "Spawn protection radius", type: "number", def: "16", min: 0, max: 1000 },
+          { key: "generate-structures", label: "Generate villages and other structures", type: "bool", def: "true" },
+          { key: "allow-nether", label: "Allow the Nether", type: "bool", def: "true" },
+          { key: "spawn-monsters", label: "Spawn monsters", type: "bool", def: "true" },
+        ]
+      },
+      {
+        title: "Access", fields: [
+          { key: "white-list", label: "Only whitelisted players can join", type: "bool", def: "false" },
+          { key: "enforce-whitelist", label: "Kick players who are removed from the whitelist", type: "bool", def: "false" },
+          { key: "online-mode", label: "Check accounts with Mojang (turn off only for offline play)", type: "bool", def: "true" },
+          { key: "server-port", label: "Port", type: "number", def: "25565", min: 1, max: 65535 },
+          { key: "enable-command-block", label: "Allow command blocks", type: "bool", def: "false" },
+        ]
+      },
+    ];
+    const KNOWN = new Set(GAME_GROUPS.flatMap(function (g) { return g.fields.map(function (f) { return f.key; }); }));
+    let gameOriginal = {};
+
+    function fieldInput(field, value) {
+      const id = "prop-" + field.key;
+      if (field.type === "bool") {
+        return el("label", { class: "smp-switch" }, [
+          el("input", { type: "checkbox", id: id, "data-key": field.key, checked: value.trim() === "true" }),
+          el("span", { text: field.label }),
+        ]);
+      }
+      let input;
+      if (field.type === "select") {
+        input = el("select", { class: "form-control", id: id, "data-key": field.key },
+          field.options.map(function (o) { return el("option", { value: o, text: o.charAt(0).toUpperCase() + o.slice(1) }); }));
+        input.value = value.trim();
+      } else {
+        input = el("input", {
+          class: "form-control", id: id, "data-key": field.key, type: field.type,
+          min: field.min, max: field.max, value: field.type === "number" ? value.trim() : value,
+        });
+      }
+      return el("label", { class: "smp-field" }, [el("span", { text: field.label }), input]);
+    }
+
+    async function loadGame() {
+      const data = await api("GET", "/properties");
+      gameOriginal = data.properties;
+      const groups = document.getElementById("smp-game-groups");
+      groups.innerHTML = "";
+      if (!data.exists) {
+        groups.append(el("p", { class: "smp-hint smp-hint-top", text: "This server has not created its settings file yet. The values below are Minecraft's defaults and are saved when you press Save." }));
+      }
+      GAME_GROUPS.forEach(function (group) {
+        const body = el("div", { class: "smp-fields" }, group.fields.map(function (field) {
+          const value = field.key in gameOriginal ? gameOriginal[field.key] : field.def;
+          return fieldInput(field, value);
+        }));
+        groups.append(el("div", { class: "smp-card" }, [el("h2", { class: "smp-card-title", text: group.title }), body]));
+      });
+
+      const other = document.getElementById("smp-game-other");
+      other.innerHTML = "";
+      Object.keys(gameOriginal).filter(function (k) { return !KNOWN.has(k); }).sort().forEach(function (key) {
+        other.append(el("label", { class: "smp-field" }, [
+          el("span", { class: "smp-mono", text: key }),
+          el("input", { class: "form-control", "data-key": key, value: gameOriginal[key] }),
+        ]));
+      });
+      if (!other.children.length) {
+        other.append(el("p", { class: "smp-hint", text: "No other properties yet." }));
+      }
+    }
+
+    const gameForm = document.getElementById("smp-game-form");
+    if (gameForm) {
+      gameForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const changes = {};
+        gameForm.querySelectorAll("[data-key]").forEach(function (input) {
+          const key = input.dataset.key;
+          const value = input.type === "checkbox" ? String(input.checked) : input.value;
+          if (!(key in gameOriginal) || gameOriginal[key] !== value) changes[key] = value;
+        });
+        if (!Object.keys(changes).length) {
+          say("smp-game-message", "Nothing changed.", true);
+          return;
+        }
+        try {
+          await api("PUT", "/properties", { properties: changes });
+          await loadGame();
+          const running = document.getElementById("control_buttons");
+          const note = running && running.dataset.running === "true" ? " Restart the server to apply them." : "";
+          say("smp-game-message", "Saved." + note, true);
+        } catch (err) {
+          say("smp-game-message", err.message, false);
+        }
+      });
+    }
+
+    // ---------------------------------------------------------------- players
+    const PLAYER_LISTS = [
+      { key: "whitelist", title: "Whitelist", empty: "Nobody on the whitelist yet.", hint: "Only used when the whitelist is on (Game rules, Access)." },
+      { key: "ops", title: "Operators", empty: "No operators yet.", hint: "Operators can use every command." },
+      { key: "banned", title: "Banned", empty: "Nobody is banned.", hint: "Banned players can not join." },
+    ];
+
+    async function loadPlayers() {
+      const box = document.getElementById("smp-players");
+      let data;
+      try {
+        data = await api("GET", "/players");
+      } catch (err) {
+        box.textContent = err.message;
+        return;
+      }
+      const running = document.getElementById("control_buttons");
+      document.getElementById("smp-players-hint").textContent = running && running.dataset.running === "true"
+        ? "The server is running, so changes are sent to it as commands and apply right away."
+        : "The server is stopped, so changes are written to its files and apply on the next start.";
+      box.innerHTML = "";
+      PLAYER_LISTS.forEach(function (list) {
+        const names = data[list.key] || [];
+        const form = el("form", { class: "smp-add" }, [
+          el("input", { class: "form-control", placeholder: "Player name", maxlength: 16, pattern: "[A-Za-z0-9_]{1,16}", required: true }),
+          el("button", { class: "btn btn-primary", type: "submit", text: "Add" }),
+        ]);
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          changePlayer(list.key, "add", form.querySelector("input").value.trim(), list.key + "-msg");
+        });
+        const items = names.length
+          ? names.map(function (name) {
+            return el("li", {}, [
+              el("img", { src: `https://mc-heads.net/avatar/${encodeURIComponent(name)}/24`, alt: "", width: 24, height: 24, loading: "lazy" }),
+              el("span", { text: name }),
+              el("button", {
+                type: "button", class: "smp-icon-btn", title: `Remove ${name}`, "aria-label": `Remove ${name}`,
+                onclick: function () { changePlayer(list.key, "remove", name, list.key + "-msg"); },
+              }, [el("i", { class: "ph ph-x" })]),
+            ]);
+          })
+          : [el("li", { class: "smp-empty", text: list.empty })];
+        box.append(el("div", { class: "smp-card" }, [
+          el("h2", { class: "smp-card-title", text: list.title }),
+          el("p", { class: "smp-hint", text: list.hint }),
+          form,
+          el("span", { class: "simple-message", id: list.key + "-msg", role: "status" }),
+          el("ul", { class: "smp-people" }, items),
+        ]));
+      });
+    }
+
+    async function changePlayer(list, action, name, messageId) {
+      if (!name) return;
+      try {
+        const result = await api("POST", "/players", { list: list, action: action, name: name });
+        // A running server writes its files a moment after the command
+        setTimeout(loadPlayers, result.live ? 1200 : 0);
+      } catch (err) {
+        say(messageId, err.message, false);
+      }
+    }
+
+    // ---------------------------------------------------------------- plugins
+    let searchOffset = 0;
+    let searchQuery = "";
+    let installedProjects = new Set();
+
+    async function loadPlugins() {
+      let data;
+      try {
+        data = await api("GET", "/plugins");
+      } catch (err) {
+        const box = document.getElementById("smp-plugins-unsupported");
+        box.hidden = false;
+        box.textContent = err.message;
+        return;
+      }
+      if (!data.supported) {
+        const box = document.getElementById("smp-plugins-unsupported");
+        box.hidden = false;
+        box.innerHTML = "";
+        box.append(
+          el("h2", { class: "smp-card-title", text: "Plugins need a different server type" }),
+          el("p", { class: "smp-hint", text: `This is a ${LOADER_NAMES[data.loader] || data.loader} server, which can not load plugins or mods. Create a Paper or Purpur server for plugins, or Fabric or NeoForge for mods.` }),
+        );
+        return;
+      }
+      document.getElementById("smp-plugins-body").hidden = false;
+      document.getElementById("smp-kind-label").textContent = data.kind === "mod" ? "mods" : "plugins";
+      renderInstalled(data.installed);
+      if (!loaded.search) {
+        loaded.search = true;
+        search("", 0);
+      }
+    }
+
+    function renderInstalled(list) {
+      installedProjects = new Set(list.map(function (p) { return p.project_id; }).filter(Boolean));
+      document.getElementById("smp-installed-count").textContent = list.length ? `(${list.length})` : "";
+      const box = document.getElementById("smp-installed");
+      box.innerHTML = "";
+      if (!list.length) {
+        box.append(el("li", { class: "smp-empty", text: "Nothing installed yet. Search below to add some." }));
+        return;
+      }
+      list.forEach(function (plugin) {
+        const toggle = el("label", { class: "smp-switch smp-switch-compact", title: plugin.enabled ? "Enabled" : "Disabled" }, [
+          el("input", {
+            type: "checkbox", checked: plugin.enabled, "aria-label": `Enable ${plugin.title}`,
+            onchange: function () { changePlugin(plugin.file, plugin.enabled ? "disable" : "enable"); },
+          }),
+          el("span", { text: plugin.enabled ? "On" : "Off" }),
+        ]);
+        box.append(el("li", { class: plugin.enabled ? "" : "is-disabled" }, [
+          pluginIcon(plugin.icon_url),
+          el("div", { class: "smp-plugin-text" }, [
+            el("strong", { text: plugin.title }),
+            el("span", { class: "smp-hint", text: [plugin.version, plugin.file, formatSize(plugin.size)].filter(Boolean).join(" · ") }),
+          ]),
+          toggle,
+          el("button", {
+            type: "button", class: "smp-icon-btn", title: "Remove", "aria-label": `Remove ${plugin.title}`,
+            onclick: function () {
+              bootbox.confirm(`Remove ${plugin.title}?`, function (yes) { if (yes) changePlugin(plugin.file, "delete"); });
+            },
+          }, [el("i", { class: "ph ph-trash" })]),
+        ]));
+      });
+    }
+
+    function pluginIcon(url) {
+      return url
+        ? el("img", { class: "smp-plugin-icon", src: url, alt: "", loading: "lazy" })
+        : el("span", { class: "smp-plugin-icon smp-plugin-icon-empty" }, [el("i", { class: "ph ph-puzzle-piece" })]);
+    }
+
+    async function changePlugin(file, action) {
+      try {
+        await api("PATCH", "/plugins", { file: file, action: action });
+      } catch (err) {
+        bootbox.alert(err.message);
+      }
+      loadPlugins();
+    }
+
+    async function search(query, offset) {
+      searchQuery = query;
+      searchOffset = offset;
+      const results = document.getElementById("smp-results");
+      const hint = document.getElementById("smp-search-hint");
+      const more = document.getElementById("smp-results-more");
+      if (offset === 0) results.innerHTML = "";
+      hint.textContent = "Searching...";
+      let data;
+      try {
+        data = await api("GET", `/plugins/search?q=${encodeURIComponent(query)}&offset=${offset}`);
+      } catch (err) {
+        hint.textContent = err.message;
+        return;
+      }
+      const what = `${LOADER_NAMES[data.loader] || data.loader}${data.mc_version ? " " + data.mc_version : ""}`;
+      hint.textContent = data.total
+        ? (query ? `${data.total} results that work with ${what}.` : `Most downloaded for ${what}.`)
+        : `Nothing found that works with ${what}.`;
+      data.hits.forEach(function (hit) {
+        const installed = installedProjects.has(hit.project_id);
+        const button = el("button", {
+          type: "button", class: installed ? "btn btn-sm btn-light" : "btn btn-sm btn-primary",
+          text: installed ? "Installed" : "Install", disabled: installed,
+        });
+        button.addEventListener("click", async function () {
+          button.disabled = true;
+          button.textContent = "Installing...";
+          try {
+            await api("POST", "/plugins", { project_id: hit.project_id });
+            button.textContent = "Installed";
+            button.className = "btn btn-sm btn-light";
+            loadPlugins();
+          } catch (err) {
+            button.disabled = false;
+            button.textContent = "Install";
+            bootbox.alert(err.message);
+          }
+        });
+        const link = el("a", { href: `https://modrinth.com/project/${encodeURIComponent(hit.slug || hit.project_id)}`, target: "_blank", rel: "noopener", text: hit.title });
+        results.append(el("li", {}, [
+          pluginIcon(hit.icon_url),
+          el("div", { class: "smp-plugin-text" }, [
+            el("strong", {}, [link]),
+            el("span", { class: "smp-desc", text: hit.description }),
+            el("span", { class: "smp-hint", text: `by ${hit.author} · ${formatCount(hit.downloads)} downloads` }),
+          ]),
+          button,
+        ]));
+      });
+      more.hidden = offset + data.hits.length >= data.total;
+    }
+
+    const searchForm = document.getElementById("smp-search-form");
+    if (searchForm) {
+      searchForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        search(document.getElementById("smp-search").value.trim(), 0);
+      });
+      document.getElementById("smp-results-more").addEventListener("click", function () {
+        search(searchQuery, searchOffset + 20);
+      });
+    }
+
+    // ---------------------------------------------------------------- start
+    loadInfo().catch(function (err) { console.error(err); });
+    showTab(location.hash.slice(1) || "overview");
+  })();
+</script>
+{% end %}

@@ -65,6 +65,7 @@
         "reset_secrets_on_next_boot": "Reset secrets on next boot",
         "security": "Security",
         "panel_name": "Panel name (shown in the browser tab and sidebar)",
+        "auto_java": "Download the right Java for each Minecraft server automatically",
         "show_contribute_link": "Show contribution links in panel",
         "show_errors": "Show webserver debug errors",
         "stats_update_frequency_seconds": "How often we should poll your server for stats (seconds)",

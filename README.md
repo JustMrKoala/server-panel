@@ -13,6 +13,14 @@ A lightly rebranded fork of [Crafty Controller 4](https://gitlab.com/crafty-cont
   it under **Account** in the sidebar. New passwords still need at least 8 characters.
   `app/config/default.json` can still set a different first login (see `default.json.example`).
 
+* **Automatic Java**: a server whose start command begins with plain `java` gets the Java version its
+  Minecraft version needs (read from the server jar). The panel downloads Eclipse Temurin from
+  Adoptium into `java/` on first start and checks the checksum. Turn it off with the `auto_java`
+  panel setting.
+* **Simple and Advanced views**: every server page has a switch. Advanced is the full upstream
+  interface. Simple has an overview with a console, form based settings (memory, Java version,
+  auto start), game rules without editing `server.properties`, whitelist, operators and bans
+  without editing JSON files, and a plugin and mod browser that installs from Modrinth.
 * **EULA check fix**: `eula.txt` is accepted when any line says `eula=true`, not only the first.
 
 Run it the same way as upstream (`python main.py`), then open https://localhost:8443.

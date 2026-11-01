@@ -98,11 +98,13 @@ MASTER_CONFIG = {
     "sampling_fallback_divisor": 12,
     "trusted_proxies": [],
     "max_image_upload_size_mb": 5,
+    "auto_java": True,
 }
 
 CONFIG_CATEGORIES = {
     "general": [
         "panel_name",
+        "auto_java",
         "https_port",
         "language",
         "show_errors",
