@@ -34,6 +34,7 @@ from app.classes.web.routes.api.servers.server.public import (
 )
 from app.classes.web.routes.api.servers.server.simple import (
     ApiServersServerSimpleHandler,
+    ApiServersServerSimpleIconHandler,
     ApiServersServerSimplePlayersHandler,
     ApiServersServerSimplePluginSearchHandler,
     ApiServersServerSimplePluginsHandler,
@@ -537,6 +538,11 @@ def api_handlers(handler_args):
         (
             r"/api/v2/servers/([a-z0-9-]+)/simple/settings/?",
             ApiServersServerSimpleSettingsHandler,
+            handler_args,
+        ),
+        (
+            r"/api/v2/servers/([a-z0-9-]+)/simple/icon/?",
+            ApiServersServerSimpleIconHandler,
             handler_args,
         ),
         (

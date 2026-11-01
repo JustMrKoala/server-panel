@@ -1184,3 +1184,125 @@ html .smp-console #virt_console {
         margin-left: 54px;
     }
 }
+
+/* server list preview */
+.smp-mc-entry {
+    display: flex;
+    gap: 10px;
+    max-width: 560px;
+    padding: 8px;
+    border-radius: 6px;
+    background: #1b1b1b;
+    font-family: var(--font-family-monospace);
+    font-size: 0.85rem;
+    line-height: 1.35;
+}
+
+.smp-mc-icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: #2b2b2b;
+    color: #6b6b6b;
+    font-size: 1.6rem;
+}
+
+.smp-mc-icon img {
+    width: 64px;
+    height: 64px;
+    image-rendering: pixelated;
+}
+
+.smp-mc-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.smp-mc-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.smp-mc-name {
+    overflow: hidden;
+    color: #ffffff;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.smp-mc-players {
+    flex: none;
+    color: #aaaaaa;
+}
+
+.smp-mc-motd {
+    margin-top: 2px;
+    overflow: hidden;
+    color: #aaaaaa;
+    overflow-wrap: anywhere;
+}
+
+.smp-logo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin: 12px 0 4px;
+}
+
+.smp-logo-actions .smp-hint {
+    margin: 0;
+}
+
+.smp-subtitle {
+    margin: 20px 0 8px;
+    color: var(--simple-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.smp-motd-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.smp-swatch,
+.smp-style {
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 1px solid var(--simple-border);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.smp-style {
+    width: auto;
+    min-width: 26px;
+    padding: 0 6px;
+    background: var(--simple-surface);
+    color: var(--simple-text);
+    font-size: 0.8rem;
+}
+
+.smp-style-l { font-weight: 700; }
+.smp-style-o { font-style: italic; }
+.smp-style-n { text-decoration: underline; }
+.smp-style-m { text-decoration: line-through; }
+
+.smp-swatch:hover,
+.smp-style:hover {
+    outline: 2px solid var(--simple-accent);
+    outline-offset: 1px;
+}
+
+.smp-motd-line {
+    margin-bottom: 8px;
+    font-family: var(--font-family-monospace);
+}

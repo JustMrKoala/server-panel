@@ -100,6 +100,34 @@
   <!-- Game rules -->
   <section class="smp-section" data-section="game" hidden>
     <form class="smp-form" id="smp-game-form">
+      <div class="smp-card">
+        <h2 class="smp-card-title">Server list</h2>
+        <p class="smp-hint smp-hint-top">This is how players see your server in Minecraft's multiplayer list.</p>
+        <div class="smp-mc-entry" aria-label="Preview">
+          <div class="smp-mc-icon"><img id="smp-icon-img" alt="Server logo" hidden><i class="ph ph-image" id="smp-icon-empty"></i></div>
+          <div class="smp-mc-text">
+            <div class="smp-mc-top"><span class="smp-mc-name">{{ data['server_stats']['server_id']['server_name'] }}</span>
+              <span class="smp-mc-players" id="smp-mc-players">0/20</span></div>
+            <div class="smp-mc-motd" id="smp-motd-preview"></div>
+          </div>
+        </div>
+
+        <div class="smp-logo-actions">
+          <label class="btn btn-outline-primary btn-sm mb-0">
+            <i class="ph ph-upload-simple"></i> Upload logo
+            <input type="file" id="smp-icon-file" accept="image/*" hidden>
+          </label>
+          <button type="button" class="btn btn-light btn-sm" id="smp-icon-remove" hidden>Remove logo</button>
+          <span class="smp-hint" id="smp-icon-hint">Any image works. It is cropped to a square and scaled to 64 by 64 pixels.</span>
+        </div>
+
+        <h3 class="smp-subtitle">Description</h3>
+        <input type="hidden" data-key="motd" id="smp-motd-value">
+        <div class="smp-motd-tools" role="toolbar" aria-label="Text colour and style" id="smp-motd-tools"></div>
+        <input type="text" class="form-control smp-motd-line" id="smp-motd-1" placeholder="First line" maxlength="120">
+        <input type="text" class="form-control smp-motd-line" id="smp-motd-2" placeholder="Second line (optional)" maxlength="120">
+        <p class="smp-hint">Click a colour or style, then type. It applies to the text after it.</p>
+      </div>
       <div id="smp-game-groups"></div>
       <details class="smp-card smp-more">
         <summary>All other properties</summary>
@@ -398,7 +426,6 @@
     const GAME_GROUPS = [
       {
         title: "Gameplay", fields: [
-          { key: "motd", label: "Message in the server list", type: "text", def: "A Minecraft Server" },
           { key: "gamemode", label: "Game mode", type: "select", def: "survival", options: ["survival", "creative", "adventure", "spectator"] },
           { key: "difficulty", label: "Difficulty", type: "select", def: "easy", options: ["peaceful", "easy", "normal", "hard"] },
           { key: "max-players", label: "Maximum players", type: "number", def: "20", min: 1, max: 1000 },
@@ -430,7 +457,7 @@
         ]
       },
     ];
-    const KNOWN = new Set(GAME_GROUPS.flatMap(function (g) { return g.fields.map(function (f) { return f.key; }); }));
+    const KNOWN = new Set(["motd"].concat(GAME_GROUPS.flatMap(function (g) { return g.fields.map(function (f) { return f.key; }); })));
     let gameOriginal = {};
 
     function fieldInput(field, value) {
@@ -455,6 +482,137 @@
       return el("label", { class: "smp-field" }, [el("span", { text: field.label }), input]);
     }
 
+    // ---------------------------------------------------------------- server list card
+    const MC_COLORS = {
+      0: ["Black", "#000000"], 1: ["Dark blue", "#0000AA"], 2: ["Dark green", "#00AA00"], 3: ["Dark aqua", "#00AAAA"],
+      4: ["Dark red", "#AA0000"], 5: ["Purple", "#AA00AA"], 6: ["Gold", "#FFAA00"], 7: ["Grey", "#AAAAAA"],
+      8: ["Dark grey", "#555555"], 9: ["Blue", "#5555FF"], a: ["Green", "#55FF55"], b: ["Aqua", "#55FFFF"],
+      c: ["Red", "#FF5555"], d: ["Pink", "#FF55FF"], e: ["Yellow", "#FFFF55"], f: ["White", "#FFFFFF"],
+    };
+    const MC_STYLES = { l: ["Bold", "B"], o: ["Italic", "I"], n: ["Underline", "U"], m: ["Strikethrough", "S"], r: ["Reset", "Reset"] };
+    let lastMotdLine = null;
+
+    // server.properties stores the description with \u escapes and \n for the line break
+    function decodeMotd(raw) {
+      return raw.replace(/\\u([0-9a-fA-F]{4})/g, function (_, hex) { return String.fromCharCode(parseInt(hex, 16)); })
+        .replace(/\\n/g, "\n").replace(/\\(.)/g, "$1");
+    }
+
+    function encodeMotd(text) {
+      return text.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/[^\x20-\x7e]/g, function (c) {
+        return "\\u" + c.charCodeAt(0).toString(16).toUpperCase().padStart(4, "0");
+      });
+    }
+
+    function renderMotd(text, target) {
+      target.innerHTML = "";
+      let color = "#AAAAAA";
+      let styles = {};
+      text.split("\n").slice(0, 2).forEach(function (line, index) {
+        if (index) target.append(document.createElement("br"));
+        line.split(/(§[0-9a-fk-or])/i).forEach(function (part) {
+          const code = /^§([0-9a-fk-or])$/i.exec(part);
+          if (code) {
+            const c = code[1].toLowerCase();
+            if (MC_COLORS[c]) { color = MC_COLORS[c][1]; styles = {}; }
+            else if (c === "r") { color = "#AAAAAA"; styles = {}; }
+            else styles[c] = true;
+            return;
+          }
+          if (!part) return;
+          const span = document.createElement("span");
+          span.textContent = part;
+          span.style.color = color;
+          if (styles.l) span.style.fontWeight = "700";
+          if (styles.o) span.style.fontStyle = "italic";
+          const deco = [styles.n && "underline", styles.m && "line-through"].filter(Boolean).join(" ");
+          if (deco) span.style.textDecoration = deco;
+          target.append(span);
+        });
+      });
+    }
+
+    function motdFromInputs() {
+      const first = document.getElementById("smp-motd-1").value;
+      const second = document.getElementById("smp-motd-2").value;
+      return second ? first + "\n" + second : first;
+    }
+
+    function updateMotd(fromUser) {
+      const text = motdFromInputs();
+      renderMotd(text || "A Minecraft Server", document.getElementById("smp-motd-preview"));
+      if (fromUser) document.getElementById("smp-motd-value").value = encodeMotd(text);
+    }
+
+    function setupMotdEditor(raw) {
+      const lines = decodeMotd(raw).split("\n");
+      document.getElementById("smp-motd-1").value = lines[0] || "";
+      document.getElementById("smp-motd-2").value = lines.slice(1).join(" ");
+      document.getElementById("smp-motd-value").value = raw;
+      updateMotd(false);
+      const players = document.getElementById("prop-max-players");
+      document.getElementById("smp-mc-players").textContent = `0/${players ? players.value : 20}`;
+
+      const tools = document.getElementById("smp-motd-tools");
+      if (tools.children.length) return;
+      Object.entries(MC_COLORS).forEach(function ([code, [name, hex]]) {
+        tools.append(el("button", { type: "button", class: "smp-swatch", title: name, "aria-label": name, "data-code": code, style: `background:${hex}` }));
+      });
+      Object.entries(MC_STYLES).forEach(function ([code, [name, label]]) {
+        tools.append(el("button", { type: "button", class: "smp-style smp-style-" + code, title: name, "aria-label": name, "data-code": code, text: label }));
+      });
+      // Keep the cursor in the text box while clicking a colour
+      tools.addEventListener("mousedown", function (e) { e.preventDefault(); });
+      tools.addEventListener("click", function (e) {
+        const button = e.target.closest("[data-code]");
+        if (!button) return;
+        const input = lastMotdLine || document.getElementById("smp-motd-1");
+        const start = input.selectionStart ?? input.value.length;
+        const end = input.selectionEnd ?? input.value.length;
+        input.setRangeText("§" + button.dataset.code, start, end, "end");
+        input.focus();
+        updateMotd(true);
+      });
+      ["smp-motd-1", "smp-motd-2"].forEach(function (id) {
+        const input = document.getElementById(id);
+        input.addEventListener("focus", function () { lastMotdLine = input; });
+        input.addEventListener("input", function () { updateMotd(true); });
+      });
+    }
+
+    async function loadIcon() {
+      const img = document.getElementById("smp-icon-img");
+      const res = await fetch(`${base}/icon?t=${Date.now()}`, { headers: { "X-XSRFToken": xsrf() } });
+      const has = res.ok;
+      if (has) img.src = URL.createObjectURL(await res.blob());
+      img.hidden = !has;
+      document.getElementById("smp-icon-empty").hidden = has;
+      document.getElementById("smp-icon-remove").hidden = !has;
+    }
+
+    const iconFile = document.getElementById("smp-icon-file");
+    if (iconFile) {
+      iconFile.addEventListener("change", async function () {
+        const file = iconFile.files[0];
+        iconFile.value = "";
+        if (!file) return;
+        const hint = document.getElementById("smp-icon-hint");
+        try {
+          const res = await fetch(`${base}/icon`, { method: "PUT", headers: { "X-XSRFToken": xsrf() }, body: file });
+          const body = await res.json();
+          if (body.status !== "ok") throw new Error(body.error_data || "Upload failed");
+          await loadIcon();
+          hint.textContent = "Logo saved. Players see it after the next server restart.";
+        } catch (err) {
+          hint.textContent = err.message;
+        }
+      });
+      document.getElementById("smp-icon-remove").addEventListener("click", async function () {
+        await api("DELETE", "/icon");
+        await loadIcon();
+      });
+    }
+
     async function loadGame() {
       const data = await api("GET", "/properties");
       gameOriginal = data.properties;
@@ -470,6 +628,9 @@
         }));
         groups.append(el("div", { class: "smp-card" }, [el("h2", { class: "smp-card-title", text: group.title }), body]));
       });
+
+      setupMotdEditor("motd" in gameOriginal ? gameOriginal.motd : "A Minecraft Server");
+      loadIcon();
 
       const other = document.getElementById("smp-game-other");
       other.innerHTML = "";

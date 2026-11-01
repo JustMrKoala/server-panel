@@ -9,9 +9,11 @@ import re
 import shutil
 import uuid
 import zipfile
+from io import BytesIO
 from urllib.parse import urlparse
 
 import requests
+from PIL import Image, ImageOps, UnidentifiedImageError
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from tornado.ioloop import IOLoop
@@ -28,6 +30,8 @@ MODRINTH_HEADERS = {
     "User-Agent": "server-panel (https://github.com/JustMrKoala/server-panel)"
 }
 MAX_PLUGIN_BYTES = 256 * 1024 * 1024
+MAX_ICON_UPLOAD_BYTES = 10 * 1024 * 1024
+ICON_FILE = "server-icon.png"
 PLAYER_NAME = re.compile(r"^[A-Za-z0-9_]{1,16}$")
 PROPERTY_KEY = re.compile(r"^[A-Za-z0-9._-]{1,100}$")
 
@@ -461,6 +465,62 @@ class ApiServersServerSimplePropertiesHandler(SimpleApiBase):
         with open(path, "w", encoding="utf-8", newline="\n") as f:
             f.write("\n".join(output) + "\n")
         self.audit(auth_data, server_id, "edited server.properties in the simple view")
+        self.finish_json(200, {"status": "ok"})
+
+
+# ---------------------------------------------------------------------- icon
+
+
+class ApiServersServerSimpleIconHandler(SimpleApiBase):
+    """The 64x64 server-icon.png shown in the Minecraft server list."""
+
+    def get(self, server_id: str):
+        found = self.access(server_id)
+        if not found:
+            return
+        _, server, _ = found
+        path = os.path.join(self.server_path(server), ICON_FILE)
+        if not os.path.isfile(path):
+            self.set_status(404)
+            return self.finish()
+        self.set_header("Content-Type", "image/png")
+        self.set_header("Cache-Control", "no-store")
+        with open(path, "rb") as f:
+            self.finish(f.read())
+
+    def put(self, server_id: str):
+        found = self.access(server_id, EnumPermissionsServer.CONFIG)
+        if not found:
+            return
+        auth_data, server, _ = found
+        body = self.request.body
+        if not body or len(body) > MAX_ICON_UPLOAD_BYTES:
+            return self.deny(auth_data, "INVALID_IMAGE", "Pick an image smaller than 10 MB.")
+        try:
+            with Image.open(BytesIO(body)) as img:
+                if img.width * img.height > 40_000_000:
+                    raise ValueError("too large")
+                # Crop to a centred square, then scale to Minecraft's 64x64
+                icon = ImageOps.fit(
+                    ImageOps.exif_transpose(img).convert("RGBA"),
+                    (64, 64),
+                    Image.Resampling.LANCZOS,
+                )
+        except (UnidentifiedImageError, ValueError, OSError):
+            return self.deny(auth_data, "INVALID_IMAGE", "That file is not a usable image.")
+        icon.save(os.path.join(self.server_path(server), ICON_FILE), format="PNG")
+        self.audit(auth_data, server_id, "changed the server icon")
+        self.finish_json(200, {"status": "ok"})
+
+    def delete(self, server_id: str):
+        found = self.access(server_id, EnumPermissionsServer.CONFIG)
+        if not found:
+            return
+        auth_data, server, _ = found
+        path = os.path.join(self.server_path(server), ICON_FILE)
+        if os.path.isfile(path):
+            os.remove(path)
+        self.audit(auth_data, server_id, "removed the server icon")
         self.finish_json(200, {"status": "ok"})
 
 
