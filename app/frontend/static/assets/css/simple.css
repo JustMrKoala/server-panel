@@ -994,7 +994,16 @@ html .smp-console #virt_console {
 
 .smp-form-footer .simple-message,
 .smp-sticky-footer .simple-message {
+    flex: 1;
+    min-width: 0;
     margin: 0;
+    font-size: 0.875rem;
+    text-align: right;
+}
+
+.smp-form-footer .btn,
+.smp-sticky-footer .btn {
+    flex: none;
 }
 
 .smp-sticky-footer {
@@ -1305,4 +1314,107 @@ html .smp-console #virt_console {
 .smp-motd-line {
     margin-bottom: 8px;
     font-family: var(--font-family-monospace);
+}
+
+/* drop zones and uploads */
+.smp-drop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 8px 0 4px;
+    padding: 18px 16px;
+    border: 2px dashed var(--simple-border);
+    border-radius: var(--simple-radius);
+    color: var(--simple-muted);
+    font-size: 0.9rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.smp-drop i {
+    font-size: 1.6rem;
+}
+
+.smp-drop strong {
+    color: var(--simple-text);
+}
+
+.smp-drop:hover,
+.smp-drop.is-over {
+    border-color: var(--simple-accent);
+    background: var(--simple-accent-soft);
+}
+
+.smp-uploads:empty {
+    display: none;
+}
+
+.smp-upload-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0;
+    color: var(--simple-text);
+    font-size: 0.875rem;
+    overflow-wrap: anywhere;
+}
+
+.smp-upload-row .smp-hint {
+    margin: 0;
+    flex: none;
+    max-width: 60%;
+    text-align: right;
+}
+
+.smp-upload-row.is-ok .smp-hint {
+    color: var(--success);
+}
+
+.smp-upload-row.is-error .smp-hint {
+    color: var(--danger);
+}
+
+.smp-world {
+    max-width: 720px;
+}
+
+.smp-world code {
+    padding: 0 4px;
+    border-radius: 4px;
+    background: var(--simple-bg);
+    color: var(--simple-text);
+}
+
+.smp-world-picked {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+    padding: 10px 12px;
+    border: 1px solid var(--simple-border);
+    border-radius: 8px;
+    color: var(--simple-text);
+}
+
+.smp-world-picked span {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.smp-progress {
+    height: 8px;
+    margin-top: 12px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--simple-bg);
+}
+
+.smp-progress-bar {
+    width: 0;
+    height: 100%;
+    background: var(--simple-accent);
+    transition: width 0.2s;
 }

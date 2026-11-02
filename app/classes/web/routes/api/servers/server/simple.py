@@ -32,6 +32,9 @@ MODRINTH_HEADERS = {
 MAX_PLUGIN_BYTES = 256 * 1024 * 1024
 MAX_ICON_UPLOAD_BYTES = 10 * 1024 * 1024
 ICON_FILE = "server-icon.png"
+WORLD_UPLOAD = re.compile(r"^panel-world-[A-Za-z0-9-]{1,64}\.zip$")
+WORLD_BACKUP_DIR = "world-backups"
+MAX_WORLD_BYTES = 64 * 1024**3
 PLAYER_NAME = re.compile(r"^[A-Za-z0-9_]{1,16}$")
 PROPERTY_KEY = re.compile(r"^[A-Za-z0-9._-]{1,100}$")
 
@@ -105,6 +108,15 @@ plugin_install_schema = {
     "type": "object",
     "properties": {"project_id": {"type": "string", "pattern": r"^[A-Za-z0-9]{1,64}$"}},
     "required": ["project_id"],
+    "additionalProperties": False,
+}
+world_import_schema = {
+    "type": "object",
+    "properties": {
+        "file": {"type": "string", "pattern": WORLD_UPLOAD.pattern},
+        "keep_backup": {"type": "boolean"},
+    },
+    "required": ["file"],
     "additionalProperties": False,
 }
 plugin_change_schema = {
@@ -522,6 +534,165 @@ class ApiServersServerSimpleIconHandler(SimpleApiBase):
             os.remove(path)
         self.audit(auth_data, server_id, "removed the server icon")
         self.finish_json(200, {"status": "ok"})
+
+
+# ---------------------------------------------------------------------- world
+
+
+def level_name(server_path):
+    _, props = read_properties(os.path.join(server_path, "server.properties"))
+    name = props.get("level-name", "world").strip()
+    if not name or name in (".", "..") or re.search(r"[/\\:]", name):
+        return "world"
+    return name
+
+
+def plan_world_zip(zf):
+    """Return (world prefix, {suffix: prefix}) for the world inside a zip.
+
+    The world is the folder holding the shallowest level.dat. A server export
+    can also hold <name>_nether and <name>_the_end next to it; those come along.
+    """
+    names = [n for n in zf.namelist() if not n.startswith("__MACOSX/")]
+    for name in names:
+        parts = name.replace("\\", "/").split("/")
+        if name.startswith(("/", "\\")) or ".." in parts or ":" in parts[0]:
+            raise ValueError("The zip contains unsafe paths.")
+    level_dats = [n for n in names if n.split("/")[-1] == "level.dat"]
+    if not level_dats:
+        raise LookupError(
+            "No level.dat found. Zip the world folder (the one with level.dat in it)."
+        )
+    main = min(level_dats, key=lambda n: n.count("/"))
+    prefix = main[: -len("level.dat")]
+    extras = {}
+    if prefix:
+        base = prefix.rstrip("/")
+        for suffix in ("_nether", "_the_end"):
+            sibling = f"{base}{suffix}/"
+            if any(n.startswith(sibling) for n in names):
+                extras[suffix] = sibling
+    return prefix, extras
+
+
+def extract_prefix(zf, prefix, target):
+    root = os.path.realpath(target)
+    for info in zf.infolist():
+        name = info.filename
+        if not name.startswith(prefix) or info.is_dir():
+            continue
+        rel = name[len(prefix):]
+        if not rel or rel.split("/")[-1] == "session.lock":
+            continue
+        dest = os.path.realpath(os.path.join(target, rel))
+        if not dest.startswith(root + os.sep):
+            raise ValueError("The zip contains unsafe paths.")
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        with zf.open(info) as src, open(dest, "wb") as out:
+            shutil.copyfileobj(src, out, 1024 * 1024)
+
+
+def import_world(server_path, upload, keep_backup):
+    """Swap the server's world for the one in an uploaded zip."""
+    level = level_name(server_path)
+    staging = os.path.join(server_path, f".world-import-{uuid.uuid4().hex[:8]}")
+    try:
+        with zipfile.ZipFile(upload) as zf:
+            prefix, extras = plan_world_zip(zf)
+            total = sum(i.file_size for i in zf.infolist())
+            free = shutil.disk_usage(server_path).free
+            if total > MAX_WORLD_BYTES or total > free:
+                raise ValueError("Not enough free disk space to unpack this world.")
+            extract_prefix(zf, prefix, os.path.join(staging, ""))
+            for suffix, sibling in extras.items():
+                extract_prefix(zf, sibling, os.path.join(staging + suffix, ""))
+
+        folders = [level, f"{level}_nether", f"{level}_the_end"]
+        backup = None
+        if keep_backup and any(
+            os.path.exists(os.path.join(server_path, f)) for f in folders
+        ):
+            stamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            backup = os.path.join(WORLD_BACKUP_DIR, stamp)
+            os.makedirs(os.path.join(server_path, backup))
+        for folder in folders:
+            current = os.path.join(server_path, folder)
+            if not os.path.exists(current):
+                continue
+            if backup:
+                shutil.move(current, os.path.join(server_path, backup, folder))
+            else:
+                shutil.rmtree(current)
+
+        os.replace(staging, os.path.join(server_path, level))
+        for suffix in extras:
+            os.replace(staging + suffix, os.path.join(server_path, level + suffix))
+        return {"level": level, "backup": backup.replace(os.sep, "/") if backup else None}
+    finally:
+        for leftover in (staging, staging + "_nether", staging + "_the_end"):
+            shutil.rmtree(leftover, ignore_errors=True)
+        if os.path.exists(upload):
+            os.remove(upload)
+
+
+class ApiServersServerSimpleWorldHandler(SimpleApiBase):
+    def get(self, server_id: str):
+        found = self.access(server_id, EnumPermissionsServer.FILES)
+        if not found:
+            return
+        _, server, _ = found
+        path = self.server_path(server)
+        level = level_name(path)
+        backups_dir = os.path.join(path, WORLD_BACKUP_DIR)
+        backups = (
+            sorted(os.listdir(backups_dir), reverse=True)
+            if os.path.isdir(backups_dir)
+            else []
+        )
+        self.finish_json(
+            200,
+            {
+                "status": "ok",
+                "data": {
+                    "level": level,
+                    "exists": os.path.isfile(os.path.join(path, level, "level.dat")),
+                    "running": server.check_running(),
+                    "backups": backups,
+                },
+            },
+        )
+
+    async def post(self, server_id: str):
+        found = self.access(server_id, EnumPermissionsServer.FILES)
+        if not found:
+            return
+        auth_data, server, _ = found
+        data = self.body_json(auth_data, world_import_schema)
+        if data is None:
+            return
+        path = self.server_path(server)
+        upload = os.path.join(path, data["file"])
+        if not os.path.isfile(upload):
+            return self.deny(auth_data, "NOT_FOUND", "The uploaded zip was not found.", 404)
+        if server.check_running():
+            os.remove(upload)
+            return self.deny(
+                auth_data, "SERVER_RUNNING", "Stop the server before replacing the world."
+            )
+        try:
+            result = await run_blocking(
+                import_world, path, upload, data.get("keep_backup", True)
+            )
+        except LookupError as e:
+            return self.deny(auth_data, "NO_WORLD", str(e))
+        except (ValueError, OSError, zipfile.BadZipFile) as e:
+            logger.exception(f"World import failed: {e}")
+            message = str(e) if isinstance(e, ValueError) else f"Import failed: {e}"
+            if isinstance(e, zipfile.BadZipFile):
+                message = "That file is not a valid zip."
+            return self.deny(auth_data, "IMPORT_FAILED", message)
+        self.audit(auth_data, server_id, "replaced the world from a zip")
+        self.finish_json(200, {"status": "ok", "data": result})
 
 
 # ---------------------------------------------------------------------- players

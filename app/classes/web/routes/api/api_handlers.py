@@ -40,6 +40,7 @@ from app.classes.web.routes.api.servers.server.simple import (
     ApiServersServerSimplePluginsHandler,
     ApiServersServerSimplePropertiesHandler,
     ApiServersServerSimpleSettingsHandler,
+    ApiServersServerSimpleWorldHandler,
 )
 from app.classes.web.routes.api.servers.server.status import (
     ApiServersServerStatusHandler,
@@ -538,6 +539,11 @@ def api_handlers(handler_args):
         (
             r"/api/v2/servers/([a-z0-9-]+)/simple/settings/?",
             ApiServersServerSimpleSettingsHandler,
+            handler_args,
+        ),
+        (
+            r"/api/v2/servers/([a-z0-9-]+)/simple/world/?",
+            ApiServersServerSimpleWorldHandler,
             handler_args,
         ),
         (

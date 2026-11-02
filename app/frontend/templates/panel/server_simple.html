@@ -151,6 +151,34 @@
   {% end %}
 
   {% if data['permissions']['Files'] in perms %}
+  <!-- World -->
+  <section class="smp-section" data-section="world" hidden>
+    <div class="smp-card smp-world">
+      <h2 class="smp-card-title">Replace the world</h2>
+      <p class="smp-hint smp-hint-top" id="smp-world-current">...</p>
+      <label class="smp-drop" id="smp-world-drop">
+        <input type="file" id="smp-world-file" accept=".zip,application/zip" hidden>
+        <i class="ph ph-file-zip"></i>
+        <span><strong>Drop a world .zip here</strong> or click to choose one</span>
+      </label>
+      <p class="smp-hint">Zip the world folder, the one that has <code>level.dat</code> in it. A single player world from
+        your <code>saves</code> folder works, and so does a zipped server folder (the Nether and End come along).</p>
+      <div class="smp-world-picked" id="smp-world-picked" hidden>
+        <i class="ph ph-file-zip"></i> <span id="smp-world-name"></span>
+        <button type="button" class="smp-icon-btn" id="smp-world-clear" title="Choose another file" aria-label="Choose another file"><i class="ph ph-x"></i></button>
+      </div>
+      <label class="smp-switch">
+        <input type="checkbox" id="smp-world-backup" checked>
+        <span>Keep a copy of the current world in the <code>world-backups</code> folder</span>
+      </label>
+      <div class="smp-progress" id="smp-world-progress" hidden><div class="smp-progress-bar"></div></div>
+      <div class="smp-form-footer">
+        <span class="simple-message" id="smp-world-message" role="status"></span>
+        <button type="button" class="btn btn-danger" id="smp-world-go" disabled>Replace world</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Plugins -->
   <section class="smp-section" data-section="plugins" hidden>
     <div id="smp-plugins-unsupported" class="smp-card" hidden></div>
@@ -160,6 +188,12 @@
           <h2 class="smp-card-title">Installed <span class="smp-count" id="smp-installed-count"></span></h2>
           <span class="smp-hint">Restart the server after changes.</span>
         </div>
+        <label class="smp-drop" id="smp-plugin-drop">
+          <input type="file" id="smp-plugin-file" accept=".jar" multiple hidden>
+          <i class="ph ph-file-arrow-up"></i>
+          <span><strong>Drop .jar files here</strong> or click to choose your own <span class="smp-kind-word">plugins</span></span>
+        </label>
+        <div class="smp-uploads" id="smp-plugin-uploads"></div>
         <ul class="smp-plugin-list" id="smp-installed"></ul>
       </div>
 
@@ -255,6 +289,7 @@
       game: loadGame,
       players: loadPlayers,
       plugins: loadPlugins,
+      world: loadWorld,
     };
 
     function showTab(name) {
@@ -739,6 +774,7 @@
     let searchOffset = 0;
     let searchQuery = "";
     let installedProjects = new Set();
+    let addonFolder = null;
 
     async function loadPlugins() {
       let data;
@@ -762,6 +798,8 @@
       }
       document.getElementById("smp-plugins-body").hidden = false;
       document.getElementById("smp-kind-label").textContent = data.kind === "mod" ? "mods" : "plugins";
+      document.querySelectorAll(".smp-kind-word").forEach(function (n) { n.textContent = data.kind === "mod" ? "mods" : "plugins"; });
+      addonFolder = data.folder;
       renderInstalled(data.installed);
       if (!loaded.search) {
         loaded.search = true;
@@ -880,6 +918,169 @@
       document.getElementById("smp-results-more").addEventListener("click", function () {
         search(searchQuery, searchOffset + 20);
       });
+    }
+
+    // ---------------------------------------------------------------- uploads
+    // Same chunked protocol as the file manager, so big files and hash checks work
+    const CHUNK = 10 * 1024 * 1024;
+
+    async function sha256(blob) {
+      const hash = await crypto.subtle.digest("SHA-256", await blob.arrayBuffer());
+      return Array.from(new Uint8Array(hash)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+    }
+
+    function newId() {
+      return (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
+    }
+
+    async function uploadToServer(file, fileName, location, onProgress) {
+      const url = `/api/v2/servers/${serverId}/files/upload/`;
+      const fileId = newId();
+      const total = Math.max(1, Math.ceil(file.size / CHUNK));
+      const headers = {
+        "X-XSRFToken": xsrf(), chunked: "true", fileSize: String(file.size), totalChunks: String(total),
+        fileName: fileName, location: location, fileId: fileId,
+      };
+      async function send(extra, body) {
+        const res = await fetch(url, { method: "POST", headers: Object.assign({}, headers, extra), body: body });
+        let data = {};
+        try { data = await res.json(); } catch (e) { /* no body */ }
+        if (!res.ok || ["ok", "partial", "completed"].indexOf(data.status) === -1) {
+          throw new Error((data.data && data.data.message) || data.error || `Upload failed (${res.status})`);
+        }
+        return data;
+      }
+      await send({}, null);
+      for (let i = 0; i < total; i++) {
+        const chunk = file.slice(i * CHUNK, Math.min((i + 1) * CHUNK, file.size));
+        await send({ chunkHash: await sha256(chunk), chunkId: String(i) }, chunk);
+        if (onProgress) onProgress((i + 1) / total);
+      }
+    }
+
+    function makeDropZone(zone, input, onFiles) {
+      input.addEventListener("change", function () {
+        const files = Array.from(input.files);
+        input.value = "";
+        if (files.length) onFiles(files);
+      });
+      ["dragenter", "dragover"].forEach(function (type) {
+        zone.addEventListener(type, function (e) { e.preventDefault(); zone.classList.add("is-over"); });
+      });
+      ["dragleave", "drop"].forEach(function (type) {
+        zone.addEventListener(type, function (e) { e.preventDefault(); zone.classList.remove("is-over"); });
+      });
+      zone.addEventListener("drop", function (e) {
+        const files = Array.from(e.dataTransfer.files || []);
+        if (files.length) onFiles(files);
+      });
+    }
+
+    // ---------------------------------------------------------------- own plugins
+    const pluginDrop = document.getElementById("smp-plugin-drop");
+    if (pluginDrop) {
+      makeDropZone(pluginDrop, document.getElementById("smp-plugin-file"), async function (files) {
+        const list = document.getElementById("smp-plugin-uploads");
+        list.innerHTML = "";
+        for (const file of files) {
+          const row = el("div", { class: "smp-upload-row" }, [el("span", { text: file.name }), el("span", { class: "smp-hint", text: "Waiting..." })]);
+          list.append(row);
+          const status = row.lastChild;
+          if (!/\.jar$/i.test(file.name)) {
+            status.textContent = "Skipped, only .jar files can be plugins.";
+            row.classList.add("is-error");
+            continue;
+          }
+          try {
+            await uploadToServer(file, file.name, addonFolder, function (p) { status.textContent = Math.round(p * 100) + "%"; });
+            status.textContent = "Uploaded";
+            row.classList.add("is-ok");
+          } catch (err) {
+            status.textContent = err.message;
+            row.classList.add("is-error");
+          }
+        }
+        await loadPlugins();
+        setTimeout(function () { list.querySelectorAll(".is-ok").forEach(function (r) { r.remove(); }); }, 4000);
+      });
+    }
+
+    // ---------------------------------------------------------------- world
+    let worldFile = null;
+
+    async function loadWorld() {
+      const info = await api("GET", "/world");
+      const current = document.getElementById("smp-world-current");
+      current.textContent = (info.exists
+        ? `The current world is in the folder "${info.level}". The uploaded world replaces it.`
+        : `This server has no world yet. The uploaded world is saved as "${info.level}".`)
+        + (info.backups.length === 1 ? " There is 1 earlier copy in world-backups."
+          : info.backups.length ? ` There are ${info.backups.length} earlier copies in world-backups.` : "");
+      if (info.running) {
+        say("smp-world-message", "Stop the server before replacing the world.", false);
+      }
+    }
+
+    function pickWorld(file) {
+      worldFile = file;
+      document.getElementById("smp-world-picked").hidden = !file;
+      document.getElementById("smp-world-drop").hidden = !!file;
+      document.getElementById("smp-world-name").textContent = file ? `${file.name} (${formatSize(file.size)})` : "";
+      document.getElementById("smp-world-go").disabled = !file;
+    }
+
+    const worldDrop = document.getElementById("smp-world-drop");
+    if (worldDrop) {
+      makeDropZone(worldDrop, document.getElementById("smp-world-file"), function (files) {
+        if (!/\.zip$/i.test(files[0].name)) {
+          say("smp-world-message", "Pick a .zip file.", false);
+          return;
+        }
+        say("smp-world-message", "", true);
+        pickWorld(files[0]);
+      });
+      document.getElementById("smp-world-clear").addEventListener("click", function () { pickWorld(null); });
+      document.getElementById("smp-world-go").addEventListener("click", function () {
+        const running = document.getElementById("control_buttons");
+        if (running && running.dataset.running === "true") {
+          say("smp-world-message", "Stop the server before replacing the world.", false);
+          return;
+        }
+        const keep = document.getElementById("smp-world-backup").checked;
+        bootbox.confirm({
+          title: "Replace the world?",
+          message: keep ? "The current world is moved to world-backups first." : "The current world is deleted. This can not be undone.",
+          buttons: { confirm: { label: "Replace world", className: "btn-danger" } },
+          callback: function (yes) { if (yes) replaceWorld(keep); },
+        });
+      });
+    }
+
+    async function replaceWorld(keep) {
+      const button = document.getElementById("smp-world-go");
+      const progress = document.getElementById("smp-world-progress");
+      const bar = progress.firstElementChild;
+      button.disabled = true;
+      progress.hidden = false;
+      bar.style.width = "0%";
+      const name = `panel-world-${newId().slice(0, 8)}.zip`;
+      try {
+        say("smp-world-message", "Uploading...", true);
+        await uploadToServer(worldFile, name, ".", function (p) {
+          bar.style.width = Math.round(p * 100) + "%";
+          document.getElementById("smp-world-message").textContent = `Uploading ${Math.round(p * 100)}%`;
+        });
+        document.getElementById("smp-world-message").textContent = "Unpacking the world, this can take a while...";
+        const result = await api("POST", "/world", { file: name, keep_backup: keep });
+        say("smp-world-message", result.backup ? `World replaced. The old world is in ${result.backup}.` : "World replaced.", true);
+        pickWorld(null);
+        loadWorld();
+      } catch (err) {
+        say("smp-world-message", err.message, false);
+        button.disabled = false;
+      } finally {
+        progress.hidden = true;
+      }
     }
 
     // ---------------------------------------------------------------- start

@@ -105,7 +105,11 @@ class ApiFilesUploadHandler(BaseApiHandler):
         return True
 
     def _has_enough_space(self, upload_dir: Path, file_size: int) -> bool:
-        _, _, free = shutil.disk_usage(upload_dir)
+        # The target folder may not exist yet, measure the nearest one that does
+        existing = Path(upload_dir)
+        while not existing.exists() and existing.parent != existing:
+            existing = existing.parent
+        _, _, free = shutil.disk_usage(existing)
         return free > file_size
 
     async def _process_non_chunked(self, upload_dir: Path):

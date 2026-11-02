@@ -20,7 +20,9 @@ A lightly rebranded fork of [Crafty Controller 4](https://gitlab.com/crafty-cont
 * **Simple and Advanced views**: every server page has a switch. Advanced is the full upstream
   interface. Simple has an overview with a console, form based settings (memory, Java version,
   auto start), game rules without editing `server.properties`, whitelist, operators and bans
-  without editing JSON files, and a plugin and mod browser that installs from Modrinth.
+  without editing JSON files, a plugin and mod browser that installs from Modrinth (or drop in
+  your own `.jar` files), the server logo and description, and a World tab that replaces the world
+  with an uploaded zip and keeps a copy of the old one.
 * **EULA check fix**: `eula.txt` is accepted when any line says `eula=true`, not only the first.
 
 Run it the same way as upstream (`python main.py`), then open https://localhost:8443.
